@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backGroundGary">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/top_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/iv_headImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/ic_launcher"
+                app:layout_constraintBottom_toBottomOf="@id/top_root"
+                app:layout_constraintLeft_toLeftOf="@id/top_root"
+                app:layout_constraintTop_toTopOf="@id/top_root" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/top_root"
+                app:layout_constraintLeft_toRightOf="@id/iv_headImg"
+                app:layout_constraintRight_toRightOf="@id/top_root"
+                app:layout_constraintTop_toTopOf="@id/iv_headImg"
+                app:layout_constraintVertical_bias="0">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="微信昵称："
+                    android:textAllCaps="false"
+                    android:textColor="@color/textBlack"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="会员ID："
+                    android:textAllCaps="false"
+                    android:textColor="@color/textBlack"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="手机号："
+                    android:textAllCaps="false"
+                    android:textColor="@color/textBlack"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="会员等级："
+                    android:textAllCaps="false"
+                    android:textColor="@color/textBlack"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:divider="@drawable/shape_divider"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:layout_constraintTop_toBottomOf="@id/top_root">
+
+            <TextView
+                android:id="@+id/tv_people"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="我的人脉" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="我的佣金" />
+
+            <TextView
+                android:id="@+id/tv_privacy"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="隐私管理" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="地址管理" />
+
+            <TextView
+                android:id="@+id/tv_car"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="车辆管理" />
+
+            <TextView
+                android:id="@+id/tv_order"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="我的订单" />
+
+            <TextView
+                android:id="@+id/tv_about_us"
+                style="@style/mine_item"
+                android:drawableLeft="@mipmap/main_tab_one_selected"
+                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:text="关于我们" />
+
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backGroundGary"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+
+    <com.jinshangcheng.widget.TittleBar
+        android:id="@+id/tittleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.jinshangcheng.widget.TittleBar>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:fillViewport="false" />
+
+</LinearLayout>

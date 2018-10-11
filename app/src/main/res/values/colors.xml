@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3AA9F3</color>
+    <color name="colorPrimaryDark">#3AA9F3</color>
+    <color name="colorAccent">#3AA9F3</color>
+
+    <color name="white">#FFFFFF</color>
+
+
+
+    <!--APP主题色-->
+    <color name="themeColor">#3AA9F3</color>
+    <color name="textDarkGary">#666666</color>
+    <color name="Gary">#BBBBBB</color>
+    <color name="textBlack">#666666</color>
+    <color name="darkBg">#999999</color>
+
+    <!--**************** 背景色*********************-->
+    <color name="backGroundGary">#EEEEEE</color>
+    <!--**************** 按钮色*********************-->
+    <color name="btnBg">#3AA9F3</color>
+    <color name="btnDarkBg">#2c86c3</color>
+    <!--***************  分割线*******************-->
+    <color name="dividerColor">#e1e1e1</color>
+
+
+
+</resources>

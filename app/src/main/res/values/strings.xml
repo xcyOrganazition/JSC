@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">锦尚程</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="carfragment">CarFragment</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">登陆</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_password">请输入短信验证码</string>
+    <string name="login_hint">请输入手机号</string>
+    <string name="countDownHint">%ss后重新获取</string>
+    <string name="acceptLicense">尚锦城软件服务协议</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
