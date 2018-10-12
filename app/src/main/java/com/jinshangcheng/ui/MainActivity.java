@@ -12,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,9 +119,16 @@ public class MainActivity extends BaseActivity {
                 TextView textView = (TextView) tab.getCustomView();
                 tittleBar.setTittle(TAB_NAMES[tab.getPosition()]);
                 textView.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.themeColor));
-                Car car = new Car("卡宴", "京A23282", "保时捷", "保时捷系列");
-                Car car2 = new Car("卡宴2", "京A23282", "保时捷2", "保时捷系列2");
-                List<Car> carList = new ArrayList<>();
+                if (tab.getPosition() == TAB_NAMES.length - 1) {
+                    tittleBar.setAction(R.menu.navigation, new Toolbar.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            return true;
+                        }
+                    });
+                } else {
+                    tittleBar.setNoAction();
+                }
 
             }
 
@@ -169,6 +178,5 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
-
 
 }

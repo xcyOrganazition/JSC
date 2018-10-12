@@ -32,20 +32,20 @@ public class MyDialog extends ProgressDialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_dialog);
         setScreenBrightness();
-        //this.setCancelable(false);//按返回键不消失
-        this.setCanceledOnTouchOutside(false);//按空白处不消失
-        this.setOnShowListener(new OnShowListener() {
-
-            @Override
-            public void onShow(DialogInterface dialog) {
-                ImageView image = (ImageView) MyDialog.this.findViewById(R.id.dialog_img);
-                Animation anim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                anim.setRepeatCount(Animation.INFINITE); // 设置INFINITE，对应值-1，代表重复次数为无穷次
-                anim.setDuration(1000);                  // 设置该动画的持续时间，毫秒单位
-                anim.setInterpolator(new LinearInterpolator()); // 设置一个插入器，或叫补间器，用于完成从动画的一个起始到结束中间的补间部分
-                image.startAnimation(anim);
-            }
-        });
+        this.setCancelable(false);//按返回键是否消失消失
+        this.setCanceledOnTouchOutside(false);//按空白处是否消失
+//        this.setOnShowListener(new OnShowListener() {
+//
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//                ImageView image = (ImageView) MyDialog.this.findViewById(R.id.dialog_img);
+//                Animation anim = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//                anim.setRepeatCount(Animation.INFINITE); // 设置INFINITE，对应值-1，代表重复次数为无穷次
+//                anim.setDuration(1000);                  // 设置该动画的持续时间，毫秒单位
+//                anim.setInterpolator(new LinearInterpolator()); // 设置一个插入器，或叫补间器，用于完成从动画的一个起始到结束中间的补间部分
+//                image.startAnimation(anim);
+//            }
+//        });
 
     }
 

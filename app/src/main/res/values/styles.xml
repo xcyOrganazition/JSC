@@ -17,7 +17,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--**************ToolBar样式*********************-->
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light">
+        <!--新增一个item，用于控制menu-->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+    <!--修改toolbar弹出菜单的位置-->
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!--把该属性改为false即可使menu位置位于toolbar之下-->
+        <item name="overlapAnchor">false</item>
+    </style>
+
 
     <!--标题栏文字-->
     <style name="tittleBar">
