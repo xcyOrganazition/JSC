@@ -20,8 +20,11 @@ public class TittleBar extends RelativeLayout {
     private BaseActivity context1;
     private TextView tv_tittle;
 
+
+
     public TittleBar(Context context) {
         super(context);
+
         init(context, null);
     }
 
@@ -34,6 +37,10 @@ public class TittleBar extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
+//    public TittleBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr);
+//        init(context, attrs);
+//    }
 
     private void init(final Context context, AttributeSet attrs) {
         context1 = (BaseActivity) context;

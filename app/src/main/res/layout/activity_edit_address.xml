@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintVertical_chainStyle="spread"
+    tools:context=".ui.mine.EditAddressActivity">
+
+    <com.jinshangcheng.widget.TittleBar
+        android:id="@+id/tittleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/root" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/common_padding"
+        app:layout_constraintBottom_toBottomOf="@id/root"
+        app:layout_constraintTop_toBottomOf="@id/tittleBar"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            style="@style/textMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收货人"
+            app:layout_constraintTop_toTopOf="@+id/root" />
+
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:hint="请输入姓名"
+            android:maxLines="1"
+            android:padding="3dp" />
+
+        <TextView
+            style="@style/textCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="联系电话" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:hint="请输入电话"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="3dp" />
+
+        <TextView
+            style="@style/textCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="地址" />
+
+        <EditText
+            android:id="@+id/et_address"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:gravity="top"
+            android:hint="请输入地址"
+            android:maxHeight="100dp"
+            android:padding="3dp" />
+
+        <CheckBox
+            android:id="@+id/cb_defaultAddress"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设为默认地址" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_newAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="保存地址"
+            android:theme="@style/commonButton" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -6,6 +6,12 @@
     <dimen name="appbar_padding_top">8dp</dimen>
 
     <dimen name="common_padding">15dp</dimen>
+    <dimen name="padding_top">10dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="text_big">17sp</dimen>
+    <dimen name="text_middle">16sp</dimen>
+    <dimen name="text_small">15sp</dimen>
 
 
 </resources>

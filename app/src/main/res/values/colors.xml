@@ -23,6 +23,11 @@
     <!--***************  分割线*******************-->
     <color name="dividerColor">#e1e1e1</color>
 
+    <!--滑动菜单颜色-->
+    <color name="red_normal">#EA6146</color>
+    <color name="red_pressed">#FF6666</color>
+    <color name="text_red">#d33921</color>
+
 
 
 </resources>
