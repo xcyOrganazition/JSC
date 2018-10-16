@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_gestureNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/gestureNote"
+        android:textColor="#888888" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding"
+        android:gravity="center"  />
+
+    <com.andrognito.patternlockview.PatternLockView
+        android:id="@+id/lock_view"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginTop="@dimen/common_padding"
+        app:aspectRatio="square"
+        app:aspectRatioEnabled="true"
+        app:correctStateColor="@color/themeColor"
+        app:dotAnimationDuration="200"
+        app:dotCount="3"
+        app:dotNormalSize="20dp"
+        app:dotSelectedSize="30dp"
+        app:normalStateColor="#bbb"
+        app:pathEndAnimationDuration="100"
+        app:pathWidth="4dp"
+        app:wrongStateColor="@color/pomegranate" />
+</LinearLayout>

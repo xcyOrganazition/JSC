@@ -105,7 +105,6 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
     }
 
 
-
     @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address, R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us})
     public void onViewClicked(View view) {
         Intent intent = null;
@@ -117,6 +116,7 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
             case R.id.tv_money:
                 break;
             case R.id.tv_privacy:
+                intent = new Intent(getHoldingActivity(), PrivacyActivity.class);
                 break;
             case R.id.tv_address:
                 intent = new Intent(getHoldingActivity(), AddressManageActivity.class);

@@ -20,4 +20,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gestureNote">请设置手势密码\n 以便保证您的信息安全</string>
 </resources>

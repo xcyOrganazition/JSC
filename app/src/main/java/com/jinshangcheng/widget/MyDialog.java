@@ -15,7 +15,7 @@ import com.jinshangcheng.R;
 
 
 /**
- * Created by lzw on 2016/8/16.
+ * Loading的弹窗
  */
 public class MyDialog extends ProgressDialog {
 

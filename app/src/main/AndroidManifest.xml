@@ -84,8 +84,12 @@
         <activity android:name="platform.cston.explain.activity.BreakRulesActivity" />
         <activity android:name="platform.cston.explain.activity.BreakRulesMapActivity" />
         <activity android:name="platform.cston.explain.activity.MonEventActivity" />
+        <!--地址管理-->
         <activity android:name=".ui.mine.AddressManageActivity" />
-        <activity android:name=".ui.mine.EditAddressActivity"></activity>
+        <!--新建地址 编辑地址-->
+        <activity android:name=".ui.mine.EditAddressActivity" />
+        <!--隐私管理-->
+        <activity android:name=".ui.mine.PrivacyActivity"></activity>
     </application>
 
 </manifest>
