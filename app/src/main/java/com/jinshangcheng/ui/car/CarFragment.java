@@ -77,7 +77,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mPresenter.getCarList();
+//        mPresenter.getCarList();
 
     }
 

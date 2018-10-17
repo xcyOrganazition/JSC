@@ -29,7 +29,7 @@ public class RetrofitService {
                     .setLevel(HttpLoggingInterceptor.Level.BASIC))//
             .addNetworkInterceptor(new LogInterceptor())//
             .writeTimeout(ConstParams.WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .connectTimeout(ConstParams.CONNNCET_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(ConstParams.CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(ConstParams.READ_TIMEOUT, TimeUnit.SECONDS)
             .build();
 

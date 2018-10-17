@@ -57,6 +57,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="textMoreSmall">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="textSmallest">
+        <item name="android:textColor">@color/textGary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!--通用Button样式-->
     <style name="commonButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/btnDarkBg</item>

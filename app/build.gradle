@@ -66,4 +66,6 @@ dependencies {
     //手势解锁
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
     implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
+    // TinyPinyin 汉字转拼音
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
 }

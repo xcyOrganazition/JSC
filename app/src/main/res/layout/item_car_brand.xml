@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_tv_bg">
+
+    <TextView
+        android:id="@+id/tv_letter"
+        style="@style/textMiddle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backGroundGary"
+        android:padding="@dimen/common_padding"
+        android:text="A" />
+
+    <ImageView
+        android:id="@+id/iv_branch"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="@dimen/common_padding"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="@id/item_root"
+        app:layout_constraintLeft_toLeftOf="@id/item_root"
+        app:layout_constraintTop_toBottomOf="@id/tv_letter" />
+
+    <TextView
+        android:id="@+id/tv_branchName"
+        style="@style/textMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding"
+        android:text="比亚迪"
+        app:layout_constraintBottom_toBottomOf="@id/iv_branch"
+        app:layout_constraintLeft_toRightOf="@id/iv_branch"
+        app:layout_constraintTop_toTopOf="@id/iv_branch" />
+
+</android.support.constraint.ConstraintLayout>

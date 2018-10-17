@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.mine.CarManageActivity">
+
+    <com.jinshangcheng.widget.TittleBar
+        android:id="@+id/tittleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlEnableHeaderTranslationContent="false"
+        app:srlPrimaryColor="@color/themeColor">
+
+        <com.jinshangcheng.widget.MaterialRefreshHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="Translate" />
+
+        <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    <Button
+        android:id="@+id/bt_newCar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="@dimen/common_padding"
+        android:baselineAligned="false"
+        android:text="添加车辆"
+        android:theme="@style/commonButton" />
+</LinearLayout>

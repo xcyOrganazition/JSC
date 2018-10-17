@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_tv_bg"
+    android:padding="@dimen/common_padding">
+
+    <ImageView
+        android:id="@+id/iv_car"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/car_default"
+        app:layout_constraintLeft_toLeftOf="@id/root"
+        app:layout_constraintTop_toTopOf="@id/root" />
+
+    <TextView
+        android:id="@+id/tv_plate"
+        style="@style/textSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding"
+        android:text="京A1231"
+        app:layout_constraintLeft_toRightOf="@id/iv_car" />
+
+    <TextView
+        android:id="@+id/tv_model"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="奔驰汽车"
+        app:layout_constraintLeft_toLeftOf="@id/tv_plate"
+        app:layout_constraintTop_toBottomOf="@id/tv_plate" />
+
+    <TextView
+        android:id="@+id/tv_typeName"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding"
+        android:layout_marginTop="5dp"
+        android:text="奔驰S800"
+        app:layout_constraintLeft_toRightOf="@id/tv_model"
+        app:layout_constraintTop_toBottomOf="@id/tv_plate" />
+
+
+    <TextView
+        android:id="@+id/tv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑"
+        android:textColor="@color/themeColor"
+        android:textSize="14sp"
+        app:layout_constraintRight_toRightOf="@+id/root"
+        app:layout_constraintTop_toTopOf="@id/root" />
+
+    <TextView
+        android:id="@+id/tv_box"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="盒子信息："
+        app:layout_constraintLeft_toLeftOf="@id/tv_model"
+        app:layout_constraintTop_toBottomOf="@id/tv_model" />
+
+    <TextView
+        android:id="@+id/tv_bindType"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="已绑定"
+        app:layout_constraintLeft_toRightOf="@id/tv_box"
+        app:layout_constraintTop_toBottomOf="@id/tv_model" />
+
+    <Button
+        android:id="@+id/bt_bind"
+        style="@style/commonButton"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:padding="0dp"
+        android:text="立即绑定"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_bindType"
+        app:layout_constraintRight_toRightOf="@id/root"
+        app:layout_constraintTop_toTopOf="@id/tv_bindType" />
+
+</android.support.constraint.ConstraintLayout>

@@ -3,7 +3,7 @@ package com.jinshangcheng.bean;
 import java.io.Serializable;
 
 /**
- * on 2017/5/10--->13:38
+ * 通用数据
  */
 
 public class BaseBean<T extends BaseBean> implements Serializable {

@@ -122,6 +122,7 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
                 intent = new Intent(getHoldingActivity(), AddressManageActivity.class);
                 break;
             case R.id.tv_car:
+                intent = new Intent(getHoldingActivity(), CarManageActivity.class);
                 break;
             case R.id.tv_order:
                 break;
