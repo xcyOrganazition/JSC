@@ -32,7 +32,7 @@ public class MyDialog extends ProgressDialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_dialog);
         setScreenBrightness();
-        this.setCancelable(false);//按返回键是否消失消失
+        this.setCancelable(true);//按返回键是否消失消失
         this.setCanceledOnTouchOutside(false);//按空白处是否消失
 //        this.setOnShowListener(new OnShowListener() {
 //

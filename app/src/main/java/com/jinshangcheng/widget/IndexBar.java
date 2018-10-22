@@ -76,7 +76,7 @@ public class IndexBar extends View {
             float x = (mCellWidth - mTextWidth) * 0.5f;
             float y = (mCellHeight + mTextHeight) * 0.5f + mCellHeight * i;
             if (i == currentIndex) {
-                paint.setColor(getResources().getColor(R.color.themeColor));
+                paint.setColor(getResources().getColor(R.color.textBlack));
             } else {
                 paint.setColor(getResources().getColor(R.color.textBlack));
             }

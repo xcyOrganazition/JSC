@@ -5,7 +5,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.jinshangcheng.R;
@@ -13,8 +16,10 @@ import com.jinshangcheng.adapter.CarBrandsAdapter;
 import com.jinshangcheng.base.BaseActivity;
 import com.jinshangcheng.bean.CarBrandsBean;
 import com.jinshangcheng.listener.OnItemViewClickListener;
+import com.jinshangcheng.utils.DensityUtil;
 import com.jinshangcheng.widget.IndexBar;
 import com.jinshangcheng.widget.ListViewDecoration;
+import com.jinshangcheng.widget.SelectCarTypeWindow;
 import com.jinshangcheng.widget.TittleBar;
 import com.orhanobut.logger.Logger;
 
@@ -24,6 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import platform.cston.httplib.bean.CarBrandResult;
+import platform.cston.httplib.bean.CarTypeResult;
 import platform.cston.httplib.search.CarBrandInfoSearch;
 import platform.cston.httplib.search.OnResultListener;
 
@@ -38,9 +44,14 @@ public class SelectCarActivity extends BaseActivity {
     RecyclerView recyclerView;
     @BindView(R.id.indexBar)
     IndexBar indexBar;
+    @BindView(R.id.root)
+    LinearLayout root;
 
-    private List<CarBrandsBean> brandsList = new ArrayList<>();
+    private List<CarBrandsBean> brandsList = new ArrayList<>();//车品牌列表
+    private List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList = new ArrayList<>();//汽车类型列表
+
     private CarBrandsAdapter adapter;
+    private SelectCarTypeWindow selectCarTypeWindow;
 
 
     @Override
@@ -74,41 +85,43 @@ public class SelectCarActivity extends BaseActivity {
                             recyclerView.scrollBy(0, top);
                         } else {
                             recyclerView.scrollToPosition(i);
+                            LinearLayoutManager mLayoutManager =
+                                    (LinearLayoutManager) recyclerView.getLayoutManager();
+                            mLayoutManager.scrollToPositionWithOffset(i, 0);
                         }
-
                         break;
                     }
                 }
-
             }
 
             @Override
             public void onReset() {
-
             }
         });
-
         adapter = new CarBrandsAdapter(brandsList, this);
         adapter.setOnItemViewClickListener(new OnItemViewClickListener() {
             @Override
             public void onViewClick(int position, View view) {
                 Logger.w("item" + brandsList.get(position));
+                getCarTypeData(brandsList.get(position));//点击品牌 获取车型
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new ListViewDecoration());//分割线
         recyclerView.setAdapter(adapter);
-
         geCarBrandsList();//请求数据
 
     }
 
+    /**
+     * 获取车品牌列表
+     */
     private void geCarBrandsList() {
         showLoading();
         CarBrandInfoSearch.getInstance().GetCarBrandResult(new OnResultListener.CarBrandResultListener() {
             @Override
-            public void onCarBrandResult(CarBrandResult carBrandResult, boolean b, Throwable throwable) {
-                if (!b) {//请求成功 处理数据源
+            public void onCarBrandResult(CarBrandResult carBrandResult, boolean isError, Throwable throwable) {
+                if (!isError) {//请求成功 处理数据源
                     CarBrandsBean carBrandsBean;
                     for (CarBrandResult.DataEntity groupBean : carBrandResult.getData()) {
                         for (CarBrandResult.DataEntity.CarBrandsEntity itemBean :
@@ -119,6 +132,29 @@ public class SelectCarActivity extends BaseActivity {
                     }
                     adapter.refreshList(brandsList);
                     SelectCarActivity.this.dismissLoading();
+                }
+            }
+        });
+    }
+
+    /**
+     * 请求车型 父列表
+     */
+    private void getCarTypeData(final CarBrandsBean carBrandsBean) {
+        showLoading();
+        carTypeList.clear();
+        CarBrandInfoSearch.getInstance().GetCarTypeResult(carBrandsBean.brandId, new OnResultListener.CarTypeResultListener() {
+            @Override
+            public void onCarTypeResult(CarTypeResult carTypeResult, boolean isError, Throwable throwable) {
+                if (!isError) {
+                    Logger.w("车型   " + carTypeResult.getData().get(0).getCarTypes());
+                    dismissLoading();
+                    for (int i = 0; i < carTypeResult.getData().size(); i++) {
+                        carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
+                    }
+                    selectCarTypeWindow = new SelectCarTypeWindow(SelectCarActivity.this, carBrandsBean, carTypeList);
+//                    selectCarTypeWindow.showAtLocation(tittleBar, Gravity.RIGHT, 0, 0);
+                    selectCarTypeWindow.showAsDropDown(tittleBar, 0, 0, Gravity.RIGHT);
                 }
             }
         });

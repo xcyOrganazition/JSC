@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_carModel"
+        style="@style/textMiddle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backGroundGary"
+        android:paddingBottom="@dimen/padding_top"
+        android:paddingStart="@dimen/common_padding"
+        android:paddingTop="@dimen/padding_top" />
+
+</LinearLayout>

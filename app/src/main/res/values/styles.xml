@@ -110,4 +110,9 @@
         <item name="android:paddingRight">20dp</item>
     </style>
 
+    <style name="AnimationRightFade">
+        <item name="android:windowEnterAnimation">@anim/in_righttoleft</item>
+        <item name="android:windowExitAnimation">@anim/out_lefttoright</item>
+    </style>
+
 </resources>
