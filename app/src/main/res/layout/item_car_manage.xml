@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/selector_tv_bg"
     android:padding="@dimen/common_padding">
 
@@ -66,27 +66,74 @@
         app:layout_constraintLeft_toLeftOf="@id/tv_model"
         app:layout_constraintTop_toBottomOf="@id/tv_model" />
 
-    <TextView
-        android:id="@+id/tv_bindType"
+    <!--未绑定-->
+    <LinearLayout
+        android:id="@+id/ll_notBind"
         style="@style/textSmallest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="已绑定"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toRightOf="@id/tv_box"
-        app:layout_constraintTop_toBottomOf="@id/tv_model" />
+        app:layout_constraintTop_toBottomOf="@id/tv_model">
 
-    <Button
-        android:id="@+id/bt_bind"
-        style="@style/commonButton"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:padding="0dp"
-        android:text="立即绑定"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_bindType"
+        <TextView
+            style="@style/textSmallest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未绑定"
+            android:textColor="@color/text_red" />
+
+        <TextView
+            android:id="@+id/tv_bind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_padding"
+            android:text="立即绑定"
+            android:textColor="@color/themeColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+    <!--已绑定-->
+    <LinearLayout
+        android:id="@+id/ll_hasBind"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toRightOf="@id/tv_box"
+        app:layout_constraintTop_toBottomOf="@id/tv_model">
+
+        <TextView
+            style="@style/textSmallest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已绑定"
+            android:textColor="@color/textGreen" />
+
+        <TextView
+            android:id="@+id/tv_unbind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_padding"
+            android:text="解除绑定"
+            android:textColor="@color/themeColor"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_stealth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="隐身管理"
+        android:textColor="@color/themeColor"
+        android:textSize="14sp"
         app:layout_constraintRight_toRightOf="@id/root"
-        app:layout_constraintTop_toTopOf="@id/tv_bindType" />
+        app:layout_constraintTop_toBottomOf="@id/tv_edit" />
 
 </android.support.constraint.ConstraintLayout>

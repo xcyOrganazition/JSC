@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 地址管理Adapter
+ * 车辆管理Adapter
  */
 public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultViewHolder> {
     BaseActivity mContext;

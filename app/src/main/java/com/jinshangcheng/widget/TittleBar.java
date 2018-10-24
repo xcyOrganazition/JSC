@@ -1,8 +1,11 @@
 package com.jinshangcheng.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TimeUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 
 import com.jinshangcheng.R;
 import com.jinshangcheng.base.BaseActivity;
+
 
 /**
  * 标题栏 默认隐藏返回键和菜单键
@@ -45,6 +49,14 @@ public class TittleBar extends RelativeLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.view_tittle_bar, this);
         tv_tittle = view.findViewById(R.id.tv_tittle);
         toolbar = view.findViewById(R.id.toolbar);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.tittleBar);
+        this.setTittle(ta.getString(R.styleable.tittleBar_centerText));
+        if (ta.getBoolean(R.styleable.tittleBar_backVisible, true)) {
+            this.showNavigation();
+        } else {
+            this.hideNavigation();
+        }
+        ta.recycle();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 context1.finish();
@@ -58,7 +70,9 @@ public class TittleBar extends RelativeLayout {
      * @param tittle 标题内容
      */
     public void setTittle(String tittle) {
-        tv_tittle.setText(tittle);
+        if (!TextUtils.isEmpty(tittle)) {
+            tv_tittle.setText(tittle);
+        }
     }
 
     /**

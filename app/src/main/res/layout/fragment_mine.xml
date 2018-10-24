@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:text="会员ID："
+                    android:text="姓名："
                     android:textAllCaps="false"
                     android:textColor="@color/textBlack"
                     android:textSize="13sp" />
@@ -100,7 +100,7 @@
                 style="@style/mine_item"
                 android:drawableLeft="@mipmap/main_tab_one_selected"
                 android:drawableRight="@mipmap/main_tab_one_unselected"
-                android:text="我的佣金" />
+                android:text="我的收益" />
 
             <TextView
                 android:id="@+id/tv_privacy"

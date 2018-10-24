@@ -22,7 +22,7 @@ import butterknife.Unbinder;
 /**
  * 我的Fragment
  */
-public class MineFragment extends BaseFragment implements CarContract.IView {
+public class MineFragment extends BaseFragment {
 
 
     private static MineFragment mineFragment;
@@ -31,11 +31,8 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
     ImageView ivHeadImg;
     Unbinder unbinder1;
 
-    private CarContract.IPresenter mPresenter;
-
     public MineFragment() {
         // Required empty public constructor
-        mPresenter = new CarPresenter(this);
     }
 
     public static MineFragment getInstance() {
@@ -69,7 +66,6 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mPresenter.getCarList();
 
     }
 
@@ -79,23 +75,9 @@ public class MineFragment extends BaseFragment implements CarContract.IView {
 //        mListener = null;
     }
 
-    @Override
-    public void setPresenter(CarContract.IPresenter presenter) {
-
-    }
 
     @Override
     public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showCarList() {
 
     }
 

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jinshangcheng.MyApplication;
 import com.jinshangcheng.R;
 import com.jinshangcheng.base.BaseActivity;
 import com.jinshangcheng.bean.Car;
@@ -80,8 +81,9 @@ public class MainActivity extends BaseActivity {
         fragments[4] = MineFragment.getInstance();
 
         AuthorizationInfo authorInfo = AuthUser.getInstance().ResetOpenIdAndOpenCarId();
-        Logger.w("authorInfo" + authorInfo.openId);
-        Logger.w("carList" + authorInfo.getCarsArrayList());
+        MyApplication.setAuthorInfo(authorInfo);
+//        Logger.w("authorInfo" + authorInfo.openId);
+//        Logger.w("carList" + authorInfo.getCarsArrayList());
     }
 
     @Override

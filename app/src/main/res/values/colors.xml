@@ -7,17 +7,27 @@
     <color name="white">#FFFFFF</color>
 
 
-
     <!--APP主题色-->
     <color name="themeColor">#3AA9F3</color>
-    <color name="textDarkGary">#666666</color>
+
     <color name="Gary">#BBBBBB</color>
+
+    <!--文字颜色-->
     <color name="textBlack">#666666</color>
     <color name="textGary">#909090</color>
-    <color name="darkBg">#999999</color>
+    <color name="textDarkGary">#666666</color>
+    <color name="textGreen">#45BF23</color>
+    <color name="text_red">#C33C3C</color>
+    <color name="textBlue">#3AA9F3</color>
+
 
     <!--**************** 背景色*********************-->
     <color name="backGroundGary">#EEEEEE</color>
+    <color name="darkBg">#999999</color>
+    <color name="backLightGreen">#99c667</color>
+    <color name="backDarkGreen">#45bf23</color>
+
+
     <!--**************** 按钮色*********************-->
     <color name="btnBg">#3AA9F3</color>
     <color name="btnDarkBg">#2c86c3</color>
@@ -27,8 +37,6 @@
     <!--滑动菜单颜色-->
     <color name="red_normal">#EA6146</color>
     <color name="red_pressed">#FF6666</color>
-    <color name="text_red">#d33921</color>
-
 
 
 </resources>

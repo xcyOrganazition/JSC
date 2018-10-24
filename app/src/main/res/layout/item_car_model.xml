@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/backGroundGary"
         android:paddingBottom="@dimen/padding_top"
-        android:paddingStart="@dimen/common_padding"
+        android:paddingStart="22dp"
         android:paddingTop="@dimen/padding_top" />
 
 </LinearLayout>

@@ -28,10 +28,16 @@ import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
 import platform.cston.httplib.Cston;
+import platform.cston.httplib.bean.AuthInfo;
+import platform.cston.httplib.bean.AuthorizationInfo;
+import platform.cston.httplib.search.AuthUser;
 
 public class MyApplication extends Application {
     private static Context mContext;
     private static MyApplication instance;
+
+    private static AuthorizationInfo authorInfo = null;
+
 
     public MyApplication() {
         instance = this;
@@ -53,13 +59,14 @@ public class MyApplication extends Application {
         Cston.Auth.init(this);//初始化CstSdk
         Cston.Auth.setDebug(true);
 
-//        EMClient.getInstance().init(mContext, new EMOptions());
-//        EMClient.getInstance().setDebugMode(false);
-//        DataBaseManager.initDatabase(mContext);
-//        PgyCrashManager.register(this);
-//        UMShareAPI.get(this);
-//        threadPool = Executors.newFixedThreadPool(3);
+    }
 
+    public static void setAuthorInfo(AuthorizationInfo authorInfo) {
+        MyApplication.authorInfo = authorInfo;
+    }
+
+    public static AuthorizationInfo getAuthorInfo() {
+        return MyApplication.authorInfo;
     }
 
     @Override

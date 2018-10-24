@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.jinshangcheng.R;
 import com.jinshangcheng.adapter.CarListPagerAdapter;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
+import platform.cston.httplib.bean.AuthorizationInfo;
 
 
 /**
@@ -77,7 +79,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        mPresenter.getCarList();
+        mPresenter.getCarList();
 
     }
 
@@ -102,8 +104,17 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     }
 
+    public void toastErrorMsg(String errorMsg) {
+        Toast.makeText(getHoldingActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 填充车辆ViewPager数据
+     */
     @Override
-    public void showCarList() {
+    public void showCarList(ArrayList<AuthorizationInfo.Cars> carList) {
+
+        Logger.w("填充车辆 " + carList);
 
     }
 

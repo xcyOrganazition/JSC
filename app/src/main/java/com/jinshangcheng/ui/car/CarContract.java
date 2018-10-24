@@ -3,9 +3,10 @@ package com.jinshangcheng.ui.car;
 import com.jinshangcheng.base.IBasePresenter;
 import com.jinshangcheng.base.IBaseView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-import io.reactivex.Observer;
+import platform.cston.httplib.bean.AuthorizationInfo;
+import platform.cston.httplib.search.OnResultListener;
 
 /**
  * MVP功能整合
@@ -14,7 +15,7 @@ public interface CarContract {
 
     interface IView extends IBaseView<IPresenter> {
 
-        void showCarList();
+        void showCarList(ArrayList<AuthorizationInfo.Cars> carList);
 
     }
 
@@ -25,7 +26,7 @@ public interface CarContract {
     }
 
     interface IModel {
-        void loadCarList(HashMap map, Observer observer);
+        ArrayList<AuthorizationInfo.Cars> loadCarList(OnResultListener.OnGetCarListResultListener listener);
     }
 
 }
