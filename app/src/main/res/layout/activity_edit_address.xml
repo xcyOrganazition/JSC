@@ -8,7 +8,7 @@
     app:layout_constraintVertical_chainStyle="spread"
     tools:context=".ui.mine.EditAddressActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:id="@+id/tittleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

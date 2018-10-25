@@ -9,12 +9,12 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:id="@+id/tittleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.jinshangcheng.widget.TittleBar>
+    </cn.com.jinshangcheng.widget.TittleBar>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPage"

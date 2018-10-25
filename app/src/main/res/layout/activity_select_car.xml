@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.mine.SelectCarActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:id="@+id/tittleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.jinshangcheng.widget.IndexBar
+        <cn.com.jinshangcheng.widget.IndexBar
             android:id="@+id/indexBar"
             android:layout_width="20dp"
             android:layout_height="match_parent"

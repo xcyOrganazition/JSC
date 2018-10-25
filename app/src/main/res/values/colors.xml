@@ -14,6 +14,7 @@
 
     <!--文字颜色-->
     <color name="textBlack">#666666</color>
+    <color name="black">#333333</color>
     <color name="textGary">#909090</color>
     <color name="textDarkGary">#666666</color>
     <color name="textGreen">#45BF23</color>

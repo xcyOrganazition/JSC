@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.car.InsuranceActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:centerText="保险信息" />

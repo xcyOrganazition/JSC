@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.login.AddInviterActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backVisible="false"

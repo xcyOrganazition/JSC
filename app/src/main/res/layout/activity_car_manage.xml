@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.mine.CarManageActivity">
 
-    <com.jinshangcheng.widget.TittleBar
+    <cn.com.jinshangcheng.widget.TittleBar
         android:id="@+id/tittleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -20,7 +20,7 @@
         app:srlEnableHeaderTranslationContent="false"
         app:srlPrimaryColor="@color/themeColor">
 
-        <com.jinshangcheng.widget.MaterialRefreshHeader
+        <cn.com.jinshangcheng.widget.MaterialRefreshHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srlClassicsSpinnerStyle="Translate" />
