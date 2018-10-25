@@ -17,9 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitService {
 
-    private static final String HOST = "http://ewowang.polyhome.net";
+    private static final String HOST = "http://jiekou.jinshangcheng.com.cn:8080";
 
-    private static final String BASE_URL = HOST + "/ewo/app/";
+    private static final String BASE_URL = HOST + "";
 
     private static NetApi netApi;
     private static GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();

@@ -17,14 +17,14 @@ public interface NetApi {
     /**
      * 登录
      *
-     * @param workerCode
-     * @param password
+     * @param phoneNumber
+     * @param verifyCode
      * @return bean
      */
     @FormUrlEncoded
-    @POST("login")
-    Observable<LoginBean> login(@Field("workerCode") String workerCode,
-                                @Field("password") String password);
+    @POST("/user/registOrLogin")
+    Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber,
+                                @Field("verifyCode") String verifyCode);
 
 
 }

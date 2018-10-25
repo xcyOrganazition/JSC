@@ -16,14 +16,21 @@ import android.widget.TextView;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.LoginBean;
+import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.MainActivity;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
+
 import com.orhanobut.logger.Logger;
 
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.AuthorizationInfo;
 import platform.cston.httplib.search.AuthUser;
 import platform.cston.httplib.search.OnResultListener;
@@ -114,6 +121,35 @@ public class LoginActivity extends BaseActivity {
         countDown(coldDown);
         finishTime = System.currentTimeMillis() + coldDown;
 
+    }
+
+    public void doLogin(String phone, String veriyCode) {
+
+        RetrofitService.getRetrofit().login(phone, veriyCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoginBean>() {
+
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(LoginBean loginBean) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
     }
 
@@ -178,7 +214,7 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.bt_login:
 //                attemptLogin();
-                testJiaTu();
+                doLogin("13241025667", "");
                 break;
         }
     }
