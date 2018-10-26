@@ -48,7 +48,7 @@
                             android:id="@+id/iv_mile"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_mile"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/tv_mileTittle"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -100,7 +100,7 @@
                             android:id="@+id/iv_fuel"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@mipmap/ic_oil"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/tv_fuelTittle"
                             app:layout_constraintHorizontal_chainStyle="packed"
@@ -158,7 +158,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/ic_check" />
 
                         <TextView
                             style="@style/textSmall"
@@ -181,7 +181,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/ic_report" />
 
                         <TextView
                             style="@style/textSmall"
@@ -204,7 +204,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/ic_violation" />
 
                         <TextView
                             style="@style/textSmall"
@@ -227,7 +227,7 @@
                         <ImageView
                             android:layout_width="45dp"
                             android:layout_height="45dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@mipmap/ic_save" />
 
                         <TextView
                             style="@style/textSmall"
@@ -336,7 +336,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="汽车位置：" />
+                        android:text="康宁路12号图景嘉园12号楼" />
+
+                    <TextView
+                        android:id="@+id/iv_shareLocation"
+                        style="@style/textSmallest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/ic_share"
+                        android:drawablePadding="5dp"
+                        android:text="分享" />
 
                 </LinearLayout>
 

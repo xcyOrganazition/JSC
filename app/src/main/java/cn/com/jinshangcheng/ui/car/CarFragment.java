@@ -206,7 +206,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
 
     @OnClick({R.id.ll_check, R.id.ll_report, R.id.ll_violation, R.id.ll_help, R.id.tv_checkDetail,
-            R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual})
+            R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -228,6 +228,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 break;
             case R.id.tv_annual://年审信息:
                 intent = new Intent(getActivity(), AnnualActivity.class);
+            case R.id.iv_shareLocation://分享:
 
                 break;
         }
