@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.mine.ApplyDrawActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="申请提现" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/common_padding">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            style="@style/textMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现金额：" />
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="¥"
+            android:textColor="@color/textBlack"
+            android:textSize="23sp" />
+
+        <EditText
+            android:id="@+id/et_drawMoney"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="可提现金额"
+            android:textColor="@color/textBlack"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_drawAll"
+        style="@style/commonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="全部提现"
+        android:textSize="@dimen/text_middle" />
+
+    <TextView
+        android:id="@+id/tv_changeCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/common_padding"
+        android:text="选择银行卡"
+        android:textColor="#ff3aa9f3"
+        android:textSize="@dimen/text_small" />
+
+    <View style="@style/divider" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="提现申请会在三个工作日审核并完成提现。"
+        android:textColor="#ff888888"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/bt_applyDraw"
+        style="@style/commonButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/common_padding"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="@dimen/common_padding"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="申请提现"
+        android:textSize="@dimen/text_middle" />
+</LinearLayout>

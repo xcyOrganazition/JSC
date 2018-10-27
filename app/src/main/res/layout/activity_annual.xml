@@ -40,6 +40,11 @@
             android:src="@mipmap/ic_arrow" />
     </LinearLayout>
 
+    <View
+        style="@style/divider"
+        android:layout_marginEnd="@dimen/common_padding"
+        android:layout_marginStart="@dimen/common_padding" />
+
 
     <Button
         android:id="@+id/bt_confirm"

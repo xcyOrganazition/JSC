@@ -18,6 +18,7 @@ import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.ListViewDecoration;
 import cn.com.jinshangcheng.widget.TittleBar;
+
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -176,7 +177,7 @@ public class CarManageActivity extends BaseActivity {
     //添加新车辆
     @OnClick(R.id.bt_newCar)
     public void onViewClicked() {
-        Intent intent = new Intent(CarManageActivity.this, SelectCarActivity.class);
+        Intent intent = new Intent(CarManageActivity.this, AddCarActivity.class);
 //        intent.putExtra("address", data.get(position));
         startActivity(intent);
     }

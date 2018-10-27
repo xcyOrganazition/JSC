@@ -94,8 +94,10 @@ public class MineFragment extends BaseFragment {
             case R.id.iv_headImg:
                 break;
             case R.id.tv_people:
+                intent = new Intent(getHoldingActivity(), PeopleActivity.class);
                 break;
             case R.id.tv_money:
+                intent = new Intent(getHoldingActivity(), MoneyActivity.class);
                 break;
             case R.id.tv_privacy:
                 intent = new Intent(getHoldingActivity(), PrivacyActivity.class);

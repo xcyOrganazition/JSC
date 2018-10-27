@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/white"
     android:orientation="horizontal">
 
+    <EditText
+        android:id="@+id/tv_carLicense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/car_license_bg"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:text="京A 12342"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_carBrand"
+        style="@style/textMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="奔驰汽车"
+        app:layout_constraintBottom_toTopOf="@+id/tv_carType"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
+        app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_carType"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="奔驰S800系列"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
+        app:layout_constraintTop_toBottomOf="@+id/tv_carBrand" />
+
+    <ImageView
+        android:id="@+id/iv_carImg"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="30dp"
+        android:src="@mipmap/car_default"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tip"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        style="@style/textSmallest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="左右滑动切换车辆"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_carImg"
+        app:layout_constraintTop_toBottomOf="@+id/iv_carImg" />
+
+</android.support.constraint.ConstraintLayout>

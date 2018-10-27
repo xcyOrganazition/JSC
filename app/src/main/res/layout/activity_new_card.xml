@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mine.NewCardActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:id="@+id/tittleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="添加银行卡"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/common_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tittleBar"
+        app:layout_constraintVertical_weight="1">
+
+        <TextView
+            style="@style/textMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姓名"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:hint="请输入姓名"
+            android:maxLines="1"
+            android:padding="3dp" />
+
+        <TextView
+            style="@style/textCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="银行卡号" />
+
+        <EditText
+            android:id="@+id/et_cardNum"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:hint="请输入银行卡号"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="3dp" />
+
+        <TextView
+            style="@style/textCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="开户行" />
+
+        <EditText
+            android:id="@+id/et_bank"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:gravity="top"
+            android:hint="请输开户行"
+            android:maxHeight="100dp"
+            android:padding="3dp" />
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/cb_defaultAddress"-->
+        <!--style="@style/textMiddle"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="设为默认地址" />-->
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_newAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="保存"
+            android:theme="@style/commonButton" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 /**
- * 我的汽车列表
+ * 我的汽车VP列表
  */
 public class CarListPagerAdapter extends PagerAdapter {
     private List<Car> carList;
@@ -48,6 +48,11 @@ public class CarListPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
+    }
+
+    public void refreshList(List<Car> carList) {
+        this.carList = carList;
+        this.notifyDataSetChanged();
     }
 
 

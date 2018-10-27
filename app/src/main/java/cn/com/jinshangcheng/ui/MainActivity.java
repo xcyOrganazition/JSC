@@ -1,5 +1,6 @@
 package cn.com.jinshangcheng.ui;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabItem;
@@ -24,11 +25,13 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.Car;
 import cn.com.jinshangcheng.ui.car.CarFragment;
 import cn.com.jinshangcheng.ui.communicate.CommunicateFragment;
+import cn.com.jinshangcheng.ui.mine.EditMineActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
 import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.TittleBar;
+
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -125,8 +128,17 @@ public class MainActivity extends BaseActivity {
                     tittleBar.setAction(R.menu.navigation, new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.navigation_dashboard:
+                                    Intent intent = new Intent(MainActivity.this, EditMineActivity.class);
+                                    startActivity(intent);
+                                    break;
+
+                            }
                             return true;
+
                         }
+
                     });
                 } else {
                     tittleBar.setNoAction();

@@ -73,6 +73,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     private List<Car> carList = new ArrayList<>();
 
     private CarContract.IPresenter mPresenter;
+    private CarListPagerAdapter adapter;
 
     public CarFragment() {
         // Required empty public constructor
@@ -102,6 +103,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         car = new Car("卡宴", "京A23282", "保时捷", "保时捷系列");
         carList.add(car);
         carList.add(car);
+
 
     }
 
@@ -155,10 +157,11 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 .location(new LatLng(lat, lng)).snippet("测试分享点")
                 .name("分享点"));
 
-
-        CarListPagerAdapter adapter = new CarListPagerAdapter(carList, getHoldingActivity());
+        //初始化头部我的车辆VP
+        adapter = new CarListPagerAdapter(carList, getHoldingActivity());
         vpCarList.setAdapter(adapter);
         vpCarList.setPageMargin(DensityUtil.dip2px(getHoldingActivity(), 6));
+        adapter.refreshList(carList);
     }
 
 
