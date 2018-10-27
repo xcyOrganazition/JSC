@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity {
     private long finishTime;
     private long coldDown = 120000;//120s 冷却时间
     private String countDownHint;//倒计时显示文字
+    private CountDownTimer timer;
 
     @Override
     public int setContentViewResource() {
@@ -159,6 +160,7 @@ public class LoginActivity extends BaseActivity {
         if (finishTime != 0L) {
             SharedPreferenceUtils.setLongSP("CodeTime", finishTime);
         }
+        timer.cancel();//清除timer 防止内存侧漏
         super.onDestroy();
 
     }
@@ -179,7 +181,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void countDown(final long now) {
-        new CountDownTimer(now, 1000) {
+        timer = new CountDownTimer(now, 1000) {
             @Override
             public void onTick(long l) {
                 if (btCode == null) {
@@ -210,9 +212,9 @@ public class LoginActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.bt_code:
-                getVerify();
+                getVerify();//获取验证码
                 break;
-            case R.id.bt_login:
+            case R.id.bt_login://登陆
 //                attemptLogin();
                 doLogin("13241025667", "");
                 break;

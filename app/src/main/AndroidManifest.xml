@@ -52,15 +52,21 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="uAcUkjBkRBNQAhAaZ6dEtwH5t1pp9QjW" />
 
-        <!-- 首页 -->
+        <!--Logo页-->
         <activity
-            android:name=".ui.MainActivity"
-            android:screenOrientation="portrait">
+            android:name=".ui.login.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <!-- 首页 -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
+
         </activity>
         <!-- 登陆 -->
         <activity
@@ -123,14 +129,15 @@
         <activity
             android:name=".ui.car.InsuranceActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!--保养信息-->
+        <!-- 保养信息 -->
         <activity
             android:name=".ui.car.MaintenanceActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!--年审信息-->
+        <!-- 年审信息 -->
         <activity
             android:name=".ui.car.AnnualActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
     </application>
 
 </manifest>

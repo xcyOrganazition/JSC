@@ -49,15 +49,16 @@ public class InsuranceActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.tv_deadline:
-                DatePickerDialog dialog = new DatePickerDialog(InsuranceActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                DatePickerDialog dialog = new DatePickerDialog(InsuranceActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        deadLine = year + "-" + (month + 1) + "-" + dayOfMonth;
-                        Logger.w("abc     " + deadLine);
-                        tvDeadline.setText(deadLine);
-                    }
-                },
+                                deadLine = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                Logger.w("abc     " + deadLine);
+                                tvDeadline.setText(deadLine);
+                            }
+                        },
                         Calendar.getInstance().get(Calendar.YEAR),
                         Calendar.getInstance().get(Calendar.MONTH),
                         Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
