@@ -216,6 +216,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             case R.id.ll_check://一键检测:
                 break;
             case R.id.ll_report://用车报告
+                intent = new Intent(getActivity(), CarReportActivity.class);
                 break;
             case R.id.ll_violation://查询违章
                 break;

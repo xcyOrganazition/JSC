@@ -111,8 +111,10 @@ public class MineFragment extends BaseFragment {
             case R.id.tv_order:
                 break;
             case R.id.tv_card:
+                intent = new Intent(getHoldingActivity(), BankCardActivity.class);
                 break;
             case R.id.tv_about_us:
+                intent = new Intent(getHoldingActivity(), AboutUsActivity.class);
                 break;
         }
         if (intent != null) {

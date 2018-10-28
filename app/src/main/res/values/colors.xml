@@ -24,6 +24,7 @@
 
     <!--**************** 背景色*********************-->
     <color name="backGroundGary">#EEEEEE</color>
+    <color name="backGroundLightGary">#F6F6F6</color>
     <color name="darkBg">#999999</color>
     <color name="backLightGreen">#99c667</color>
     <color name="backDarkGreen">#45bf23</color>
