@@ -6,12 +6,12 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.bean.Car;
-
-import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * 我的汽车VP列表
@@ -36,6 +36,9 @@ public class CarListPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_mycar, null);
+        TextView tvTip = view.findViewById(R.id.tv_tip);
+        tvTip.setFocusable(false);
+        tvTip.setVisibility(carList.size() > 0 ? View.VISIBLE : View.GONE);
         container.addView(view);
         return view;
     }

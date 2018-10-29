@@ -1,6 +1,9 @@
 package cn.com.jinshangcheng.net;
 
 
+import java.util.List;
+
+import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
 
 import io.reactivex.Observable;
@@ -25,6 +28,15 @@ public interface NetApi {
     @POST("/user/registOrLogin")
     Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber,
                                 @Field("verifyCode") String verifyCode);
+
+    /**
+     * 获取商品列表
+     *
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/goods/getGoodsList")
+    Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
 
 
 }

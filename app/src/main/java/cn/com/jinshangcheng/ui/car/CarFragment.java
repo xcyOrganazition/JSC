@@ -2,12 +2,10 @@ package cn.com.jinshangcheng.ui.car;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.com.jinshangcheng.R;
@@ -74,6 +71,31 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     private CarContract.IPresenter mPresenter;
     private CarListPagerAdapter adapter;
+    /**
+     * goodsid : 2
+     * goodsname : 带子
+     * price : 20
+     * imagelist : /images/goods/list/boxu.png
+     * imagepath : /images/goods/web/boxu.png
+     * imagedetail : /images/goods/detail/boxu.png
+     * textdetail : 这个带子确实好用
+     * registtime : 1537426527000
+     * updatetime : 1537426527000
+     * orderby : 2
+     * other1 : null
+     * other2 : null
+     */
+
+    private int goodsid;
+    private String goodsname;
+    private int price;
+    private String imagelist;
+    private String imagepath;
+    private String imagedetail;
+    private String textdetail;
+    private long registtime;
+    private long updatetime;
+    private int orderby;
 
     public CarFragment() {
         // Required empty public constructor
@@ -245,22 +267,107 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     public void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        bdMapView.onDestroy();
+        if (bdMapView != null) {
+            bdMapView.onDestroy();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
-        bdMapView.onResume();
+        if (bdMapView != null) {
+            bdMapView.onResume();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        bdMapView.onPause();
+        if (bdMapView != null) {
+            bdMapView.onPause();
+        }
     }
 
+    public int getGoodsid() {
+        return goodsid;
+    }
+
+    public void setGoodsid(int goodsid) {
+        this.goodsid = goodsid;
+    }
+
+    public String getGoodsname() {
+        return goodsname;
+    }
+
+    public void setGoodsname(String goodsname) {
+        this.goodsname = goodsname;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getImagelist() {
+        return imagelist;
+    }
+
+    public void setImagelist(String imagelist) {
+        this.imagelist = imagelist;
+    }
+
+    public String getImagepath() {
+        return imagepath;
+    }
+
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
+    }
+
+    public String getImagedetail() {
+        return imagedetail;
+    }
+
+    public void setImagedetail(String imagedetail) {
+        this.imagedetail = imagedetail;
+    }
+
+    public String getTextdetail() {
+        return textdetail;
+    }
+
+    public void setTextdetail(String textdetail) {
+        this.textdetail = textdetail;
+    }
+
+    public long getRegisttime() {
+        return registtime;
+    }
+
+    public void setRegisttime(long registtime) {
+        this.registtime = registtime;
+    }
+
+    public long getUpdatetime() {
+        return updatetime;
+    }
+
+    public void setUpdatetime(long updatetime) {
+        this.updatetime = updatetime;
+    }
+
+    public int getOrderby() {
+        return orderby;
+    }
+
+    public void setOrderby(int orderby) {
+        this.orderby = orderby;
+    }
 }
 

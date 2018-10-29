@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="@dimen/common_padding"
+    android:layout_marginRight="@dimen/common_padding"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/white_bg_gary_outline"
+    android:paddingBottom="@dimen/padding_top"
+    android:paddingLeft="@dimen/common_padding"
+    android:paddingRight="@dimen/common_padding"
+    android:paddingTop="@dimen/padding_top">
+
+    <TextView
+        android:id="@+id/tv_bankName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="建设银行"
+        android:textColor="#555555"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_cardNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:text="6217 **** **** 2408"
+        android:textColor="#ff666666"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_bankAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bankName" />
+
+    <TextView
+        android:id="@+id/tv_bankAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:text="开户行：北京昌平区西二旗支行"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_cardNum" />
+
+</android.support.constraint.ConstraintLayout>

@@ -154,9 +154,14 @@
         <activity
             android:name=".ui.mine.NewCardActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <!--编辑个人信息-->
         <activity android:name=".ui.mine.EditMineActivity" />
+        <!--关于我们-->
         <activity android:name=".ui.mine.AboutUsActivity" />
-        <activity android:name=".ui.car.CarReportActivity"></activity>
+        <!--用车报告-->
+        <activity
+            android:name=".ui.car.CarReportActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
     </application>
 
 </manifest>

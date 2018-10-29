@@ -15,15 +15,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.AddressBean;
+import cn.com.jinshangcheng.bean.BankCardBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 
-/**
- * 地址管理Adapter
- */
-public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewHolder> {
+public class BankCardAdapter extends SwipeMenuAdapter<BankCardAdapter.DefaultViewHolder> {
     BaseActivity mContext;
-    List<AddressBean> list;
+    List<BankCardBean> list;
 
     private OnItemViewClickListener mOnItemClickListener;
 
@@ -32,7 +29,7 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
      *
      * @param list
      */
-    public void refreshList(List<AddressBean> list) {
+    public void refreshList(List<BankCardBean> list) {
         this.list = list;
         this.notifyDataSetChanged();
 
@@ -42,14 +39,14 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public AddressAdapter(BaseActivity mContext, List<AddressBean> list) {
+    public BankCardAdapter(BaseActivity mContext, List<BankCardBean> list) {
         this.mContext = mContext;
         this.list = list;
     }
 
     @Override
     public View onCreateContentView(ViewGroup parent, int viewType) {
-        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_address, parent, false);
+        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bankcard, parent, false);
     }
 
     @Override
@@ -69,28 +66,24 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
     }
 
     class DefaultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.tv_bankName)
+        TextView tvBankName;
+        @BindView(R.id.tv_cardNum)
+        TextView tvCardNum;
+        @BindView(R.id.tv_bankAddress)
+        TextView tvBankAddress;
 
-        @BindView(R.id.tv_name)
-        TextView tvName;
-        @BindView(R.id.tv_phone)
-        TextView tvPhone;
-        @BindView(R.id.tv_edit)
-        TextView tvEdit;
-        @BindView(R.id.tv_address)
-        TextView tvAddress;
 
         public DefaultViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            tvEdit.setOnClickListener(this);
-
         }
 
-        public void setData(AddressBean bean, Context mContext) {
-            tvAddress.setText(bean.address);
-            tvName.setText(bean.name);
-            tvPhone.setText(bean.phone);
+        public void setData(BankCardBean bean, Context mContext) {
+//            tvBankAddress.setText(bean.accountbank);
+//            tvBankName.setText(bean.accountbank);
+//            tvCardNum.setText(bean.accountnum);
         }
 
         @Override

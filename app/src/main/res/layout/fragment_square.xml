@@ -1,28 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.square.SquareFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ll"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <Button
-        android:id="@+id/showLoading"
+        <TextView
+            android:id="@+id/tv_totalMoney"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@color/themeColor"
+            android:paddingBottom="@dimen/common_padding"
+            android:paddingLeft="90dp"
+            android:paddingTop="@dimen/padding_top"
+            android:text="合计：1232元"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_goToPay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/backLightGreen"
+            android:gravity="center"
+            android:paddingBottom="@dimen/common_padding"
+            android:paddingTop="@dimen/padding_top"
+            android:text="去结算"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_shoppingCart"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_margin="@dimen/common_padding"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_goodsNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="showLoading" />
+        android:layout_marginEnd="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@mipmap/ic_redpoint"
+        android:gravity="center"
+        android:padding="2dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@id/iv_shoppingCart"
+        app:layout_constraintTop_toTopOf="@id/iv_shoppingCart" />
 
-    <Button
-        android:id="@+id/hideLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hideLoading" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

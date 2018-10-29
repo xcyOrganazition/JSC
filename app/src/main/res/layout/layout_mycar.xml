@@ -60,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="左右滑动切换车辆"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/iv_carImg"
         app:layout_constraintTop_toBottomOf="@+id/iv_carImg" />
