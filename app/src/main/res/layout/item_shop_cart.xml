@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding"
+        android:id="@+id/tv_curGoodsName"
+
+        android:text="锦尚程OBD智能车载终端"
+        android:textColor="#ff666666"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_curGoodPrice"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="1390元"
+        android:textColor="#ff3aa9f3"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_marginRight="2dp"
+        android:id="@+id/iv_deleteGoods"
+        android:src="@mipmap/ic_remove"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+    <TextView
+        android:id="@+id/tv_curGoodsNum"
+        android:layout_width="28dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:padding="2dp"
+        android:background="@drawable/white_bg_gary_outline"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        />
+    <ImageView
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="@dimen/common_padding"
+        android:id="@+id/iv_addGoods"
+        android:src="@mipmap/ic_add"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+</LinearLayout>

@@ -2,8 +2,6 @@ package cn.com.jinshangcheng.ui;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,33 +11,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.Car;
 import cn.com.jinshangcheng.ui.car.CarFragment;
 import cn.com.jinshangcheng.ui.communicate.CommunicateFragment;
 import cn.com.jinshangcheng.ui.mine.EditMineActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
-import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.TittleBar;
-
-import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import okhttp3.logging.HttpLoggingInterceptor;
 import platform.cston.httplib.bean.AuthorizationInfo;
 import platform.cston.httplib.search.AuthUser;
 
@@ -92,8 +79,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         viewPager.setAdapter(mSectionsPagerAdapter);
+        viewPager.setOffscreenPageLimit(4);
 
         initTabItem();
         tittleBar.hideNavigation();//隐藏返回键

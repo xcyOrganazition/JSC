@@ -138,7 +138,6 @@
                                 style="@style/CommonRadioButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
                                 android:text="日视图" />
 
                             <RadioButton
@@ -453,7 +452,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_top"
+                        android:layout_marginLeft="@dimen/common_padding"
                         android:orientation="horizontal">
 
                         <TextView
@@ -476,7 +475,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_top"
+                        android:layout_marginLeft="@dimen/common_padding"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
@@ -501,7 +500,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/common_padding"
-                        android:layout_marginLeft="@dimen/padding_top"
+                        android:layout_marginLeft="@dimen/common_padding"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 

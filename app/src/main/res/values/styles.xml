@@ -132,7 +132,12 @@
         <item name="android:windowEnterAnimation">@anim/in_righttoleft</item>
         <item name="android:windowExitAnimation">@anim/out_lefttoright</item>
     </style>
-    <!--右侧画出的PopWindow-->
+    <!--底部弹出的PopWindow-->
+    <style name="AnimationBottom">
+        <item name="android:windowEnterAnimation">@anim/in_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@anim/out_top_to_bottom</item>
+    </style>
+    <!--通用RadioButton-->
     <style name="CommonRadioButton">
         <item name="android:background">@drawable/selector_radio_bg</item>
         <item name="android:textColor">@color/selector_radio_text</item>

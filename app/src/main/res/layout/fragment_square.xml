@@ -2,9 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentPanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.square.SquareFragment">
 
 
@@ -50,6 +50,53 @@
             android:text="去结算"
             android:textColor="@color/white"
             android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/shopCartView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:maxHeight="250dp"
+        android:visibility="gone"
+        android:minHeight="180dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/ll">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/common_padding"
+            android:text="购物车"
+            android:textColor="@color/themeColor"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_emptyMsg"
+            style="@style/textMoreSmall"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/backGroundLightGary"
+            android:padding="@dimen/common_padding"
+            android:text="暂无商品" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_goodsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
     </LinearLayout>
 
     <ImageView
