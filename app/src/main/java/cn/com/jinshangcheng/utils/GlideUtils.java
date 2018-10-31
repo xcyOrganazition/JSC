@@ -7,7 +7,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+
 import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.net.RetrofitService;
 
 /**
  * Glide图片渲染工具类
@@ -22,6 +24,17 @@ public class GlideUtils {
 
 
     public static void loadImage(Context context, String url, ImageView imageView) {
+        Glide.with(context.getApplicationContext())
+                .load(url)
+                .apply(options)
+                .into(imageView);
+    }
+
+    public static void loadJSGImage(Context context, String url, ImageView imageView) {
+        if (url.contains("../")) {
+            url = RetrofitService.HOST + url.replace("../", "/");
+        }
+
         Glide.with(context.getApplicationContext())
                 .load(url)
                 .apply(options)

@@ -58,10 +58,12 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:maxHeight="250dp"
-        android:visibility="gone"
         android:minHeight="180dp"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/ll">
+
+        <View style="@style/divider" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,7 +106,7 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_margin="@dimen/common_padding"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_shopcart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 

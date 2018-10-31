@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
-import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.GlideUtils;
 
 public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> {
@@ -76,7 +75,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
         }
 
         public void setData(Goods goods) {
-            GlideUtils.loadImage(context, RetrofitService.HOST + goods.getImagepath(), ivGoodsImg);
+            GlideUtils.loadJSGImage(context, goods.getImagepath(), ivGoodsImg);
             ivGoodsName.setText(goods.getGoodsname());
             tvGoodsMoney.setText(String.format("¥ %s元", goods.getPrice()));
         }
