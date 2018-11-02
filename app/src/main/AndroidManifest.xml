@@ -162,7 +162,8 @@
         <activity
             android:name=".ui.car.CarReportActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".ui.square.GoodsDetailActivity"></activity>
+        <activity android:name=".ui.square.GoodsDetailActivity" />
+        <activity android:name=".ui.square.OrderDetailActivity"></activity>
     </application>
 
 </manifest>

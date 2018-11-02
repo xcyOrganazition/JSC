@@ -1,10 +1,9 @@
 package cn.com.jinshangcheng.net;
 
 
-import cn.com.jinshangcheng.config.ConstParams;
-
 import java.util.concurrent.TimeUnit;
 
+import cn.com.jinshangcheng.config.ConstParams;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
@@ -17,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitService {
 
-    public static final String HOST = "http://jiekou.jinshangcheng.com.cn:8080";
+    public static final String HOST = "http://jiekou.jinshangcheng.com.cn";
 
     private static final String BASE_URL = HOST + "";
 

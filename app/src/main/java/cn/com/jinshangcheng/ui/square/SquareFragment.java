@@ -19,6 +19,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.GoodsAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
@@ -232,8 +233,7 @@ public class SquareFragment extends BaseFragment {
 
     //请求商品列表
     public void getGoodsList() {
-        String userId = "12";
-        RetrofitService.getRetrofit().getGoodsList(userId)
+        RetrofitService.getRetrofit().getGoodsList(MyApplication.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Goods>>() {
@@ -290,7 +290,8 @@ public class SquareFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_goToPay://去结算
-
+                Intent intent = new Intent(getHoldingActivity(), OrderDetailActivity.class);
+                startActivity(intent);
                 break;
             case R.id.iv_shoppingCart://购物车图片:
                 llGoodsList.removeAllViews();

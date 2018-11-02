@@ -1,17 +1,16 @@
 package cn.com.jinshangcheng.ui.mine;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.AddressBean;
 import cn.com.jinshangcheng.widget.TittleBar;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class EditAddressActivity extends BaseActivity {
 
@@ -27,6 +26,7 @@ public class EditAddressActivity extends BaseActivity {
     CheckBox cbDefaultAddress;
 
     AddressBean bean;
+    public static final int RESULT_CODE = 0x22;
 
     @Override
     public int setContentViewResource() {
@@ -35,6 +35,7 @@ public class EditAddressActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
         bean = (AddressBean) getIntent().getSerializableExtra("address");
     }
 
@@ -48,12 +49,15 @@ public class EditAddressActivity extends BaseActivity {
         } else {
             tittleBar.setTittle("新建地址");
         }
-
     }
 
 
     @OnClick(R.id.bt_newAddress)
     public void onViewClicked() {
+        Intent intent = new Intent();
+        intent.putExtra("AddressBean", new Address());
+        setResult(RESULT_CODE, intent);
+        finish();
     }
 
 }

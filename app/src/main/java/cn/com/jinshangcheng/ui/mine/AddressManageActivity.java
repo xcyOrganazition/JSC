@@ -3,21 +3,12 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.adapter.AddressAdapter;
-import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.AddressBean;
-import cn.com.jinshangcheng.listener.OnItemViewClickListener;
-import cn.com.jinshangcheng.utils.DensityUtil;
-import cn.com.jinshangcheng.widget.ListViewDecoration;
-import cn.com.jinshangcheng.widget.TittleBar;
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -32,8 +23,15 @@ import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.adapter.AddressAdapter;
+import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.AddressBean;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.widget.ListViewDecoration;
+import cn.com.jinshangcheng.widget.TittleBar;
 
 /**
  * 地址管理

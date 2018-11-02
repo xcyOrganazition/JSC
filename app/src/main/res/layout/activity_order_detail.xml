@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.square.OrderDetailActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="银行卡" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="@dimen/common_padding">
+
+        <TextView
+            android:id="@+id/tv_changeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更换地址"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/text_small" />
+
+        <TextView
+            android:id="@+id/tv_newAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="创建地址"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/text_small" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_emptyMsg"
+        style="@style/textMoreSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="@dimen/common_padding"
+        android:text="还没有地址哦，去创建一个吧"
+        android:textColor="@color/textGary" />
+
+    <include
+        layout="@layout/item_address" />
+
+    <View style="@style/divider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/ll_goodsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding"
+        android:text="合计：2780.00元"
+        android:textColor="#ff3aa9f3"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bt_confirm"
+        style="@style/commonButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_padding"
+        android:text="提交订单" />
+
+
+</LinearLayout>

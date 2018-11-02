@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
-import cn.com.jinshangcheng.config.ConstParams;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -13,7 +12,6 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
-import com.orhanobut.logger.LogStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.scwang.smartrefresh.header.MaterialHeader;
@@ -25,18 +23,17 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 
+import cn.com.jinshangcheng.config.ConstParams;
 import platform.cston.httplib.Cston;
-import platform.cston.httplib.bean.AuthInfo;
 import platform.cston.httplib.bean.AuthorizationInfo;
-import platform.cston.httplib.search.AuthUser;
 
 public class MyApplication extends Application {
     private static Context mContext;
     private static MyApplication instance;
 
     private static AuthorizationInfo authorInfo = null;
+    private static String userId = null;
 
 
     public MyApplication() {
@@ -60,6 +57,16 @@ public class MyApplication extends Application {
         Cston.Auth.init(this);//初始化CstSdk
         Cston.Auth.setDebug(true);
 
+    }
+
+    public static String getUserId() {
+
+//        return userId;
+        return "48";
+    }
+
+    public static void setUserId(String userId) {
+        MyApplication.userId = userId;
     }
 
     public static void setAuthorInfo(AuthorizationInfo authorInfo) {

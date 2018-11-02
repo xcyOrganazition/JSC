@@ -11,10 +11,17 @@ import android.widget.Toast;
 
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.baidu.mapapi.search.share.LocationShareURLOption;
 import com.baidu.mapapi.search.share.OnGetShareUrlResultListener;
 import com.baidu.mapapi.search.share.ShareUrlResult;
@@ -59,6 +66,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     TextView tvMaintenance;
     @BindView(R.id.tv_annual)
     TextView tvAnnual;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
     Unbinder unbinder;
 
     private double lat = 39.963175;
@@ -71,31 +80,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     private CarContract.IPresenter mPresenter;
     private CarListPagerAdapter adapter;
-    /**
-     * goodsid : 2
-     * goodsname : 带子
-     * price : 20
-     * imagelist : /images/goods/list/boxu.png
-     * imagepath : /images/goods/web/boxu.png
-     * imagedetail : /images/goods/detail/boxu.png
-     * textdetail : 这个带子确实好用
-     * registtime : 1537426527000
-     * updatetime : 1537426527000
-     * orderby : 2
-     * other1 : null
-     * other2 : null
-     */
-
-    private int goodsid;
-    private String goodsname;
-    private int price;
-    private String imagelist;
-    private String imagepath;
-    private String imagedetail;
-    private String textdetail;
-    private long registtime;
-    private long updatetime;
-    private int orderby;
+    private GeoCoder mSearch;//地理反编码
 
     public CarFragment() {
         // Required empty public constructor
@@ -133,15 +118,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     public void initView() {
         bdMapView.showScaleControl(false);//隐藏比例尺
         bdMapView.showZoomControls(false);//隐藏放大缩小按钮
-        LatLng point = new LatLng(lat, lng);//构建Marker坐标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        //在地图上添加Marker，并显示
-        bdMapView.getMap().addOverlay(option);
-
         //解决百度地图与ViewPager滑动冲突
         bdMapView.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -178,12 +154,52 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         mShareUrlSearch.requestLocationShareUrl(new LocationShareURLOption()
                 .location(new LatLng(lat, lng)).snippet("测试分享点")
                 .name("分享点"));
-
+        refreshMapView();
         //初始化头部我的车辆VP
         adapter = new CarListPagerAdapter(carList, getHoldingActivity());
         vpCarList.setAdapter(adapter);
         vpCarList.setPageMargin(DensityUtil.dip2px(getHoldingActivity(), 6));
         adapter.refreshList(carList);
+    }
+
+
+    //刷新百度地图相关
+    public void refreshMapView() {
+        LatLng point = new LatLng(lat, lng);//构建Marker坐标
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        bdMapView.getMap().addOverlay(option);//在地图上添加Marker，并显示
+
+        mSearch = GeoCoder.newInstance();//创建地理编码检索实例；
+        OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
+
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+                Logger.w("GetGeoCodeResult:" + result);
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+                } else {  //获取地理编码结果
+                }
+            }
+
+            @Override//经纬度转地址
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                Logger.w("ReverseGeoCodeResult:" + result);
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有找到检索结果
+                    tvLocation.setText("未知");
+                } else {//获取反向地理编码结果
+                    tvLocation.setText(result.getAddress());
+                }
+            }
+        };
+        mSearch.setOnGetGeoCodeResultListener(listener);
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(new LatLng(lat, lng)));
+
     }
 
 
@@ -270,6 +286,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         if (bdMapView != null) {
             bdMapView.onDestroy();
         }
+        mSearch.destroy();
     }
 
     @Override
@@ -290,84 +307,5 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         }
     }
 
-    public int getGoodsid() {
-        return goodsid;
-    }
-
-    public void setGoodsid(int goodsid) {
-        this.goodsid = goodsid;
-    }
-
-    public String getGoodsname() {
-        return goodsname;
-    }
-
-    public void setGoodsname(String goodsname) {
-        this.goodsname = goodsname;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getImagelist() {
-        return imagelist;
-    }
-
-    public void setImagelist(String imagelist) {
-        this.imagelist = imagelist;
-    }
-
-    public String getImagepath() {
-        return imagepath;
-    }
-
-    public void setImagepath(String imagepath) {
-        this.imagepath = imagepath;
-    }
-
-    public String getImagedetail() {
-        return imagedetail;
-    }
-
-    public void setImagedetail(String imagedetail) {
-        this.imagedetail = imagedetail;
-    }
-
-    public String getTextdetail() {
-        return textdetail;
-    }
-
-    public void setTextdetail(String textdetail) {
-        this.textdetail = textdetail;
-    }
-
-    public long getRegisttime() {
-        return registtime;
-    }
-
-    public void setRegisttime(long registtime) {
-        this.registtime = registtime;
-    }
-
-    public long getUpdatetime() {
-        return updatetime;
-    }
-
-    public void setUpdatetime(long updatetime) {
-        this.updatetime = updatetime;
-    }
-
-    public int getOrderby() {
-        return orderby;
-    }
-
-    public void setOrderby(int orderby) {
-        this.orderby = orderby;
-    }
 }
 

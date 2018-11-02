@@ -332,11 +332,12 @@
                         android:text="汽车位置：" />
 
                     <TextView
+                        android:id="@+id/tv_location"
                         style="@style/textSmallest"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="康宁路12号图景嘉园12号楼" />
+                        android:text="" />
 
                     <TextView
                         android:id="@+id/iv_shareLocation"

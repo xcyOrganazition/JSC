@@ -3,6 +3,7 @@ package cn.com.jinshangcheng.net;
 
 import java.util.List;
 
+import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
 
@@ -37,6 +38,15 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/goods/getGoodsList")
     Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
+
+    /**
+     * 获取默认地址
+     *
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/address/getDefaultAddress")
+    Observable<Address> getDefaultAddress(@Field("userid") String userId);
 
 
 }
