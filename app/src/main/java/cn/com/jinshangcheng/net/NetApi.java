@@ -54,7 +54,6 @@ public interface NetApi {
      *
      * @return bean
      */
-    @FormUrlEncoded
     @POST("/address/addAddress")
     Observable<BaseBean<Address>> addAddress(@Body Address address);
 

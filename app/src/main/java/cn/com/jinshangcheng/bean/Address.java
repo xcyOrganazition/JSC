@@ -29,6 +29,13 @@ public class Address extends BaseBean<Address> {
     private long registdate;
     private long updatedate;
 
+    public Address(String receiver, String phonenumber, String city, String detailaddress, int isdefault) {
+        this.receiver = receiver;
+        this.phonenumber = phonenumber;
+        this.city = city;
+        this.detailaddress = detailaddress;
+        this.isdefault = isdefault;
+    }
 
     public String getAddressid() {
         return addressid;

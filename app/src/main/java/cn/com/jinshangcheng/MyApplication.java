@@ -141,7 +141,10 @@ public class MyApplication extends Application {
             @Override
             public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
 
-                return new BallPulseFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
+                return new BallPulseFooter(context).setSpinnerStyle(SpinnerStyle.Translate)
+                        .setAnimatingColor(mContext.getResources().getColor(R.color.colorPrimary))
+                        .setIndicatorColor(mContext.getResources().getColor(R.color.colorPrimary))
+                        .setNormalColor(mContext.getResources().getColor(R.color.colorPrimary));
                 //指定为经典Footer，默认是 BallPulseFooter
                 //  return new ClassicsFooter(context).setDrawableSize(20);
             }

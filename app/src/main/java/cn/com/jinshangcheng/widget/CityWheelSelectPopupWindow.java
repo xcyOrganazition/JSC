@@ -55,6 +55,8 @@ public class CityWheelSelectPopupWindow extends PopupWindow implements
         mTv_confirm = (TextView) view.findViewById(R.id.tv_confirm_city_wheel);
         initWheel();
         this.setContentView(view);
+        address = this.wheelHelper.mCurrentProviceName + " " + this.wheelHelper.mCurrentCityName + " "
+                + this.wheelHelper.mCurrentDistrictName;
         mTv_confirm.setOnClickListener(listener);
     }
 

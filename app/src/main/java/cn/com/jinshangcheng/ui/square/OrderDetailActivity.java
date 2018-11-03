@@ -96,7 +96,16 @@ public class OrderDetailActivity extends BaseActivity {
                 llGoodsList.addView(itemView);
             }
         }
-        tvTotalPrice.setText(String.format("%s 元", totalPrice));
+        tvTotalPrice.setText(String.format("总计 %s 元", totalPrice));
+    }
+
+    public void initAddressView(){
+        if (address != null) {
+            tvName.setText(address.getReceiver());
+            tvAddress.setText(address.getCity() + address.getDetailaddress());
+            tvEdit.setVisibility(View.VISIBLE);
+            tvPhone.setText(address.getPhonenumber());
+        }
     }
 
     public void setViewVisible() {
@@ -110,6 +119,7 @@ public class OrderDetailActivity extends BaseActivity {
             tvEmptyMsg.setVisibility(View.GONE);
             tvNewAddress.setVisibility(View.GONE);
             root.setVisibility(View.VISIBLE);
+            initAddressView();
         }
     }
 

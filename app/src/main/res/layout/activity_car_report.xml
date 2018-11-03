@@ -129,18 +129,21 @@
                             android:id="@+id/rg_viewType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checkedButton="@id/rb_day"
                             android:orientation="horizontal"
                             android:padding="@dimen/common_padding"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <RadioButton
+                                android:id="@+id/rb_day"
                                 style="@style/CommonRadioButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="日视图" />
 
                             <RadioButton
+                                android:id="@+id/rb_month"
                                 style="@style/CommonRadioButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -440,10 +443,10 @@
                     </LinearLayout>
 
                     <TextView
-                        android:drawableLeft="@mipmap/ic_blue_rectangle"
-                        android:drawablePadding="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/ic_blue_rectangle"
+                        android:drawablePadding="5dp"
                         android:padding="@dimen/padding_top"
                         android:text="用车行为分析"
                         android:textColor="#ff555555"

@@ -12,36 +12,32 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.adapter.WithDrawAdapter;
+import cn.com.jinshangcheng.adapter.MyOrderAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.WithdrawBean;
+import cn.com.jinshangcheng.bean.OrderBean;
 
-/**
- * 提现记录
- */
-public class WithDrawActivity extends BaseActivity {
+public class MyOrderActivity extends BaseActivity {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
 
-    private List<WithdrawBean> list;
-    private WithDrawAdapter adapter;
+    MyOrderAdapter adapter;
+    List<OrderBean> orderList;
 
     @Override
     public int setContentViewResource() {
-        return R.layout.activity_with_draw;
+        return R.layout.activity_my_order;
     }
 
     @Override
     public void initData() {
-        list = new ArrayList<>();
-        list.add(new WithdrawBean());
-        list.add(new WithdrawBean());
-        list.add(new WithdrawBean());
-        adapter = new WithDrawAdapter(this, list);
-
+        orderList = new ArrayList<>();
+        orderList.add(new OrderBean());
+        orderList.add(new OrderBean());
+        orderList.add(new OrderBean());
+        adapter = new MyOrderAdapter(orderList, this);
 
     }
 
@@ -60,9 +56,13 @@ public class WithDrawActivity extends BaseActivity {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //解决数据加载不完的问题
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+        //解决数据加载完成后, 没有停留在顶部的问题
+        recyclerView.setFocusable(false);
         recyclerView.setAdapter(adapter);
 
     }
 
 }
-

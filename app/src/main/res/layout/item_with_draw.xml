@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--提现记录-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/common_padding"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/iv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        />
+
+
+</LinearLayout>

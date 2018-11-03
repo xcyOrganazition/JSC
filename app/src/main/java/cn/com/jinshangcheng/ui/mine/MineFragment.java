@@ -2,21 +2,15 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.base.BaseFragment;
-import cn.com.jinshangcheng.ui.car.CarContract;
-import cn.com.jinshangcheng.ui.car.CarPresenter;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.base.BaseFragment;
 
 
 /**
@@ -109,6 +103,7 @@ public class MineFragment extends BaseFragment {
                 intent = new Intent(getHoldingActivity(), CarManageActivity.class);
                 break;
             case R.id.tv_order:
+                intent = new Intent(getHoldingActivity(), MyOrderActivity.class);
                 break;
             case R.id.tv_card:
                 intent = new Intent(getHoldingActivity(), BankCardActivity.class);

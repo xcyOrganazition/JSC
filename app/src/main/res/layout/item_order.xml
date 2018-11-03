@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/common_padding"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_bg"
+    android:orientation="vertical">
+    <LinearLayout
+        android:padding="@dimen/common_padding"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_orderNumber"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="订单号:12377865546"
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            />
+        <TextView
+            android:id="@+id/tv_orderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单号:12377865546"
+            android:textColor="#ff666666"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ll_goodsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_total"
+        android:padding="@dimen/common_padding"
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content"
+        android:text="总金额：3004元"
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        />
+    <View style="@style/divider" />
+    <TextView
+        android:id="@+id/tv_expressNumber"
+        android:padding="@dimen/common_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快递信息："
+        android:textColor="#ff666666"
+        android:textSize="14sp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:paddingBottom="@dimen/common_padding"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快递信息："
+            android:textColor="#ff666666"
+            android:textSize="14sp"
+            />
+        <TextView
+            android:id="@+id/tv_orderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已签收"
+            android:textColor="@color/textGreen"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

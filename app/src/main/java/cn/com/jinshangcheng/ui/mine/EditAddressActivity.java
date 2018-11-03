@@ -16,15 +16,9 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.AddressBean;
-import cn.com.jinshangcheng.bean.BaseBean;
-import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.widget.CityWheelSelectPopupWindow;
 import cn.com.jinshangcheng.widget.TittleBar;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class EditAddressActivity extends BaseActivity {
 
@@ -46,6 +40,7 @@ public class EditAddressActivity extends BaseActivity {
     AddressBean bean;
     public static final int RESULT_CODE = 0x22;
     private CityWheelSelectPopupWindow popupWindow;
+    private Address address;
 
     @Override
     public int setContentViewResource() {
@@ -82,10 +77,8 @@ public class EditAddressActivity extends BaseActivity {
         popupWindow = new CityWheelSelectPopupWindow(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                tvArea.setText(popupWindow.address);
-//                code = popupWindow.wheelHelper.getCode();
-//                selectDistrictId = code[2];
-                Logger.w("Address"+popupWindow.address);
+                tvAddress.setText(popupWindow.address);
+                Logger.w("Address" + popupWindow.address);
                 popupWindow.dismiss();
             }
         });
@@ -102,37 +95,44 @@ public class EditAddressActivity extends BaseActivity {
     public boolean checkInput() {
         if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             return false;
-        } else if (TextUtils.isEmpty(etAddress.getText().toString()) || CommonUtils.isMobilePhone(etPhone.getText().toString())) {
+        } else if (TextUtils.isEmpty(etPhone.getText().toString()) || !CommonUtils.isMobilePhone(etPhone.getText().toString())) {
             return false;
-        } else return !TextUtils.isEmpty(etAddress.getText().toString().trim());
+        } else if (TextUtils.isEmpty(tvAddress.getText().toString().trim())) {
+            return false;
+        } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
+            return false;
+        }
+        return true;
     }
 
     public void addAddress() {
-        Address address = new Address();
-        RetrofitService.getRetrofit().addAddress(address)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<Address>>() {
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseBean<Address> bean) {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+         address = new Address(etName.getText().toString(),etPhone.getText().toString(),
+                tvAddress.getText().toString(),etAddress.getText().toString(),cbDefaultAddress.isSelected()?1:0);
+//        RetrofitService.getRetrofit().addAddress(address)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<BaseBean<Address>>() {
+//
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(BaseBean<Address> bean) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
     }
 
 
@@ -142,11 +142,13 @@ public class EditAddressActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.bt_newAddress:
-                if (!checkInput()) {
-                    return;
-                }
+//                if (!checkInput()) {
+//                    Toast.makeText(this, "请填写全部信息", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                addAddress();
                 Intent intent = new Intent();
-                intent.putExtra("AddressBean", new Address());
+                intent.putExtra("addressBean", address);
                 setResult(RESULT_CODE, intent);
                 finish();
                 break;

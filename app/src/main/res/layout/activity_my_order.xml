@@ -5,27 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mine.WithDrawActivity">
-
+    tools:context=".ui.mine.MyOrderActivity">
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerText="提现记录" />
-
+        app:centerText="我的订单" />
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/refreshLayout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:srlEnableHeaderTranslationContent="false"
         app:srlPrimaryColor="@color/themeColor">
 
-
+    <cn.com.jinshangcheng.widget.MaterialRefreshHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srlClassicsSpinnerStyle="Translate" />
         <android.support.v7.widget.RecyclerView
+            android:layout_marginLeft="@dimen/common_padding"
+            android:layout_marginRight="@dimen/common_padding"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>
