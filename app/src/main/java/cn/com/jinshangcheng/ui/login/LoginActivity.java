@@ -1,32 +1,27 @@
 package cn.com.jinshangcheng.ui.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.MainActivity;
+import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
-
-import com.orhanobut.logger.Logger;
-
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -209,6 +204,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick({R.id.bt_code, R.id.bt_login})
     public void onViewClicked(View view) {
+        CommonUtils.hideSoftKeyboard(LoginActivity.this);
 
         switch (view.getId()) {
             case R.id.bt_code:
@@ -216,7 +212,10 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.bt_login://登陆
 //                attemptLogin();
-                doLogin("13241025667", "");
+//                doLogin("13241025667", "");
+                Intent intent = new Intent(LoginActivity.this, AddInviterActivity.class);
+                startActivity(intent);
+                LoginActivity.this.finish();
                 break;
         }
     }

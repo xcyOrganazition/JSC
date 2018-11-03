@@ -56,11 +56,7 @@
         <activity
             android:name=".ui.login.SplashActivity"
             android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!-- 首页 -->
         <activity
@@ -107,15 +103,23 @@
         <!-- 地址管理 -->
         <activity android:name=".ui.mine.AddressManageActivity" />
         <!-- 新建地址 编辑地址 -->
-        <activity android:name=".ui.mine.EditAddressActivity" />
+        <activity android:name=".ui.mine.EditAddressActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <!-- 隐私管理 -->
         <activity android:name=".ui.mine.PrivacyActivity" />
         <!-- 车辆管理 -->
         <activity android:name=".ui.mine.CarManageActivity" />
         <!-- 选择车辆 -->
         <activity android:name=".ui.mine.SelectCarActivity" />
-        <!-- 添加车辆 编辑车辆 -->
-        <activity android:name=".ui.mine.AddCarActivity" />
+        <!-- 添加车辆 编辑车辆 车辆信息-->
+        <activity android:name=".ui.mine.AddCarActivity"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- 添加推荐人 -->
         <activity
             android:name=".ui.login.AddInviterActivity"

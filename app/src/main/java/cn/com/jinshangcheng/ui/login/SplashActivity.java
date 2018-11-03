@@ -2,10 +2,6 @@ package cn.com.jinshangcheng.ui.login;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import java.util.TimerTask;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
@@ -36,7 +32,8 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+//                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 SplashActivity.this.finish();

@@ -145,6 +145,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_selectCarType"
                     style="@style/textMoreSmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -346,22 +347,23 @@
 
             <View
                 style="@style/divider"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="40dp"
                 android:layout_marginEnd="@dimen/common_padding"
                 android:layout_marginStart="@dimen/common_padding" />
+            <Button
+                android:id="@+id/bt_confirm"
+                style="@style/commonButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:layout_marginRight="@dimen/common_padding"
+                android:text="保存" />
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/bt_confirm"
-        style="@style/commonButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="@dimen/common_padding"
-        android:layout_marginRight="@dimen/common_padding"
-        android:text="保存" />
+
 
 
 </LinearLayout>

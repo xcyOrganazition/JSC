@@ -1,6 +1,6 @@
 package cn.com.jinshangcheng.ui.mine;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -8,13 +8,13 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.ui.login.BindBoxActivity;
+import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
 
 //添加车辆 编辑车辆
@@ -69,11 +69,22 @@ public class AddCarActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_confirm})
+    @OnClick({R.id.bt_confirm,R.id.tv_selectCarType})
     public void onViewClicked(View view) {
+        CommonUtils.hideSoftKeyboard(AddCarActivity.this);
+
+        Intent intent;
         switch (view.getId()) {
 
+            case R.id.tv_selectCarType:
+                 intent= new Intent(AddCarActivity.this, SelectCarActivity.class);
+                startActivity(intent);
+                break;
             case R.id.bt_confirm:
+                 intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
+                startActivity(intent);
+                AddCarActivity.this.finish();
+
                 break;
         }
     }
