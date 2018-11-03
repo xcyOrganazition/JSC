@@ -10,7 +10,7 @@
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerText="银行卡" />
+        app:centerText="订单详情" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,8 +47,7 @@
         android:text="还没有地址哦，去创建一个吧"
         android:textColor="@color/textGary" />
 
-    <include
-        layout="@layout/item_address" />
+    <include layout="@layout/item_address" />
 
     <View style="@style/divider" />
 

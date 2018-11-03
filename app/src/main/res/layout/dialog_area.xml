@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_wheel_area"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/backGroundLightGary"
+    android:orientation="vertical">
+
+    <View style="@style/divider" />
+
+    <TextView
+        android:id="@+id/tv_confirm_city_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_margin="7dp"
+        android:clickable="true"
+        android:text="确定"
+        android:textColor="@color/themeColor"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.polysoft.yuman.widget.wheel.view.WheelView
+            android:id="@+id/id_province_wheel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.polysoft.yuman.widget.wheel.view.WheelView
+            android:id="@+id/id_city_wheel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.polysoft.yuman.widget.wheel.view.WheelView
+            android:id="@+id/id_district_wheel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

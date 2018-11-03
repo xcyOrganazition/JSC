@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -290,7 +292,16 @@ public class SquareFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_goToPay://去结算
+                if (shopCartView.getVisibility() == View.VISIBLE) {
+                    shopCartView.setVisibility(View.GONE);
+                }
+                if (selectGoodsMap.isEmpty()) {
+                    Toast.makeText(getContext(), "请添加商品到购物车", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent intent = new Intent(getHoldingActivity(), OrderDetailActivity.class);
+                intent.putExtra("selectGoodsMap", (Serializable) selectGoodsMap);
+                intent.putExtra("goodsList", (Serializable) goodsList);
                 startActivity(intent);
                 break;
             case R.id.iv_shoppingCart://购物车图片:

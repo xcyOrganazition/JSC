@@ -68,4 +68,5 @@ dependencies {
     implementation 'com.andrognito.patternlockview:patternlockview-reactive:1.0.0'
     // TinyPinyin 汉字转拼音
     implementation 'com.github.promeg:tinypinyin:2.0.3'
+    //地址选择器
 }

@@ -66,7 +66,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="地址" />
+            android:text="收货地址" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_bg"
+            android:hint="请选择地址"
+            android:padding="2dp"
+            android:lineSpacingExtra="5dp"/>
+
+        <TextView
+            style="@style/textCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="详细地址" />
 
         <EditText
             android:id="@+id/et_address"
@@ -76,7 +94,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_bg"
             android:gravity="top"
-            android:hint="请输入地址"
+            android:hint="请输入详细地址"
+            android:lineSpacingExtra="5dp"
             android:maxHeight="100dp"
             android:padding="3dp" />
 

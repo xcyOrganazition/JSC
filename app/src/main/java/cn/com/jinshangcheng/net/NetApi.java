@@ -4,10 +4,11 @@ package cn.com.jinshangcheng.net;
 import java.util.List;
 
 import cn.com.jinshangcheng.bean.Address;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
-
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -47,6 +48,15 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/address/getDefaultAddress")
     Observable<Address> getDefaultAddress(@Field("userid") String userId);
+
+    /**
+     * 添加地址
+     *
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/address/addAddress")
+    Observable<BaseBean<Address>> addAddress(@Body Address address);
 
 
 }

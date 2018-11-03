@@ -24,10 +24,11 @@ public class Address extends BaseBean<Address> {
     private String city;
     private String detailaddress;
     private boolean isdel;
-    private int userid;
+    private String userid;
     private int isdefault;
     private long registdate;
     private long updatedate;
+
 
     public String getAddressid() {
         return addressid;
@@ -77,11 +78,11 @@ public class Address extends BaseBean<Address> {
         this.isdel = isdel;
     }
 
-    public int getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
