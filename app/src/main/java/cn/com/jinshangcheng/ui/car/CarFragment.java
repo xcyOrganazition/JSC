@@ -39,6 +39,7 @@ import cn.com.jinshangcheng.adapter.CarListPagerAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.Car;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import platform.cston.explain.activity.CarDetectionActivity;
 import platform.cston.httplib.bean.AuthorizationInfo;
 
 
@@ -252,6 +253,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
+                String carId = "1648A38F4E0F4E7DACD87F105D4E3D36";
+                intent = new Intent(getActivity(), CarDetectionActivity.class);
+                intent.putExtra("OPENCARID", carId);
                 break;
             case R.id.ll_report://用车报告
                 intent = new Intent(getActivity(), CarReportActivity.class);

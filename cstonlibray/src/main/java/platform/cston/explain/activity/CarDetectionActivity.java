@@ -208,7 +208,7 @@ public class CarDetectionActivity extends CstBaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int mPosition, long id) {
                 CarDetectionSubEntity info = mWarnList.get(mPosition);
                 String name = info.title;
-                if (info.pType.equals(CarDetectionEntity.TYPE_DETECTION_CAR_FAULT_EX)) {
+                if (info.pType.equals(CarDetectionEntity.TYPE_DETECTION_CAR_FAULT_EX)) {//车检测-车辆故障
                     intent = new Intent(CarDetectionActivity.this, CarConditionDetailActivity.class);
                     intent.putExtra("title", getString(R.string.cst_platform_detect_vehicle_failure));
                     intent.putExtra("reminder", getString(R.string.cst_platform_detect_car_data_has_abnormal));
@@ -298,6 +298,7 @@ public class CarDetectionActivity extends CstBaseActivity {
         ObdResultSearch.newInstance().GetCarConDetectionResult(mOpenCarId, new OnResultListener.CarConDectionResultListener() {
             @Override
             public void onCarConDectionResult(CarConDectionResult var1, boolean isError, Throwable ex) {
+
                 if (isError || var1 == null) {
                     cancelDetection();
                     if (ex instanceof HttpException || ex instanceof ConnectException || ex instanceof SocketTimeoutException) { // 网络错误
