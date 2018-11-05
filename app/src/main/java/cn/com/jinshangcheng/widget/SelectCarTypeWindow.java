@@ -2,8 +2,6 @@ package cn.com.jinshangcheng.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +10,14 @@ import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
 
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.adapter.CarTypeAdapter;
-import cn.com.jinshangcheng.bean.CarBrandsBean;
-
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.adapter.CarTypeAdapter;
+import cn.com.jinshangcheng.bean.CarBrandsBean;
 import platform.cston.httplib.bean.CarModelResult;
 import platform.cston.httplib.bean.CarTypeResult;
 import platform.cston.httplib.search.CarBrandInfoSearch;
@@ -34,12 +31,16 @@ public class SelectCarTypeWindow extends PopupWindow {
     private List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList;//汽车类型
     private List<List<CarModelResult.DataEntity>> carModelListGroup;//车款列表组
     private CarTypeAdapter adapter;
+    private SelectCarTypeWindow.OnCarModelSelectListener listener;
 
 
-    public SelectCarTypeWindow(Context context, CarBrandsBean carBrandsBean, List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList) {
+    public SelectCarTypeWindow(Context context, CarBrandsBean carBrandsBean,
+                               List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList,
+                               SelectCarTypeWindow.OnCarModelSelectListener listener) {
         this.carBrandsBean = carBrandsBean;
         this.carTypeList = carTypeList;
         this.context = context;
+        this.listener = listener;
         setAnimationStyle(R.style.AnimationRightFade);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -73,7 +74,8 @@ public class SelectCarTypeWindow extends PopupWindow {
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Logger.w("选择的车型 = " + carModelListGroup.get(groupPosition).get(childPosition));
+//                OnCarModelSelectListener.onCarModelSelect();
+                listener.onCarModelSelect(carModelListGroup.get(groupPosition).get(childPosition));
                 return false;
             }
         });
@@ -131,5 +133,7 @@ public class SelectCarTypeWindow extends PopupWindow {
         window.setAttributes(layoutParams);
     }
 
-
+   static public interface OnCarModelSelectListener{
+         abstract void onCarModelSelect(CarModelResult.DataEntity carModel);
+    }
 }

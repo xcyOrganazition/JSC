@@ -91,57 +91,59 @@
             <TextView
                 android:id="@+id/tv_people"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_people"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="我的人脉" />
 
             <TextView
                 android:id="@+id/tv_money"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_money"
+
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="我的收益" />
 
             <TextView
                 android:id="@+id/tv_privacy"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_privacy"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="隐私管理" />
 
             <TextView
                 android:id="@+id/tv_address"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_location"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="地址管理" />
 
             <TextView
                 android:id="@+id/tv_car"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/iv_m_car"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="车辆管理" />
 
             <TextView
                 android:id="@+id/tv_order"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_order"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="我的订单" />
 
             <TextView
                 android:id="@+id/tv_card"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_card"
+
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="我的银行卡" />
 
             <TextView
                 android:id="@+id/tv_about_us"
                 style="@style/mine_item"
-                android:drawableLeft="@mipmap/main_tab_one_selected"
-                android:drawableRight="@mipmap/main_tab_one_unselected"
+                android:drawableLeft="@mipmap/ic_m_about"
+                android:drawableRight="@mipmap/ic_arrow"
                 android:text="关于我们" />
 
 

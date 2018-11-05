@@ -138,17 +138,17 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         mShareUrlSearch.setOnGetShareUrlResultListener(new OnGetShareUrlResultListener() {
             @Override
             public void onGetPoiDetailShareUrlResult(ShareUrlResult shareUrlResult) {
-                Logger.w("onGetPoiDetailShareUrlResult", shareUrlResult);
+//                Logger.w("onGetPoiDetailShareUrlResult", shareUrlResult);
             }
 
             @Override
             public void onGetLocationShareUrlResult(ShareUrlResult shareUrlResult) {
-                Logger.w("shareUonGetLocationShareUrlResultrlResult", shareUrlResult);
+//                Logger.w("shareUonGetLocationShareUrlResultrlResult", shareUrlResult);
             }
 
             @Override
             public void onGetRouteShareUrlResult(ShareUrlResult shareUrlResult) {
-                Logger.w("onGetRouteShareUrlResult", shareUrlResult);
+//                Logger.w("onGetRouteShareUrlResult", shareUrlResult);
             }
         });
         mShareUrlSearch.requestLocationShareUrl(new LocationShareURLOption()
@@ -178,7 +178,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
 
             public void onGetGeoCodeResult(GeoCodeResult result) {
-                Logger.w("GetGeoCodeResult:" + result);
+//                Logger.w("GetGeoCodeResult:" + result);
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     //没有检索到结果
                 } else {  //获取地理编码结果
@@ -187,7 +187,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
             @Override//经纬度转地址
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-                Logger.w("ReverseGeoCodeResult:" + result);
+//                Logger.w("ReverseGeoCodeResult:" + result);
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     //没有找到检索结果
                     tvLocation.setText("未知");

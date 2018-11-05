@@ -103,7 +103,7 @@ public class OrderDetailActivity extends BaseActivity {
         if (address != null) {
             tvName.setText(address.getReceiver());
             tvAddress.setText(address.getCity() + address.getDetailaddress());
-            tvEdit.setVisibility(View.VISIBLE);
+            tvEdit.setVisibility(View.INVISIBLE);
             tvPhone.setText(address.getPhonenumber());
         }
     }

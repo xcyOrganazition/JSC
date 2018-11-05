@@ -1,34 +1,29 @@
 package cn.com.jinshangcheng.ui.mine;
 
-import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.github.promeg.pinyinhelper.Pinyin;
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.adapter.CarBrandsAdapter;
-import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.CarBrandsBean;
-import cn.com.jinshangcheng.listener.OnItemViewClickListener;
-import cn.com.jinshangcheng.utils.DensityUtil;
-import cn.com.jinshangcheng.widget.IndexBar;
-import cn.com.jinshangcheng.widget.ListViewDecoration;
-import cn.com.jinshangcheng.widget.SelectCarTypeWindow;
-import cn.com.jinshangcheng.widget.TittleBar;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.adapter.CarBrandsAdapter;
+import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.CarBrandsBean;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.widget.IndexBar;
+import cn.com.jinshangcheng.widget.ListViewDecoration;
+import cn.com.jinshangcheng.widget.SelectCarTypeWindow;
+import cn.com.jinshangcheng.widget.TittleBar;
 import platform.cston.httplib.bean.CarBrandResult;
+import platform.cston.httplib.bean.CarModelResult;
 import platform.cston.httplib.bean.CarTypeResult;
 import platform.cston.httplib.search.CarBrandInfoSearch;
 import platform.cston.httplib.search.OnResultListener;
@@ -152,7 +147,15 @@ public class SelectCarActivity extends BaseActivity {
                     for (int i = 0; i < carTypeResult.getData().size(); i++) {
                         carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
                     }
-                    selectCarTypeWindow = new SelectCarTypeWindow(SelectCarActivity.this, carBrandsBean, carTypeList);
+                    selectCarTypeWindow = new SelectCarTypeWindow(SelectCarActivity.this,
+                            carBrandsBean, carTypeList, new SelectCarTypeWindow.OnCarModelSelectListener() {
+                        @Override
+                        public void onCarModelSelect(CarModelResult.DataEntity carModel) {
+                            Logger.w("选择的车型 = " + carModel);
+
+                            finish();
+                        }
+                    });
 //                    selectCarTypeWindow.showAtLocation(tittleBar, Gravity.RIGHT, 0, 0);
                     selectCarTypeWindow.showAsDropDown(tittleBar, 0, 0, Gravity.RIGHT);
                 }

@@ -2,22 +2,11 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.adapter.CarManageAdapter;
-import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.Car;
-import cn.com.jinshangcheng.listener.OnItemViewClickListener;
-import cn.com.jinshangcheng.utils.DensityUtil;
-import cn.com.jinshangcheng.widget.ListViewDecoration;
-import cn.com.jinshangcheng.widget.TittleBar;
 
 import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,6 +23,14 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.adapter.CarManageAdapter;
+import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.Car;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.widget.ListViewDecoration;
+import cn.com.jinshangcheng.widget.TittleBar;
 
 public class CarManageActivity extends BaseActivity {
 
@@ -48,21 +45,24 @@ public class CarManageActivity extends BaseActivity {
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
+        Intent intent = null;
         @Override
         public void onViewClick(int position, View view) {
             switch (view.getId()) {
-                case R.id.tv_edit:
-                    Logger.w("编辑");
-                    break;
-                default:
-                    Intent intent = new Intent(CarManageActivity.this, EditAddressActivity.class);
-                    intent.putExtra("address", data.get(position));
+                case R.id.tv_edit://编辑
+                    intent = new Intent(CarManageActivity.this, NewCardActivity.class);
                     startActivity(intent);
                     break;
-
+                case R.id.tv_bind://立即绑定
+                    break;
+                case R.id.tv_unbind://解除绑定
+                    break;
+                case R.id.tv_stealth://隐身管理
+                    break;
             }
         }
     };
+
 
     @Override
     public int setContentViewResource() {

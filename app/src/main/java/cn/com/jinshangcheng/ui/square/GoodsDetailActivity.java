@@ -11,6 +11,7 @@ public class GoodsDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
+//        SquareFragment fragment = (SquareFragment) getFragmentManager().findFragmentById(R.id.);
 
     }
 

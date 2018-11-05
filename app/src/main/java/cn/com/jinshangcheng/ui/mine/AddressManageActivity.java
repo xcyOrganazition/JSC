@@ -53,12 +53,12 @@ public class AddressManageActivity extends BaseActivity {
         public void onViewClick(int position, View view) {
             switch (view.getId()) {
                 case R.id.tv_edit:
-                    Logger.w("编辑");
-                    break;
-                default:
                     Intent intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
                     intent.putExtra("address", data.get(position));
                     startActivity(intent);
+                    break;
+                default:
+
                     break;
 
             }

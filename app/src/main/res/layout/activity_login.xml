@@ -4,100 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/ic_login_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
 
 
-    <cn.com.jinshangcheng.widget.TittleBar
+    <LinearLayout
+        android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backVisible="false"
-        app:centerText="登陆" />
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        android:padding="@dimen/common_padding">
 
-    <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/ic_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            style="@style/textMoreSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_top"
+            android:text="锦尚程车辆盒子APP"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/common_padding">
+            android:layout_marginTop="@dimen/common_padding"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+
+            <EditText
+                android:id="@+id/et_phoneNum"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:hint="@string/login_hint"
+                android:inputType="phone"
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
-                    <EditText
-                        android:id="@+id/et_phoneNum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/login_hint"
-                        android:inputType="phone"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-
-                    android:id="@+id/bt_code"
-                    android:layout_width="110dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/selector_btn"
-                    android:padding="0dp"
-                    android:text="获取验证码"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <requestFocus />
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <EditText
-                    android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="6"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <CheckBox
-                android:id="@+id/cb_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/acceptLicense"
-                android:textColor="@color/textBlack" />
 
             <Button
-                android:id="@+id/bt_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:text="登陆"
-                android:theme="@style/commonButton" />
 
+                android:id="@+id/bt_code"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/selector_btn"
+                android:padding="0dp"
+                android:text="获取验证码"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <requestFocus />
         </LinearLayout>
-    </ScrollView>
+
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/prompt_password"
+            android:imeActionId="6"
+            android:imeOptions="actionUnspecified"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
+
+
+        <CheckBox
+            android:id="@+id/cb_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_top"
+            android:text="@string/acceptLicense"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="登陆"
+            android:theme="@style/commonButton" />
+
+    </LinearLayout>
 </LinearLayout>

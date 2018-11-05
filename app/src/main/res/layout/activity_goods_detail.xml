@@ -10,6 +10,6 @@
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerText="用车报告" />
+        app:centerText="产品介绍" />
 
 </LinearLayout>

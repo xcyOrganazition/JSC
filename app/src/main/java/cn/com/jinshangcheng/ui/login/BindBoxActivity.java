@@ -1,12 +1,10 @@
 package cn.com.jinshangcheng.ui.login;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
@@ -37,13 +35,6 @@ public class BindBoxActivity extends BaseActivity {
 
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @OnClick({R.id.bt_bindBox, R.id.bt_notBindNow, R.id.tv_buy})
     public void onViewClicked(View view) {
