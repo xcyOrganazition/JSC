@@ -26,7 +26,6 @@ import com.baidu.mapapi.search.share.LocationShareURLOption;
 import com.baidu.mapapi.search.share.OnGetShareUrlResultListener;
 import com.baidu.mapapi.search.share.ShareUrlResult;
 import com.baidu.mapapi.search.share.ShareUrlSearch;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +33,21 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarListPagerAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Car;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
+import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.AuthorizationInfo;
 
 
@@ -161,6 +169,40 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         vpCarList.setAdapter(adapter);
         vpCarList.setPageMargin(DensityUtil.dip2px(getHoldingActivity(), 6));
         adapter.refreshList(carList);
+        getCarList();
+    }
+
+    public void getCarList() {
+        RetrofitService.getRetrofit().getCarList(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<ArrayList<CarBean>>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
+                        if (arrayListBaseBean.errorCode == 0&& ArrayUtils.hasContent((List) arrayListBaseBean)) {
+                            ArrayList<CarBean> carList = arrayListBaseBean.data;
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
     }
 
 
@@ -242,7 +284,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void showCarList(ArrayList<AuthorizationInfo.Cars> carList) {
 
-        Logger.w("填充车辆 " + carList);
 
     }
 
@@ -253,7 +294,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
-                String carId = "1648A38F4E0F4E7DACD87F105D4E3D36";
+                String carId = "8D1481D618B8450C9B7C17323B2F49BD";
                 intent = new Intent(getActivity(), CarDetectionActivity.class);
                 intent.putExtra("OPENCARID", carId);
                 break;

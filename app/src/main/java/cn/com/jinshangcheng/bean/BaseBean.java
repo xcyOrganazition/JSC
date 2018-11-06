@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 通用数据
  */
 
-public class BaseBean<T extends BaseBean> implements Serializable {
+public class BaseBean<T> implements Serializable {
     public String errorMsg;//错误描述
     public int errorCode = 0;
     public boolean success;//是否成功

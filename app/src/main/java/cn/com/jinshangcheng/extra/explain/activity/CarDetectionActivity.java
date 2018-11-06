@@ -25,6 +25,10 @@ import java.net.SocketTimeoutException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import cn.com.jinshangcheng.MyApplication;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import cn.com.jinshangcheng.extra.explain.adapter.CarDetectionAbnormalAdapter;
 import cn.com.jinshangcheng.extra.explain.adapter.CarDetectionAdapter;
 import cn.com.jinshangcheng.extra.explain.adapter.CarDetectionNormalAdapter;
@@ -37,7 +41,11 @@ import cn.com.jinshangcheng.extra.explain.widget.pullrefresh.CstPlatformMyPtrHea
 import cn.com.jinshangcheng.extra.explain.widget.pullrefresh.MyPtrLayout;
 import cn.com.jinshangcheng.extra.explain.widget.pullrefresh.PtrDefaultHandler;
 import cn.com.jinshangcheng.extra.explain.widget.pullrefresh.PtrHandler;
-import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.net.RetrofitService;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.CarConDectionResult;
 import platform.cston.httplib.ex.HttpException;
 import platform.cston.httplib.search.ObdResultSearch;
@@ -296,10 +304,30 @@ public class CarDetectionActivity extends CstBaseActivity {
     //数据请求操作
     private void requestData() {
 
+        RetrofitService.getRetrofit().getCheckReport(mOpenCarId, MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<CheckDataBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
 
+                    @Override
+                    public void onNext(BaseBean<CheckDataBean> checkDataBeanBaseBean) {
+                        CheckDataBean bean = checkDataBeanBaseBean.data;
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
 
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 
 
         ObdResultSearch.newInstance().GetCarConDetectionResult(mOpenCarId, new OnResultListener.CarConDectionResultListener() {
@@ -322,11 +350,11 @@ public class CarDetectionActivity extends CstBaseActivity {
                 } else {
                     if (!var1.getCode().equals("0")) {
                         mCarDetectionParcelable = null;
-                        mObdData=null;
+                        mObdData = null;
                         Toast.makeText(CarDetectionActivity.this, "检测到数据项异常：" + var1.getResult(), Toast.LENGTH_SHORT).show();
                     } else {
-                        mCarConDetectionResult=null;
-                        mObdData=null;
+                        mCarConDetectionResult = null;
+                        mObdData = null;
                         mCarDetectionParcelable = var1;
                         mCarConDetectionResult = mCarDetectionParcelable.getData();
                         mObdData = mCarConDetectionResult.getObdData();//获得最终的Obd数据
@@ -514,8 +542,8 @@ public class CarDetectionActivity extends CstBaseActivity {
     //初始化数据，设置adapter
     private void initResult() {
         mCarFailuresAbnormal = false;
-        mCarFailureMind= false;
-        mCarFailureHandler= false;
+        mCarFailureMind = false;
+        mCarFailureHandler = false;
         mErrorList.clear();
         mWarnList.clear();
         mNormalList.clear();

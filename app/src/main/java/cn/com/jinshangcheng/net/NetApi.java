@@ -1,10 +1,12 @@
 package cn.com.jinshangcheng.net;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
@@ -33,6 +35,16 @@ public interface NetApi {
                                 @Field("verifyCode") String verifyCode);
 
     /**
+     * 获取车辆列表
+     *
+     * @param userid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCarList")
+    Observable<BaseBean<ArrayList<CarBean>>> getCarList(@Field("userid") String userid);
+
+    /**
      * 一键检测数据
      *
      * @param carid 车辆Id
@@ -40,7 +52,7 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/car/getCheckReport")
-    Observable<CheckDataBean> getCarMaintainInfo(@Field("carid") String carid);
+    Observable<BaseBean<CheckDataBean>> getCheckReport(@Field("carid") String carid, @Field("userid") String userId);
 
     /**
      * 获取商品列表
