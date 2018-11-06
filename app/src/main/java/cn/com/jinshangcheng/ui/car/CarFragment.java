@@ -38,8 +38,8 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarListPagerAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.Car;
+import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
 import cn.com.jinshangcheng.utils.DensityUtil;
-import platform.cston.explain.activity.CarDetectionActivity;
 import platform.cston.httplib.bean.AuthorizationInfo;
 
 

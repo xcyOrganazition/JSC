@@ -1,11 +1,11 @@
 package cn.com.jinshangcheng.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TimeUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.base.BaseActivity;
 
 
 /**
@@ -21,7 +20,7 @@ import cn.com.jinshangcheng.base.BaseActivity;
  */
 public class TittleBar extends RelativeLayout {
     private Toolbar toolbar;
-    private BaseActivity context1;
+    private Activity context1;
     private TextView tv_tittle;
 
 
@@ -45,7 +44,7 @@ public class TittleBar extends RelativeLayout {
 //    }
 
     private void init(final Context context, AttributeSet attrs) {
-        context1 = (BaseActivity) context;
+        context1 = (Activity) context;
         View view = LayoutInflater.from(context).inflate(R.layout.view_tittle_bar, this);
         tv_tittle = view.findViewById(R.id.tv_tittle);
         toolbar = view.findViewById(R.id.toolbar);

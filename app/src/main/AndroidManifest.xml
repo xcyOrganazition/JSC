@@ -95,19 +95,19 @@
         </activity>
         <activity android:name="platform.cston.httplib.activity.AuthActivity" />
         <activity android:name="platform.cston.httplib.activity.ReportCarActivity" />
-        <activity android:name="platform.cston.explain.activity.VehicleDynamicsActivity" />
-        <activity android:name="platform.cston.explain.activity.HistoricaltrackActivity" />
-        <activity android:name="platform.cston.explain.activity.TrackDetailActivity" />
-        <activity android:name="platform.cston.explain.activity.CarConditionDetailActivity" />
-        <activity android:name="platform.cston.explain.activity.CarDetectionActivity" />
-        <activity android:name="platform.cston.explain.activity.CarExceptionActivity" />
+        <activity android:name=".extra.explain.activity.VehicleDynamicsActivity" />
+        <activity android:name=".extra.explain.activity.HistoricaltrackActivity" />
+        <activity android:name=".extra.explain.activity.TrackDetailActivity" />
+        <activity android:name=".extra.explain.activity.CarConditionDetailActivity" />
+        <activity android:name=".extra.explain.activity.CarDetectionActivity" />
+        <activity android:name=".extra.explain.activity.CarExceptionActivity" />
         <activity
-            android:name="platform.cston.explain.activity.ReportActivity"
+            android:name=".extra.explain.activity.ReportActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
-        <activity android:name="platform.cston.explain.activity.DayEventActivity" />
-        <activity android:name="platform.cston.explain.activity.BreakRulesActivity" />
-        <activity android:name="platform.cston.explain.activity.BreakRulesMapActivity" />
-        <activity android:name="platform.cston.explain.activity.MonEventActivity" />
+        <activity android:name=".extra.explain.activity.DayEventActivity" />
+        <activity android:name=".extra.explain.activity.BreakRulesActivity" />
+        <activity android:name=".extra.explain.activity.BreakRulesMapActivity" />
+        <activity android:name=".extra.explain.activity.MonEventActivity" />
         <!-- 地址管理 -->
         <activity android:name=".ui.mine.AddressManageActivity" />
         <!-- 新建地址 编辑地址 -->

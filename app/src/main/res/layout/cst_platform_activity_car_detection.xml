@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#43a119"
+    android:orientation="vertical">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="一键检测" />
+
+    <cn.com.jinshangcheng.extra.explain.widget.pullrefresh.CstPlatformMyPtrHeadLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cst_platform_activity_bg"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/car_detection"
+                    layout="@layout/cst_platform_fragment_car_detection" />
+
+                <include
+                    android:id="@+id/car_result"
+                    layout="@layout/cst_platform_fragment_car_detection_result" />
+            </LinearLayout>
+        </ScrollView>
+
+    </cn.com.jinshangcheng.extra.explain.widget.pullrefresh.CstPlatformMyPtrHeadLayout>
+</LinearLayout>

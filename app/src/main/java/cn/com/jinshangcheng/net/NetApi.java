@@ -7,6 +7,7 @@ import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
+import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -30,6 +31,16 @@ public interface NetApi {
     @POST("/user/registOrLogin")
     Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber,
                                 @Field("verifyCode") String verifyCode);
+
+    /**
+     * 一键检测数据
+     *
+     * @param carid 车辆Id
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCheckReport")
+    Observable<CheckDataBean> getCarMaintainInfo(@Field("carid") String carid);
 
     /**
      * 获取商品列表
