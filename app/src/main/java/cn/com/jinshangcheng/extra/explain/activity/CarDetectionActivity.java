@@ -20,8 +20,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -47,9 +45,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.CarConDectionResult;
-import platform.cston.httplib.ex.HttpException;
-import platform.cston.httplib.search.ObdResultSearch;
-import platform.cston.httplib.search.OnResultListener;
 
 /**
  * Created by daifei on 2016/7/7.
@@ -97,6 +92,7 @@ public class CarDetectionActivity extends CstBaseActivity {
 
 
     private DecimalFormat mDecimalFormat = new DecimalFormat("#####0.0");
+    private CheckDataBean bean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,11 +311,25 @@ public class CarDetectionActivity extends CstBaseActivity {
 
                     @Override
                     public void onNext(BaseBean<CheckDataBean> checkDataBeanBaseBean) {
-                        CheckDataBean bean = checkDataBeanBaseBean.data;
+                        if (!checkDataBeanBaseBean.code.equals("0")) {
+                            mCarDetectionParcelable = null;
+                            bean = null;
+                            Toast.makeText(CarDetectionActivity.this, "检测到数据项异常", Toast.LENGTH_SHORT).show();
+                        } else {
+                            bean = checkDataBeanBaseBean.data;
+                            if (null != mCarConDetectionResult && null != bean) {
+                                getTotalscore();
+                                startDetection();
+                            } else {
+                                cancelDetection();
+                                Toast.makeText(CarDetectionActivity.this, "未检测到数据项", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Toast.makeText(CarDetectionActivity.this, "未检测到数据项,请稍后再试", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -330,45 +340,45 @@ public class CarDetectionActivity extends CstBaseActivity {
                 });
 
 
-        ObdResultSearch.newInstance().GetCarConDetectionResult(mOpenCarId, new OnResultListener.CarConDectionResultListener() {
-            @Override
-            public void onCarConDectionResult(CarConDectionResult var1, boolean isError, Throwable ex) {
-
-                if (isError || var1 == null) {
-                    cancelDetection();
-                    if (ex instanceof HttpException || ex instanceof ConnectException || ex instanceof SocketTimeoutException) { // 网络错误
-                        showAlertDialog(CarDetectionActivity.this, "", getString(R.string.cst_platform_request_outtime), getString(R.string.cst_platform_ok), true, true, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                CarDetectionActivity.this.finish();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(CarDetectionActivity.this, "未检测到数据项,请稍后再试", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } else {
-                    if (!var1.getCode().equals("0")) {
-                        mCarDetectionParcelable = null;
-                        mObdData = null;
-                        Toast.makeText(CarDetectionActivity.this, "检测到数据项异常：" + var1.getResult(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        mCarConDetectionResult = null;
-                        mObdData = null;
-                        mCarDetectionParcelable = var1;
-                        mCarConDetectionResult = mCarDetectionParcelable.getData();
-                        mObdData = mCarConDetectionResult.getObdData();//获得最终的Obd数据
-                        if (null != mCarConDetectionResult && null != mObdData) {
-                            getTotalscore();
-                            startDetection();
-                        } else {
-                            cancelDetection();
-                            Toast.makeText(CarDetectionActivity.this, "未检测到数据项", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }
-        });
+//        ObdResultSearch.newInstance().GetCarConDetectionResult(mOpenCarId, new OnResultListener.CarConDectionResultListener() {
+//            @Override
+//            public void onCarConDectionResult(CarConDectionResult var1, boolean isError, Throwable ex) {
+//
+//                if (isError || var1 == null) {
+//                    cancelDetection();
+//                    if (ex instanceof HttpException || ex instanceof ConnectException || ex instanceof SocketTimeoutException) { // 网络错误
+//                        showAlertDialog(CarDetectionActivity.this, "", getString(R.string.cst_platform_request_outtime), getString(R.string.cst_platform_ok), true, true, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                CarDetectionActivity.this.finish();
+//                            }
+//                        });
+//                    } else {
+//                        Toast.makeText(CarDetectionActivity.this, "未检测到数据项,请稍后再试", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                } else {
+//                    if (!var1.getCode().equals("0")) {
+//                        mCarDetectionParcelable = null;
+//                        mObdData = null;
+//                        Toast.makeText(CarDetectionActivity.this, "检测到数据项异常：" + var1.getResult(), Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        mCarConDetectionResult = null;
+//                        mObdData = null;
+//                        mCarDetectionParcelable = var1;
+//                        mCarConDetectionResult = mCarDetectionParcelable.getData();
+//                        mObdData = mCarConDetectionResult.getObdData();//获得最终的Obd数据
+//                        if (null != mCarConDetectionResult && null != mObdData) {
+//                            getTotalscore();
+//                            startDetection();
+//                        } else {
+//                            cancelDetection();
+//                            Toast.makeText(CarDetectionActivity.this, "未检测到数据项", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
 
 
@@ -549,78 +559,78 @@ public class CarDetectionActivity extends CstBaseActivity {
         mNormalList.clear();
 
         //处理进气口温度检测，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.onflowCt))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.onflowCt), -40.0, 80.0))
+        if (isParamSupportedTemperature(Double.toString(bean.onflowct))) {
+            if (setAbnormal(DoubleAccuracy(bean.onflowct), -40.0, 80.0))
                 mCarFailuresAbnormal = true;
         }
 
 
         //车辆环境温度(℃)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.environmentCt))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.environmentCt), -40.0, 60.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.environmentct))) {
+            if (setAbnormal(DoubleAccuracy(bean.environmentct), -40.0, 60.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //大气压力(Kpa)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.airPressure))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.airPressure), 50.0, 105.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.airpressure))) {
+            if (setAbnormal(DoubleAccuracy(bean.airpressure), 50.0, 105.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //燃油压力(Kpa)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.fuelPressure))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.fuelPressure), 0.0, 450.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.fuelpressure))) {
+            if (setAbnormal(DoubleAccuracy(bean.fuelpressure), 0.0, 450.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //空气流量(g/s)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.airFlow))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.airFlow), 0.0, 655.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.airflow))) {
+            if (setAbnormal(DoubleAccuracy(bean.airflow), 0.0, 655.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //节气门位置(%)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.tvp))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.tvp), 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.tvp))) {
+            if (setAbnormal(DoubleAccuracy(bean.tvp), 0.0, 100.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //油门踏板位置(%)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.pedalPosition))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.pedalPosition), 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.pedalposition))) {
+            if (setAbnormal(DoubleAccuracy(bean.pedalposition), 0.0, 100.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //发动机负荷(0-100)(%)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.enginePayload))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.enginePayload), 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.enginepayload))) {
+            if (setAbnormal(DoubleAccuracy(bean.enginepayload), 0.0, 100.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
 
         //长期燃油修正值(%)80-120，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.lfuelTrim))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.lfuelTrim), 80.0, 120.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.lfueltrim))) {
+            if (setAbnormal(DoubleAccuracy(bean.lfueltrim), 80.0, 120.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
 
         //点火提前角(-30-60)(°)，异常mCarFailuresAbnormal=true;
-        if (isParamSupportedTemperature(Double.toString(mObdData.ciaa))) {
-            if (setAbnormal(DoubleAccuracy(mObdData.ciaa), -30.0, 60.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.ciaa))) {
+            if (setAbnormal(DoubleAccuracy(bean.ciaa), -30.0, 60.0)) {
                 mCarFailuresAbnormal = true;
             }
         }
@@ -660,17 +670,17 @@ public class CarDetectionActivity extends CstBaseActivity {
         }
 
         //汽车蓄电池(V)
-        if (isParamSupportedTemperature(Double.toString(mObdData.batteryVoltage))) {
+        if (isParamSupportedTemperature(Double.toString(bean.batteryvoltage))) {
             CarDetectionSubEntity entity = new CarDetectionSubEntity();
             entity.drawable = R.drawable.cst_platform_icon_detection_car_battery;
             entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_BATTERY;
-            if (!setAbnormal(DoubleAccuracy(mObdData.batteryVoltage), 11.5, 15.0)) {
+            if (!setAbnormal(DoubleAccuracy(bean.batteryvoltage), 11.5, 15.0)) {
                 entity.title = CarDetectionEntity.getTitle(entity.pType);
                 mNormalList.add(entity);
             } else {//如果存在且故障码个数大于0，则加入错误列表
-                if (Double.compare(DoubleAccuracy(mObdData.batteryVoltage), 11.5) < 0) {
+                if (Double.compare(DoubleAccuracy(bean.batteryvoltage), 11.5) < 0) {
                     entity.title = getString(R.string.cst_platform_detect_battery_voltage_more_loewr);//电瓶电压过低
-                } else if (Double.compare(DoubleAccuracy(mObdData.batteryVoltage), 15.0) > 0) {
+                } else if (Double.compare(DoubleAccuracy(bean.batteryvoltage), 15.0) > 0) {
                     entity.title = getString(R.string.cst_platform_detect_battery_voltage_more_higher);//电瓶电压过高
                 }
                 mErrorList.add(entity);
@@ -679,7 +689,7 @@ public class CarDetectionActivity extends CstBaseActivity {
 
 
         //冷却液温度(℃),这里要对车型进行判断，是T型号还是L型号，然后才来判断是否正常
-        if (isParamSupportedTemperature(Double.toString(mObdData.coolantCt))) {
+        if (isParamSupportedTemperature(Double.toString(bean.coolantct))) {
             CarDetectionSubEntity entity = new CarDetectionSubEntity();
             entity.drawable = R.drawable.cst_platform_icon_detection_car_temperature;
             entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_TEMPERATURE;
@@ -777,61 +787,61 @@ public class CarDetectionActivity extends CstBaseActivity {
             mTotalscore *= Math.pow(0.8, mCarConDetectionResult.mind);
 
         //进气口温度,如果参数合法并且参数异常
-        if (isParamSupportedTemperature(Double.toString(mObdData.onflowCt)) && setAbnormal(mObdData.onflowCt, -40.0, 80.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.onflowct)) && setAbnormal(bean.onflowct, -40.0, 80.0)) {
             mTotalscore *= 0.9;
         }
         //车辆环境温度
-        if (isParamSupportedTemperature(Double.toString(mObdData.environmentCt)) && setAbnormal(mObdData.environmentCt, -40.0, 60.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.environmentct)) && setAbnormal(bean.environmentct, -40.0, 60.0)) {
             mTotalscore *= 0.9;
         }
 
         //大气压力
-        if (isParamSupportedTemperature(Double.toString(mObdData.airPressure)) && setAbnormal(mObdData.airPressure, 50.0, 105.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.airpressure)) && setAbnormal(bean.airpressure, 50.0, 105.0)) {
             mTotalscore *= 0.9;
         }
 
         //燃油压力
-        if (isParamSupportedTemperature(Double.toString(mObdData.fuelPressure)) && setAbnormal(mObdData.fuelPressure, 0.0, 450.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.fuelpressure)) && setAbnormal(bean.fuelpressure, 0.0, 450.0)) {
             mTotalscore *= 0.9;
         }
 
         //空气流量(0-655)
-        if (isParamSupportedTemperature(Double.toString(mObdData.airFlow)) && setAbnormal(mObdData.airFlow, 0.0, 655.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.airflow)) && setAbnormal(bean.airflow, 0.0, 655.0)) {
             mTotalscore *= 0.9;
         }
 
         //节气门位置(0-100)
-        if (isParamSupportedTemperature(Double.toString(mObdData.tvp)) && setAbnormal(mObdData.tvp, 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.tvp)) && setAbnormal(bean.tvp, 0.0, 100.0)) {
             mTotalscore *= 0.9;
         }
 
         //油门踏板位置(0-100)
-        if (isParamSupportedTemperature(Double.toString(mObdData.pedalPosition)) && setAbnormal(mObdData.pedalPosition, 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.pedalposition)) && setAbnormal(bean.pedalposition, 0.0, 100.0)) {
             mTotalscore *= 0.9;
         }
 
         //发动机负荷(0-100)
-        if (isParamSupportedTemperature(Double.toString(mObdData.enginePayload)) && setAbnormal(mObdData.enginePayload, 0.0, 100.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.enginepayload)) && setAbnormal(bean.enginepayload, 0.0, 100.0)) {
             mTotalscore *= 0.9;
         }
 
         //长期燃油修正值(%)80-120
-        if (isParamSupportedTemperature(Double.toString(mObdData.lfuelTrim)) && setAbnormal(mObdData.lfuelTrim, 80.0, 120.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.lfueltrim)) && setAbnormal(bean.lfueltrim, 80.0, 120.0)) {
             mTotalscore *= 0.9;
         }
 
         //点火提前角(-30-60)
-        if (isParamSupportedTemperature(Double.toString(mObdData.ciaa)) && setAbnormal(mObdData.ciaa, -30, 60.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.ciaa)) && setAbnormal(bean.ciaa, -30, 60.0)) {
             mTotalscore *= 0.9;
         }
 
         //电瓶电压（11.5-15.0）
-        if (isParamSupportedTemperature(Double.toString(mObdData.batteryVoltage)) && setAbnormal(mObdData.batteryVoltage, 11.5, 15.0)) {
+        if (isParamSupportedTemperature(Double.toString(bean.batteryvoltage)) && setAbnormal(bean.batteryvoltage, 11.5, 15.0)) {
             mTotalscore *= 0.6;
         }
 
         //冷却液温度
-        if (isParamSupportedTemperature(Double.toString(mObdData.coolantCt))) {//在数据项迟滞的情况下才进行扣分
+        if (isParamSupportedTemperature(Double.toString(bean.coolantct))) {//在数据项迟滞的情况下才进行扣分
             if (mCarConDetectionResult.highcoolantCt != null && !mCarConDetectionResult.highcoolantCt.equals("null")) {
                 mTotalscore *= 0.8;
             }
@@ -850,8 +860,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //"故障码个数(个)"
         ObdBean malfunctionNum = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.malfunctionNum))) {
-            malfunctionNum.current_value = (int) mObdData.malfunctionNum;
+        if (isParamSupportedTemperature(Double.toString(bean.malfunctionnum))) {
+            malfunctionNum.current_value = (int) bean.malfunctionnum;
         } else {
             malfunctionNum.support = false;
         }
@@ -864,8 +874,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //进气口温度(℃)，这里如果是异常则加入warnninglist,正常则加入mNormalList
         ObdBean onflowCt = new ObdBean();//进气口温度
-        if (isParamSupportedTemperature(Double.toString(mObdData.onflowCt))) {
-            onflowCt.current_value = DoubleAccuracy(mObdData.onflowCt);
+        if (isParamSupportedTemperature(Double.toString(bean.onflowct))) {
+            onflowCt.current_value = DoubleAccuracy(bean.onflowct);
             onflowCt.abnormal = setAbnormal(onflowCt.current_value, -40.0, 80.0);
         } else {
             onflowCt.support = false;
@@ -878,8 +888,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //车辆环境温度(℃)
         ObdBean environmentCt = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.environmentCt))) {
-            environmentCt.current_value = DoubleAccuracy(mObdData.environmentCt);
+        if (isParamSupportedTemperature(Double.toString(bean.environmentct))) {
+            environmentCt.current_value = DoubleAccuracy(bean.environmentct);
             environmentCt.abnormal = setAbnormal(environmentCt.current_value, -40.0, 60.0);
         } else {
             environmentCt.support = false;
@@ -893,8 +903,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //大气压力(Kpa)
         ObdBean airPressure = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.airPressure))) {
-            airPressure.current_value = DoubleAccuracy(mObdData.airPressure);
+        if (isParamSupportedTemperature(Double.toString(bean.airpressure))) {
+            airPressure.current_value = DoubleAccuracy(bean.airpressure);
             airPressure.abnormal = setAbnormal(airPressure.current_value, 50.0, 105.0);
         } else {
             airPressure.support = false;
@@ -908,8 +918,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //燃油压力(Kpa)
         ObdBean fuelPressure = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.fuelPressure))) {
-            fuelPressure.current_value = DoubleAccuracy(mObdData.fuelPressure);
+        if (isParamSupportedTemperature(Double.toString(bean.fuelpressure))) {
+            fuelPressure.current_value = DoubleAccuracy(bean.fuelpressure);
             fuelPressure.abnormal = setAbnormal(fuelPressure.current_value, 0.0, 450.0);
         } else {
             fuelPressure.support = false;
@@ -922,8 +932,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //空气流量(g/s)
         ObdBean airFlow = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.airFlow))) {
-            airFlow.current_value = DoubleAccuracy(mObdData.airFlow);
+        if (isParamSupportedTemperature(Double.toString(bean.airflow))) {
+            airFlow.current_value = DoubleAccuracy(bean.airflow);
             airFlow.abnormal = setAbnormal(airFlow.current_value, 0.0, 655.0);
         } else {
             airFlow.support = false;
@@ -936,8 +946,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //节气门位置(0-100)(%)
         ObdBean tvp = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.tvp))) {
-            tvp.current_value = DoubleAccuracy(mObdData.tvp);
+        if (isParamSupportedTemperature(Double.toString(bean.tvp))) {
+            tvp.current_value = DoubleAccuracy(bean.tvp);
             tvp.abnormal = setAbnormal(tvp.current_value, 0.0, 100.0);
         } else {
             tvp.support = false;
@@ -950,8 +960,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //油门踏板位置(0-100)(%)
         ObdBean pedalPosition = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.pedalPosition))) {
-            pedalPosition.current_value = DoubleAccuracy(mObdData.pedalPosition);
+        if (isParamSupportedTemperature(Double.toString(bean.pedalposition))) {
+            pedalPosition.current_value = DoubleAccuracy(bean.pedalposition);
             pedalPosition.abnormal = setAbnormal(pedalPosition.current_value, 0.0, 100.0);
         } else {
             pedalPosition.support = false;
@@ -964,8 +974,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //发动机负荷(0-100)(%)
         ObdBean enginePayload = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.enginePayload))) {
-            enginePayload.current_value = DoubleAccuracy(mObdData.enginePayload);
+        if (isParamSupportedTemperature(Double.toString(bean.enginepayload))) {
+            enginePayload.current_value = DoubleAccuracy(bean.enginepayload);
             enginePayload.abnormal = setAbnormal(enginePayload.current_value, 0.0, 100.0);
         } else {
             enginePayload.support = false;
@@ -979,8 +989,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //长期燃油修正值(%)80-120
         ObdBean lfuelTrim = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.lfuelTrim))) {
-            lfuelTrim.current_value = DoubleAccuracy(mObdData.lfuelTrim);
+        if (isParamSupportedTemperature(Double.toString(bean.lfueltrim))) {
+            lfuelTrim.current_value = DoubleAccuracy(bean.lfueltrim);
             lfuelTrim.abnormal = setAbnormal(lfuelTrim.current_value, 80.0, 120.0);
         } else {
             lfuelTrim.support = false;
@@ -993,8 +1003,8 @@ public class CarDetectionActivity extends CstBaseActivity {
 
         //点火提前角(-30-60)(°)
         ObdBean ciaa = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.ciaa))) {
-            ciaa.current_value = DoubleAccuracy(mObdData.ciaa);
+        if (isParamSupportedTemperature(Double.toString(bean.ciaa))) {
+            ciaa.current_value = DoubleAccuracy(bean.ciaa);
             ciaa.abnormal = setAbnormal(ciaa.current_value, -30.0, 60.0);
         } else {
             ciaa.support = false;
@@ -1009,8 +1019,8 @@ public class CarDetectionActivity extends CstBaseActivity {
     private int checkBattery() {
         //汽车蓄电池(V)
         ObdBean batteryVoltage = new ObdBean();
-        if (isParamSupportedTemperature(Double.toString(mObdData.batteryVoltage))) {
-            batteryVoltage.current_value = DoubleAccuracy(mObdData.batteryVoltage);
+        if (isParamSupportedTemperature(Double.toString(bean.batteryvoltage))) {
+            batteryVoltage.current_value = DoubleAccuracy(bean.batteryvoltage);
             batteryVoltage.abnormal = setAbnormal(batteryVoltage.current_value, 11.5, 15.0);
         } else {
             batteryVoltage.support = false;
@@ -1024,12 +1034,12 @@ public class CarDetectionActivity extends CstBaseActivity {
     }
 
     private int checkcoolantCt() {
-        if (!isParamSupportedTemperature(Double.toString(mObdData.coolantCt))) {
+        if (!isParamSupportedTemperature(Double.toString(bean.coolantct))) {
             return CarDetectionEntity.DETECTION_NO_SUPPORT;
         }
         //冷却液温度(℃)
         if ((mCarConDetectionResult.highcoolantCt == null || mCarConDetectionResult.highcoolantCt.equals("null"))
-                && isParamSupportedTemperature(Double.toString(mObdData.coolantCt))) {
+                && isParamSupportedTemperature(Double.toString(bean.coolantct))) {
             return CarDetectionEntity.DETECTION_NORMAL;
         } else {
             return CarDetectionEntity.DETECTION_WARNING;

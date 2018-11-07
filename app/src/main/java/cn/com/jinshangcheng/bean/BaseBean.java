@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class BaseBean<T> implements Serializable {
     public String errorMsg;//错误描述
-    public int errorCode = 0;
+    public String code;
     public boolean success;//是否成功
     public boolean paging;//是否分页
     public PageBean page;
@@ -18,7 +18,7 @@ public class BaseBean<T> implements Serializable {
     public String toString() {
         return "BaseBean{" +
                 "errorMsg='" + errorMsg + '\'' +
-                ", errorCode=" + errorCode +
+                ", errorCode=" + code +
                 ", success=" + success +
                 ", paging=" + paging +
                 ", page=" + page +

@@ -184,7 +184,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
                     @Override
                     public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
-                        if (arrayListBaseBean.errorCode == 0&& ArrayUtils.hasContent((List) arrayListBaseBean)) {
+                        if (arrayListBaseBean.code.equals("0") && ArrayUtils.hasContent(arrayListBaseBean.data)) {
                             ArrayList<CarBean> carList = arrayListBaseBean.data;
                         }
 
