@@ -24,15 +24,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_carBrand"
-        style="@style/textMiddle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="奔驰汽车"
+    <ImageView
+        android:id="@+id/iv_branchImg"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_carType"
         app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
         app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
+
+    <TextView
+
+        android:id="@+id/tv_carBrand"
+        style="@style/textMiddle"
+        app:layout_constraintBottom_toTopOf="@+id/tv_carType"
+        app:layout_constraintTop_toBottomOf="@+id/tv_carLicense"
+        app:layout_constraintLeft_toRightOf="@+id/iv_branchImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="奔驰汽车" />
 
     <TextView
         android:id="@+id/tv_carType"

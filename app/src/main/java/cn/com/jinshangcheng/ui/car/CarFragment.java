@@ -1,11 +1,11 @@
 package cn.com.jinshangcheng.ui.car;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,22 +33,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarListPagerAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
-import cn.com.jinshangcheng.bean.BaseBean;
-import cn.com.jinshangcheng.bean.Car;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
-import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import platform.cston.httplib.bean.AuthorizationInfo;
 
 
 /**
@@ -77,6 +68,10 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     TextView tvAnnual;
     @BindView(R.id.tv_location)
     TextView tvLocation;
+    @BindView(R.id.tv_emptyView)
+    TextView tvEmptyView;
+    @BindView(R.id.scroll_view)
+    ScrollView scrollView;
     Unbinder unbinder;
 
     private double lat = 39.963175;
@@ -84,10 +79,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
 
     private static CarFragment carFragment;
-    private Car car;
-    private List<Car> carList = new ArrayList<>();
+    private List<CarBean> carList = new ArrayList<>();
 
-    private CarContract.IPresenter mPresenter;
+    private CarPresenter mPresenter;
     private CarListPagerAdapter adapter;
     private GeoCoder mSearch;//地理反编码
 
@@ -116,9 +110,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     @Override
     public void initData() {
-        car = new Car("卡宴", "京A23282", "保时捷", "保时捷系列");
-        carList.add(car);
-        carList.add(car);
 
 
     }
@@ -147,17 +138,17 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         mShareUrlSearch.setOnGetShareUrlResultListener(new OnGetShareUrlResultListener() {
             @Override
             public void onGetPoiDetailShareUrlResult(ShareUrlResult shareUrlResult) {
-//                Logger.w("onGetPoiDetailShareUrlResult", shareUrlResult);
+
             }
 
             @Override
             public void onGetLocationShareUrlResult(ShareUrlResult shareUrlResult) {
-//                Logger.w("shareUonGetLocationShareUrlResultrlResult", shareUrlResult);
+
             }
 
             @Override
             public void onGetRouteShareUrlResult(ShareUrlResult shareUrlResult) {
-//                Logger.w("onGetRouteShareUrlResult", shareUrlResult);
+
             }
         });
         mShareUrlSearch.requestLocationShareUrl(new LocationShareURLOption()
@@ -168,41 +159,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         adapter = new CarListPagerAdapter(carList, getHoldingActivity());
         vpCarList.setAdapter(adapter);
         vpCarList.setPageMargin(DensityUtil.dip2px(getHoldingActivity(), 6));
-        adapter.refreshList(carList);
-        getCarList();
-    }
 
-    public void getCarList() {
-        RetrofitService.getRetrofit().getCarList(MyApplication.getUserId())
-                .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<ArrayList<CarBean>>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
-                        if (arrayListBaseBean.code.equals("0") && ArrayUtils.hasContent(arrayListBaseBean.data)) {
-                            ArrayList<CarBean> carList = arrayListBaseBean.data;
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
+        mPresenter.getCarList();//请求车辆数据
     }
 
 
@@ -247,13 +205,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mPresenter.getCarList();
-
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
 //        mListener = null;
@@ -282,8 +233,16 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
      * 填充车辆ViewPager数据
      */
     @Override
-    public void showCarList(ArrayList<AuthorizationInfo.Cars> carList) {
-
+    public void showCarList(ArrayList<CarBean> carLists) {
+        this.carList = carLists;
+        if (ArrayUtils.hasContent(carList)) {//有车辆数据
+            tvEmptyView.setVisibility(View.GONE);
+            scrollView.setVisibility(View.VISIBLE);
+            adapter.refreshList(carList);
+        } else {//无车辆数据
+            tvEmptyView.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -331,7 +290,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         if (bdMapView != null) {
             bdMapView.onDestroy();
         }
-        mSearch.destroy();
+        if (mSearch != null) {
+            mSearch.destroy();
+        }
     }
 
     @Override

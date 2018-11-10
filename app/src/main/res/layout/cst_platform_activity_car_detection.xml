@@ -17,10 +17,11 @@
         android:layout_height="match_parent">
 
         <ScrollView
+
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/cst_platform_activity_bg"
+            android:background="@color/backLightGreen"
             android:overScrollMode="never"
             android:scrollbars="none">
 

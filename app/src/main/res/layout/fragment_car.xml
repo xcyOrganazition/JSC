@@ -8,7 +8,21 @@
     android:orientation="vertical"
     tools:context=".ui.car.CarFragment">
 
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_emptyView"
+        android:layout_width="match_parent"
+        style="@style/textSmall"
+        android:gravity="center_horizontal|bottom"
+        android:textColor="@color/textGary"
+        android:paddingBottom="100dp"
+        android:text="您还没有绑定车辆哦，快去绑定车辆吧。"
+        android:layout_height="match_parent" />
+
     <ScrollView
+        android:visibility="gone"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

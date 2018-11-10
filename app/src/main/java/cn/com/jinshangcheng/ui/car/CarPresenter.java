@@ -1,15 +1,12 @@
 package cn.com.jinshangcheng.ui.car;
 
-import android.widget.Toast;
-
-import cn.com.jinshangcheng.base.BasePresenterImpl;
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 
-import platform.cston.httplib.bean.AuthorizationInfo;
-import platform.cston.httplib.bean.CarListResult;
-import platform.cston.httplib.search.OnResultListener;
+import cn.com.jinshangcheng.base.BasePresenterImpl;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.CarBean;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class CarPresenter extends BasePresenterImpl implements CarContract.IPresenter {
 
@@ -24,35 +21,31 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
 
     @Override
     public void getCarList() {
-//        CarInfoSearch.newInstance().GetCarInfoResult(new OnResultListener.OnGetCarListResultListener() {
-//            @Override
-//            public void onGetCarListResult(CarListResult carListResult, boolean b, Throwable throwable) {
-//
-//            }
-//        });
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put("workerCode", "admin");
-//        map.put("password", "123456");
-//        map.put("type", "1");
-
-
-        ArrayList<AuthorizationInfo.Cars> carList = model.loadCarList(new OnResultListener.OnGetCarListResultListener() {
+        model.loadCarList(new Observer<BaseBean<ArrayList<CarBean>>>() {
             @Override
-            public void onGetCarListResult(CarListResult carListResult, boolean isError, Throwable throwable) {
+            public void onSubscribe(Disposable d) {
 
-                if (!isError) {
-                    if (carListResult.getCode().equals("0")) {
-                        Logger.w("我的车辆 ：" + carListResult);
-                    } else {
-                        carView.toastErrorMsg(carListResult.getResult());
-                    }
+            }
+
+            @Override
+            public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
+                if (arrayListBaseBean.code.equals("0") && null != arrayListBaseBean.data) {
+                    carView.showCarList(arrayListBaseBean.data);
                 } else {
-                    Logger.e("CarListError   :  " + throwable);
+                    carView.toastErrorMsg(arrayListBaseBean.errorMsg);
                 }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
-        carView.showCarList(carList);
 
     }
 }

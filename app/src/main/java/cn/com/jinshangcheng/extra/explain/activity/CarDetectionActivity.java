@@ -317,7 +317,7 @@ public class CarDetectionActivity extends CstBaseActivity {
                             Toast.makeText(CarDetectionActivity.this, "检测到数据项异常", Toast.LENGTH_SHORT).show();
                         } else {
                             bean = checkDataBeanBaseBean.data;
-                            if (null != mCarConDetectionResult && null != bean) {
+                            if (null != bean) {
                                 getTotalscore();
                                 startDetection();
                             } else {
@@ -636,24 +636,24 @@ public class CarDetectionActivity extends CstBaseActivity {
         }
 
         //对需要注意项进行处理
-        if (mCarConDetectionResult.mind > 0) {
-            CarDetectionSubEntity entity = new CarDetectionSubEntity();
-            entity.drawable = R.drawable.cst_platform_icon_detection_car_fault;
-            entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_FAULT;
-            entity.title = getString(R.string.cst_platform_detect_something) + mCarConDetectionResult.mind + getString(R.string.cst_platform_detect_general_failure_number);
-            mCarFailureMind = true;//需要处理项，小项，车辆故障
-            mWarnList.add(entity);
-        }
+//        if (mCarConDetectionResult.mind > 0) {
+//            CarDetectionSubEntity entity = new CarDetectionSubEntity();
+//            entity.drawable = R.drawable.cst_platform_icon_detection_car_fault;
+//            entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_FAULT;
+//            entity.title = getString(R.string.cst_platform_detect_something) + mCarConDetectionResult.mind + getString(R.string.cst_platform_detect_general_failure_number);
+//            mCarFailureMind = true;//需要处理项，小项，车辆故障
+//            mWarnList.add(entity);
+//        }
 
         //对需要处理项进行处理
-        if (mCarConDetectionResult.handle > 0) {
-            CarDetectionSubEntity entity = new CarDetectionSubEntity();
-            entity.drawable = R.drawable.cst_platform_icon_detection_car_fault;
-            entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_FAULT;
-            entity.title = getString(R.string.cst_platform_detect_something) + mCarConDetectionResult.handle + getString(R.string.cst_platform_detect_emergency_fault_number);
-            mCarFailureHandler = true;//这理由需要处理的项
-            mErrorList.add(entity);
-        }
+//        if (mCarConDetectionResult.handle > 0) {
+//            CarDetectionSubEntity entity = new CarDetectionSubEntity();
+//            entity.drawable = R.drawable.cst_platform_icon_detection_car_fault;
+//            entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_FAULT;
+//            entity.title = getString(R.string.cst_platform_detect_something) + mCarConDetectionResult.handle + getString(R.string.cst_platform_detect_emergency_fault_number);
+//            mCarFailureHandler = true;//这理由需要处理的项
+//            mErrorList.add(entity);
+//        }
 
         //判断车辆故障是否为正常项目
         {
@@ -693,13 +693,13 @@ public class CarDetectionActivity extends CstBaseActivity {
             CarDetectionSubEntity entity = new CarDetectionSubEntity();
             entity.drawable = R.drawable.cst_platform_icon_detection_car_temperature;
             entity.pType = CarDetectionEntity.TYPE_DETECTION_CAR_TEMPERATURE;
-            if (null != mCarConDetectionResult.highcoolantCt && !mCarConDetectionResult.highcoolantCt.equals("null")) {
-                entity.title = getString(R.string.cst_platform_detect_coolant_temperature_higher);
-                mWarnList.add(entity);
-            } else {
-                entity.title = CarDetectionEntity.getTitle(entity.pType);
-                mNormalList.add(entity);
-            }
+//            if (null != mCarConDetectionResult.highcoolantCt && !mCarConDetectionResult.highcoolantCt.equals("null")) {
+//                entity.title = getString(R.string.cst_platform_detect_coolant_temperature_higher);
+//                mWarnList.add(entity);
+//            } else {
+            entity.title = CarDetectionEntity.getTitle(entity.pType);
+            mNormalList.add(entity);
+//            }
         }
 
         if (mNormalList.size() == 0) {
@@ -780,11 +780,11 @@ public class CarDetectionActivity extends CstBaseActivity {
     public void getTotalscore() {
         double mTotalscore = 1.0;
 
-        if (mCarConDetectionResult.handle != 0)
-            mTotalscore *= Math.pow(0.6, mCarConDetectionResult.handle);
-
-        if (mCarConDetectionResult.mind != 0)
-            mTotalscore *= Math.pow(0.8, mCarConDetectionResult.mind);
+//        if (mCarConDetectionResult.handle != 0)
+//            mTotalscore *= Math.pow(0.6, mCarConDetectionResult.handle);
+//
+//        if (mCarConDetectionResult.mind != 0)
+//            mTotalscore *= Math.pow(0.8, mCarConDetectionResult.mind);
 
         //进气口温度,如果参数合法并且参数异常
         if (isParamSupportedTemperature(Double.toString(bean.onflowct)) && setAbnormal(bean.onflowct, -40.0, 80.0)) {
@@ -841,11 +841,11 @@ public class CarDetectionActivity extends CstBaseActivity {
         }
 
         //冷却液温度
-        if (isParamSupportedTemperature(Double.toString(bean.coolantct))) {//在数据项迟滞的情况下才进行扣分
-            if (mCarConDetectionResult.highcoolantCt != null && !mCarConDetectionResult.highcoolantCt.equals("null")) {
-                mTotalscore *= 0.8;
-            }
-        }
+//        if (isParamSupportedTemperature(Double.toString(bean.coolantct))) {//在数据项迟滞的情况下才进行扣分
+//            if (mCarConDetectionResult.highcoolantCt != null && !mCarConDetectionResult.highcoolantCt.equals("null")) {
+//                mTotalscore *= 0.8;
+//            }
+//        }
         mTotalscore *= 100;
         this.mTotalscore = (int) mTotalscore;
     }
@@ -854,9 +854,9 @@ public class CarDetectionActivity extends CstBaseActivity {
     private int checkCarFault() {
         //将故障码装入数据,处理故障码，这里要区分是需处理的故障码还是需要注意的故障码,将数据导入这个里面
         //处理故障码
-        if (isParamSupportedTemperature(Double.toString(mCarConDetectionResult.handle)) && mCarConDetectionResult.handle > 0) {
-            return CarDetectionEntity.DETECTION_ERROR;//紧急故障
-        }
+//        if (isParamSupportedTemperature(Double.toString(mCarConDetectionResult.handle)) && mCarConDetectionResult.handle > 0) {
+//            return CarDetectionEntity.DETECTION_ERROR;//紧急故障
+//        }
 
         //"故障码个数(个)"
         ObdBean malfunctionNum = new ObdBean();
