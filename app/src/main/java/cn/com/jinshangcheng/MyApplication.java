@@ -33,11 +33,22 @@ public class MyApplication extends Application {
     private static MyApplication instance;
 
     private static AuthorizationInfo authorInfo = null;
-    private static String userId = null;
+    private static String userId = null;//用户Id
+    private static String carId = null;//当前选中的CarId
 
 
     public MyApplication() {
         instance = this;
+    }
+
+
+    public static String getCarId() {
+        return "8D1481D618B8450C9B7C17323B2F49BD";
+//        return carId;
+    }
+
+    public static void setCarId(String carId) {
+        MyApplication.carId = carId;
     }
 
     public MyApplication getInstance() {
@@ -60,7 +71,6 @@ public class MyApplication extends Application {
     }
 
     public static String getUserId() {
-
 //        return userId;
         return "39";
     }

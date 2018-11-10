@@ -33,10 +33,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarListPagerAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.CarBean;
+import cn.com.jinshangcheng.bean.CarMaintainBean;
+import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
@@ -154,7 +157,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         mShareUrlSearch.requestLocationShareUrl(new LocationShareURLOption()
                 .location(new LatLng(lat, lng)).snippet("测试分享点")
                 .name("分享点"));
-        refreshMapView();
         //初始化头部我的车辆VP
         adapter = new CarListPagerAdapter(carList, getHoldingActivity());
         vpCarList.setAdapter(adapter);
@@ -164,42 +166,13 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     }
 
 
-    //刷新百度地图相关
-    public void refreshMapView() {
-        LatLng point = new LatLng(lat, lng);//构建Marker坐标
-        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-        bdMapView.getMap().addOverlay(option);//在地图上添加Marker，并显示
 
-        mSearch = GeoCoder.newInstance();//创建地理编码检索实例；
-        OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
-
-            public void onGetGeoCodeResult(GeoCodeResult result) {
-//                Logger.w("GetGeoCodeResult:" + result);
-                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有检索到结果
-                } else {  //获取地理编码结果
-                }
-            }
-
-            @Override//经纬度转地址
-            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-//                Logger.w("ReverseGeoCodeResult:" + result);
-                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                    //没有找到检索结果
-                    tvLocation.setText("未知");
-                } else {//获取反向地理编码结果
-                    tvLocation.setText(result.getAddress());
-                }
-            }
-        };
-        mSearch.setOnGetGeoCodeResultListener(listener);
-        mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-                .location(new LatLng(lat, lng)));
+    /**
+     * 获取其他数据（位置、油耗、保险、年审等）
+     */
+    public void getOtherData() {
+        mPresenter.getCarPosition(MyApplication.getCarId());//位置
+        mPresenter.getCarMaintainInfo();//年审、保险、保养
 
     }
 
@@ -243,6 +216,53 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             tvEmptyView.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
         }
+
+        getOtherData();//请求车辆的其他数据
+
+    }
+
+    //刷新车辆位置数据
+    @Override
+    public void refreshPosition(PositionBean positionBean) {
+        LatLng point = new LatLng(positionBean.getLatitude(), positionBean.getLongitude());//构建Marker坐标
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+        bdMapView.getMap().addOverlay(option);//在地图上添加Marker，并显示
+
+        mSearch = GeoCoder.newInstance();//创建地理编码检索实例；
+        OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
+
+            public void onGetGeoCodeResult(GeoCodeResult result) {
+//                Logger.w("GetGeoCodeResult:" + result);
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有检索到结果
+                } else {  //获取地理编码结果
+                }
+            }
+
+            @Override//经纬度转地址
+            public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+//                Logger.w("ReverseGeoCodeResult:" + result);
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    //没有找到检索结果
+                    tvLocation.setText("未知");
+                } else {//获取反向地理编码结果
+                    tvLocation.setText(result.getAddress());
+                }
+            }
+        };
+        mSearch.setOnGetGeoCodeResultListener(listener);
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(point));
+    }
+
+    //刷新保养保险年审信息
+    @Override
+    public void refreshMaintainData(CarMaintainBean carMaintainBean) {
 
     }
 

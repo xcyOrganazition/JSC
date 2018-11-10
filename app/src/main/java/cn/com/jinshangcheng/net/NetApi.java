@@ -7,8 +7,10 @@ import java.util.List;
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
+import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
+import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -43,6 +45,30 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/car/getCarList")
     Observable<BaseBean<ArrayList<CarBean>>> getCarList(@Field("userid") String userid);
+
+    /**
+     * 获取车辆位置信息
+     *
+     * @param userid
+     * @param carid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/location")
+    Observable<BaseBean<PositionBean>> getCarPosition(@Field("userid") String userid,
+                                                      @Field("carid") String carid);
+
+    /**
+     * 获取车的保养保险年审信息
+     *
+     * @param userid
+     * @param carid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCarMaintainInfo")
+    Observable<BaseBean<CarMaintainBean>> getCarMaintainInfo(@Field("userid") String userid,
+                                                             @Field("carid") String carid);
 
     /**
      * 一键检测数据

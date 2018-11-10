@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import cn.com.jinshangcheng.base.BasePresenterImpl;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
+import cn.com.jinshangcheng.bean.CarMaintainBean;
+import cn.com.jinshangcheng.bean.PositionBean;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -39,6 +41,65 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void getCarPosition(String carId) {
+        model.loadCarPosition(carId, new Observer<BaseBean<PositionBean>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(BaseBean<PositionBean> baseBean) {
+                if (baseBean.code.equals("0") && null != baseBean.data) {
+                    carView.refreshPosition(baseBean.data);
+                } else {
+                    carView.toastErrorMsg(baseBean.errorMsg);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    @Override
+    public void getCarMaintainInfo() {
+        model.loadCarMaintainInfo(new Observer<BaseBean<CarMaintainBean>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(BaseBean<CarMaintainBean> baseBean) {
+                if (baseBean.code.equals("0") && null != baseBean.data) {
+                    carView.refreshMaintainData(baseBean.data);
+                } else {
+                    carView.toastErrorMsg(baseBean.errorMsg);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
             }
 
             @Override
