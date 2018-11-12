@@ -10,18 +10,17 @@
 
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_emptyView"
-        android:layout_width="match_parent"
         style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal|bottom"
-        android:textColor="@color/textGary"
         android:paddingBottom="100dp"
         android:text="您还没有绑定车辆哦，快去绑定车辆吧。"
-        android:layout_height="match_parent" />
+        android:textColor="@color/textGary"
+        android:visibility="gone" />
 
     <ScrollView
-        android:visibility="gone"
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -395,7 +394,10 @@
                         style="@style/textSmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2" />
+                        android:layout_marginRight="@dimen/common_padding"
+                        android:layout_weight="2"
+                        android:gravity="right|center_vertical"
+                        android:textColor="@color/textGary" />
 
                     <ImageView
                         android:layout_width="7dp"
@@ -425,7 +427,10 @@
                         style="@style/textSmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2" />
+                        android:layout_marginRight="@dimen/common_padding"
+                        android:layout_weight="2"
+                        android:gravity="right|center_vertical"
+                        android:textColor="@color/textGary" />
 
                     <ImageView
                         android:layout_width="7dp"
@@ -454,7 +459,10 @@
                         style="@style/textSmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="2" />
+                        android:layout_marginRight="@dimen/common_padding"
+                        android:layout_weight="2"
+                        android:gravity="end|center_vertical"
+                        android:textColor="@color/textGary" />
 
                     <ImageView
                         android:layout_width="7dp"

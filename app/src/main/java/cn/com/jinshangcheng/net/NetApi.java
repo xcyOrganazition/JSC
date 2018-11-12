@@ -81,6 +81,54 @@ public interface NetApi {
     Observable<BaseBean<CheckDataBean>> getCheckReport(@Field("carid") String carid, @Field("userid") String userId);
 
     /**
+     * 完善车保险信息
+     *
+     * @param carid
+     * @param userId
+     * @param time
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/perfectCarInsurance")
+    Observable<BaseBean> confirmInsurance(@Field("carid") String carid,
+                                          @Field("userid") String userId,
+                                          @Field("insurancedeadline") String time);
+
+    /**
+     * 完善保养信息
+     *
+     * @param carid
+     * @param userId
+     * @param lastmaintainmileage 最近保养里程
+     * @param maintenanceinterval 保养间隔
+     * @param lastMaintainTime    最近保养时间
+     * @param totalmileage        行驶总里程
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/perfectCarMaintain")
+    Observable<BaseBean> confirmMaintain(@Field("carid") String carid,
+                                         @Field("userid") String userId,
+                                         @Field("lastmaintainmileage") String lastmaintainmileage,
+                                         @Field("maintenanceinterval") String maintenanceinterval,
+                                         @Field("lastMaintainTime") String lastMaintainTime,
+                                         @Field("totalmileage") String totalmileage);
+
+    /**
+     * 完善车年审信息
+     *
+     * @param carid
+     * @param userId
+     * @param time
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/perfectCarAnnualtriald")
+    Observable<BaseBean> confirmAnnual(@Field("carid") String carid,
+                                       @Field("userid") String userId,
+                                       @Field("annualtrialdeadlineDate") String time);
+
+    /**
      * 获取商品列表
      *
      * @return bean

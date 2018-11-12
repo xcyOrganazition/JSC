@@ -1,9 +1,11 @@
 package cn.com.jinshangcheng.bean;
 
+import java.io.Serializable;
+
 /**
  * 获取车的保养保险年审信息
  */
-public class CarMaintainBean extends BaseBean<CarMaintainBean>{
+public class CarMaintainBean extends BaseBean<CarMaintainBean> {
 
     /**
      * insurancedeadline : 1537372800000
@@ -18,6 +20,7 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean>{
     private int totalmileage;
     private MaintainBean maintain;
     private long carregistdate;
+    private long annualtrialdeadline;
 
     public long getInsurancedeadline() {
         return insurancedeadline;
@@ -59,7 +62,15 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean>{
         this.carregistdate = carregistdate;
     }
 
-    public static class MaintainBean {
+    public long getAnnualtrialdeadline() {
+        return annualtrialdeadline;
+    }
+
+    public void setAnnualtrialdeadline(long annualtrialdeadline) {
+        this.annualtrialdeadline = annualtrialdeadline;
+    }
+
+    public class MaintainBean implements Serializable {
         /**
          * maintainid : 0220BF7A9A8A4288BB644EF384F651F0
          * carid : 1648A38F4E0F4E7DACD87F105D4E3D36
@@ -72,6 +83,7 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean>{
 
         private String maintainid;
         private String carid;
+        private String mileage;//总里程
         private int lastmaintainmileage;
         private int maintenanceinterval;
         private long lastmaintaintime;
@@ -132,6 +144,14 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean>{
 
         public void setAnnualtrialdeadline(long annualtrialdeadline) {
             this.annualtrialdeadline = annualtrialdeadline;
+        }
+
+        public String getMileage() {
+            return mileage;
+        }
+
+        public void setMileage(String mileage) {
+            this.mileage = mileage;
         }
     }
 }

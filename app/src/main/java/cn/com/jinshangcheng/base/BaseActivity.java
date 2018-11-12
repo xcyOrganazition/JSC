@@ -1,17 +1,16 @@
 package cn.com.jinshangcheng.base;
 
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
-import cn.com.jinshangcheng.utils.ActivityUtils;
-import cn.com.jinshangcheng.widget.MyDialog;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.utils.ActivityUtils;
+import cn.com.jinshangcheng.widget.MyDialog;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -49,7 +48,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mContext = this;
-//        loading = new SVProgressHUD(mContext);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 //            StatusBarUtil.StatusBarLightMode(this);
@@ -60,13 +58,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityUtils.addActivity(this);
         initData();
         initView();
-//        MyApplication.getInstance().addActivity(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbind.unbind();
+        if (loading != null) {
+            loading.dismiss();
+            loading = null;
+        }
         ActivityUtils.removeActivity(this);
 
     }
@@ -76,7 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loading == null) {
             loading = new MyDialog(this);
         }
-
         loading.show();
 
     }
@@ -84,8 +84,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     //隐藏loading界面
     public void dismissLoading() {
         if (loading != null && loading.isShowing()) {
-            loading.hide();
+            loading.dismiss();
         }
+    }
 
+    public void showToast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 }

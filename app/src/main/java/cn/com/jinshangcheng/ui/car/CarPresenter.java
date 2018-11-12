@@ -90,8 +90,10 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
 
             @Override
             public void onNext(BaseBean<CarMaintainBean> baseBean) {
-                if (baseBean.code.equals("0") && null != baseBean.data) {
-                    carView.refreshMaintainData(baseBean.data);
+                if (baseBean.code.equals("0")) {
+                    if (null != baseBean.data) {
+                        carView.refreshMaintainData(baseBean.data);
+                    }
                 } else {
                     carView.toastErrorMsg(baseBean.errorMsg);
                 }

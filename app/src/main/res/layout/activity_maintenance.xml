@@ -72,7 +72,7 @@
             android:text="最近保养里程" />
 
         <EditText
-            android:id="@+id/et_nearMile"
+            android:id="@+id/et_nearMiles"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -110,7 +110,7 @@
             android:text="保养间隔" />
 
         <EditText
-            android:id="@+id/et_intervalMile"
+            android:id="@+id/et_intervalMiles"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -149,7 +149,7 @@
             android:text="最近保养时间" />
 
         <TextView
-            android:id="@+id/tv_nearTime"
+            android:id="@+id/tv_nearDate"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class BaseBean<T> implements Serializable {
     public String errorMsg;//错误描述
+    public String message;//错误描述
     public String code;
     public boolean success;//是否成功
     public boolean paging;//是否分页

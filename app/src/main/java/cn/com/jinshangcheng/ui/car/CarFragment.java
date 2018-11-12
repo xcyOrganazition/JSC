@@ -42,6 +42,7 @@ import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
+import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
 
 
@@ -82,11 +83,14 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
 
     private static CarFragment carFragment;
+    private static int REQUEST_CODE = 0x11;
+    public static int RESULT_CODE = 0x12;
     private List<CarBean> carList = new ArrayList<>();
 
     private CarPresenter mPresenter;
     private CarListPagerAdapter adapter;
     private GeoCoder mSearch;//地理反编码
+    private CarMaintainBean carMaintainBean;//车辆三审信息
 
     public CarFragment() {
         // Required empty public constructor
@@ -166,7 +170,6 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     }
 
 
-
     /**
      * 获取其他数据（位置、油耗、保险、年审等）
      */
@@ -216,9 +219,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             tvEmptyView.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
         }
-
         getOtherData();//请求车辆的其他数据
-
     }
 
     //刷新车辆位置数据
@@ -262,8 +263,13 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     //刷新保养保险年审信息
     @Override
-    public void refreshMaintainData(CarMaintainBean carMaintainBean) {
-
+    public void refreshMaintainData(CarMaintainBean maintainBean) {
+        this.carMaintainBean = maintainBean;
+        tvInsurance.setText(DateUtils.getYMDTime(carMaintainBean.getInsurancedeadline()));//保险信息
+        if (null != carMaintainBean.getMaintain()) {//保养信息
+            tvMaintenance.setText(DateUtils.getYMDTime(carMaintainBean.getMaintain().getLastmaintaintime()));
+        }
+        tvAnnual.setText(DateUtils.getYMDTime(carMaintainBean.getAnnualtrialdeadline()));//年审信息
     }
 
 
@@ -273,7 +279,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         Intent intent = null;
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
-                String carId = "8D1481D618B8450C9B7C17323B2F49BD";
+                String carId = MyApplication.getCarId();
                 intent = new Intent(getActivity(), CarDetectionActivity.class);
                 intent.putExtra("OPENCARID", carId);
                 break;
@@ -288,18 +294,34 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 break;
             case R.id.tv_insurance://保险信息
                 intent = new Intent(getActivity(), InsuranceActivity.class);
-                break;
+                intent.putExtra("maintainBean", carMaintainBean);
+                startActivityForResult(intent, REQUEST_CODE);
+                return;
             case R.id.tv_maintenance://保养信息
                 intent = new Intent(getActivity(), MaintenanceActivity.class);
-                break;
+                intent.putExtra("maintainBean", carMaintainBean);
+                startActivityForResult(intent, REQUEST_CODE);
+                return;
             case R.id.tv_annual://年审信息:
                 intent = new Intent(getActivity(), AnnualActivity.class);
+                intent.putExtra("maintainBean", carMaintainBean);
+                startActivityForResult(intent, REQUEST_CODE);
             case R.id.iv_shareLocation://分享:
 
-                break;
+                return;
         }
         if (intent != null) {
             getActivity().startActivity(intent);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //修改过三审数据  需要重新请求
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
+            mPresenter.getCarMaintainInfo();
         }
     }
 
