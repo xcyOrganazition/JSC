@@ -11,9 +11,9 @@ import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -35,6 +35,16 @@ public interface NetApi {
     @POST("/user/registOrLogin")
     Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber,
                                 @Field("verifyCode") String verifyCode);
+
+    /**
+     * 获取用户信息
+     *
+     * @param userid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/user/getUserInfo")
+    Observable<BaseBean<UserBean>> getUserInfo(@Field("userid") String userid);
 
     /**
      * 获取车辆列表
@@ -138,6 +148,16 @@ public interface NetApi {
     Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
 
     /**
+     * 获取地址列表
+     *
+     * @param userid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/address/getAddressList")
+    Observable<ArrayList<Address>> getAddressList(@Field("userid") String userid);
+
+    /**
      * 获取默认地址
      *
      * @return bean
@@ -149,10 +169,56 @@ public interface NetApi {
     /**
      * 添加地址
      *
-     * @return bean
+     * @param userId
+     * @param receiver
+     * @param phonenumber
+     * @param city
+     * @param detailaddress
+     * @param isdefault     0默认 1非默认
+     * @return
      */
+    @FormUrlEncoded
     @POST("/address/addAddress")
-    Observable<BaseBean<Address>> addAddress(@Body Address address);
+    Observable<BaseBean<Address>> addAddress(@Field("userid") String userId,
+                                             @Field("receiver") String receiver,
+                                             @Field("phonenumber") String phonenumber,
+                                             @Field("city") String city,
+                                             @Field("detailaddress") String detailaddress,
+                                             @Field("isdefault") int isdefault);
+
+    /**
+     * 修改地址
+     *
+     * @param userId
+     * @param addressId
+     * @param receiver
+     * @param phonenumber
+     * @param city
+     * @param detailaddress
+     * @param isDefault     0默认 1非默认
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/address/updateAddress")
+    Observable<BaseBean> updateAddress(@Field("userid") String userId,
+                                       @Field("addressid") String addressId,
+                                       @Field("receiver") String receiver,
+                                       @Field("phonenumber") String phonenumber,
+                                       @Field("city") String city,
+                                       @Field("detailaddress") String detailaddress,
+                                       @Field("isdefault") int isDefault);
+
+    /**
+     * 删除地址
+     *
+     * @param userId
+     * @param addressId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/address/delAddress")
+    Observable<BaseBean> delAddress(@Field("userid") String userId,
+                                    @Field("addressid") String addressId);
 
 
 }

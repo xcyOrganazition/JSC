@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -24,14 +23,21 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.AddressAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.AddressBean;
+import cn.com.jinshangcheng.bean.Address;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.ListViewDecoration;
 import cn.com.jinshangcheng.widget.TittleBar;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 地址管理
@@ -45,7 +51,8 @@ public class AddressManageActivity extends BaseActivity {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     private AddressAdapter adapter;
-    private ArrayList<AddressBean> data;
+    private ArrayList<Address> addressList;
+    private int REQUEST_CODE = 0x123;
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
@@ -54,13 +61,12 @@ public class AddressManageActivity extends BaseActivity {
             switch (view.getId()) {
                 case R.id.tv_edit:
                     Intent intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
-                    intent.putExtra("address", data.get(position));
-                    startActivity(intent);
+                    intent.putExtra("address", addressList.get(position));
+                    startActivityForResult(intent, REQUEST_CODE);
                     break;
                 default:
 
                     break;
-
             }
         }
     };
@@ -72,12 +78,8 @@ public class AddressManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        data = new ArrayList<>();
-        data.add(new AddressBean("家", "132123123123", "北京市海淀区18号楼101", "123", true));
-        data.add(new AddressBean("张飞", "132123123123", "北京市海淀区18号楼101", "123", false));
-        data.add(new AddressBean("赵云", "132123123123", "北京市海淀区18号楼101", "123", false));
-        data.add(new AddressBean("李云龙", "132123123123", "北京市海淀区18号楼101", "123", false));
-        adapter = new AddressAdapter(this, data);
+        addressList = new ArrayList<>();
+        adapter = new AddressAdapter(this, addressList);
     }
 
     @Override
@@ -87,16 +89,14 @@ public class AddressManageActivity extends BaseActivity {
 //        refreshLayout.setEnableLoadMoreWhenContentNotFull(false);//不满一页不允许加载更多
         refreshLayout.setEnableLoadMore(false);//不允许加载更多
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                Logger.w("refresh");
+                loadAddressList();
             }
         });
 
         initRecyclerView();
-
-
+        refreshLayout.autoRefresh();
     }
 
     /**
@@ -152,8 +152,7 @@ public class AddressManageActivity extends BaseActivity {
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
             if (menuPosition == 0) {// 删除按钮被点击。
-
-
+                deleteAddress(addressList.get(adapterPosition).getAddressid());
             }
         }
     };
@@ -165,17 +164,86 @@ public class AddressManageActivity extends BaseActivity {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (!recyclerView.canScrollVertically(1)) {// 手指不能向上滑动了
-                // 判断下是否有数据，如果有数据才去加载更多。
-                Logger.w("bottom");
             }
         }
     };
+
+    //请求车辆列表
+    private void loadAddressList() {
+        RetrofitService.getRetrofit().getAddressList(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<Address>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<Address> list) {
+                        if (list != null) {
+                            addressList = list;
+                        }
+                        adapter.refreshList(addressList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        refreshLayout.finishRefresh();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        refreshLayout.finishRefresh();
+                    }
+                });
+    }
+
+    public void deleteAddress(String addressId) {
+        RetrofitService.getRetrofit().delAddress(MyApplication.getUserId(), addressId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if (baseBean.code.equals("0")) {
+                            loadAddressList();
+                            showToast("删除成功");
+                        } else {
+                            showToast(baseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 
     //添加新地址
     @OnClick(R.id.bt_newAddress)
     public void onViewClicked() {
         Intent intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
-//        intent.putExtra("address", data.get(position));
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (EditAddressActivity.RESULT_CODE == resultCode) {
+            refreshLayout.autoRefresh();
+        }
     }
 }

@@ -24,6 +24,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
+import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import platform.cston.httplib.Cston;
 import platform.cston.httplib.bean.AuthorizationInfo;
@@ -35,20 +36,11 @@ public class MyApplication extends Application {
     private static AuthorizationInfo authorInfo = null;
     private static String userId = null;//用户Id
     private static String carId = null;//当前选中的CarId
+    private static UserBean userBean;//用户信息
 
 
     public MyApplication() {
         instance = this;
-    }
-
-
-    public static String getCarId() {
-        return "8D1481D618B8450C9B7C17323B2F49BD";
-//        return carId;
-    }
-
-    public static void setCarId(String carId) {
-        MyApplication.carId = carId;
     }
 
     public MyApplication getInstance() {
@@ -67,7 +59,15 @@ public class MyApplication extends Application {
         initImageLoader(this);//初始化第三方图片加载类
         Cston.Auth.init(this);//初始化CstSdk
         Cston.Auth.setDebug(true);
+    }
 
+    public static String getCarId() {
+        return "8D1481D618B8450C9B7C17323B2F49BD";
+//        return carId;
+    }
+
+    public static void setCarId(String carId) {
+        MyApplication.carId = carId;
     }
 
     public static String getUserId() {
@@ -159,5 +159,24 @@ public class MyApplication extends Application {
                 //  return new ClassicsFooter(context).setDrawableSize(20);
             }
         });
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public static UserBean getUserBean() {
+        if (userBean == null) {
+            userBean = new UserBean();
+        }
+        return userBean;
+    }
+
+    /**
+     * 保存用户信息
+     *
+     * @param userBean
+     */
+    public static void setUserBean(UserBean userBean) {
+        MyApplication.userBean = userBean;
     }
 }

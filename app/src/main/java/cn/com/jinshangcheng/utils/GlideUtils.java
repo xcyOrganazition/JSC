@@ -7,6 +7,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
+
+import java.util.UUID;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.net.RetrofitService;
@@ -20,6 +23,7 @@ public class GlideUtils {
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
             .priority(Priority.NORMAL)
+            .signature(new ObjectKey(UUID.randomUUID().toString()))
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
 

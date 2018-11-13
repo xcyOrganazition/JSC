@@ -18,6 +18,17 @@ public class Address extends BaseBean<Address> {
      * other2 : null
      */
 
+    //`addressid` int(4) NOT NULL auto_increment,
+    //`receiver` varchar(50) default NULL,/*张三*/
+    //`phoneNumber` varchar(50) default NULL,
+    //`city` varchar(50) default NULL,/*北京市海淀区*/
+    //`detailaddress` varchar(100) default NULL,/*融科资讯大厦12层*/
+    //`isdel` tinyint(1) default NULL,/*false 未删除，true删除*/
+    //`userid` int(4) default NULL,
+    //`isdefault` int(4) default NULL,/*0默认 1非默认 每次添加地址如果是唯一的一个，设为默认*/
+    //`registdate` datetime default NULL,
+    //`updatedate` datetime default NULL,
+
     private String addressid;
     private String receiver;
     private String phonenumber;

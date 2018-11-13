@@ -171,4 +171,8 @@
     <string name="cst_platform_report_time_of_drive">开车天数</string>
     <string name="cst_platform_report_max_mileage_time">最大里程日</string>
     <string name="cst_platform_report_day_unit">天</string>
+    <string name="wxName">微信昵称：</string>
+    <string name="userName">姓名：</string>
+    <string name="phoneNum">手机号：</string>
+    <string name="level">会员等级：</string>
 </resources>

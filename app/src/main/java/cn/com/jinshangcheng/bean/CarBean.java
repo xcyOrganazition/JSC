@@ -5,37 +5,33 @@ package cn.com.jinshangcheng.bean;
  */
 public class CarBean extends BaseBean<CarBean> {
 
-
-    /**
-     * carid : 1648A38F4E0F4E7DACD87F105D4E3D36
-     * opencarid : 9784n28997271692K75UGUGUU
-     * userid : 1
-     * platenumber : 冀B12313
-     * vin : LGBH52E01CY035590
-     * ein : B4204T61007236
-     * cartype : 0
-     * tplate : 0
-     * gasno : 98
-     * carregistdate : null
-     * sn : null
-     * din : null
-     * totalmileage : null
-     * mileage : null
-     * fuel : null
-     * insurancedeadline : null
-     * annualtrialdeadline : null
-     * brandname : abc
-     * brandpath : /pic/go.png
-     * typename : aaa
-     * typepath : /sdf/sdf.png
-     * model : 保时捷918 2014款 Spyder Weissach package 4.6L
-     * modelpath : http://file.kartor.cn/resize/image/carType/20151228/201512280950480209.jpg
-     * isdel : 1
-     * registdate : 1537864180000
-     * updatedate : null
-     * other1 : null
-     * other2 : null
-     */
+    //   `carid` char(32) NOT NULL,
+    //   `openCarId` char(32) NOT NULL,/*开放平台用户车辆唯一标识*/
+    //   `userid` int(4) default NULL,
+    //   `plateNumber` varchar(50) default NULL,/*车牌*/
+    //   `vin` varchar(50) default NULL, /*车架码(车辆识别代号)*/
+    //   `ein` varchar(50) default NULL, /*发动机号码*/
+    //   `carType` varchar(2) default NULL,/*车辆行驶证上车辆品牌型号，注：modelId和carType如果都填以modelId为准，二者至少填一个*/
+    //   `tplate`int(4) default 0, /*1 是临时车牌 0正式车牌*/
+    //   `gasno` int(11) default 92,/*请传数字：89,92,95,98,0.分别代表：89号（原90汽油），92号（原93）汽油，95号（原97）汽油，98号汽油，0号柴油。*/
+    //   `carregistdate` date default NULL,/*车辆注册日期*/
+    //   `sn` varchar(50) default NULL,    /*车机序列号*/
+    //   `din` varchar(50) default NULL,  /*驾图盒子唯一识别码（车机号）*/
+    //   `totalmileage` decimal(8,2) default NULL,/*行驶里程*/
+    //   `mileage` decimal(8,2) default 0.0,/*插入盒子之后的总里程*/
+    //   `fuel` decimal(8,2) default 0.0,/*插入盒子之后的总油耗/car/obd/query*/
+    //   `insurancedeadline` date default NULL,/*保险日期*/
+    //   `annualtrialdeadline` date default NULL, /*年审日期*/
+    //   `brandName` varchar(200) default NULL, /*品牌名称*/
+    //   `brandPath` varchar(200) default NULL, /*品牌图片*/
+    //   `typeName` varchar(200) default NULL, /*车型名称*/
+    //   `typePath` varchar(200) default NULL, /*车型图片路径*/
+    //   `model` varchar(200) default NULL, /*车款名称*/
+    //   `modelPath` varchar(200) default NULL, /*车款图片路径*/
+    //   `isdel` varchar(1) default NULL, /*车辆是否删除 0:已删除，1：未删除*/
+    //   `registdate` datetime default NULL,     /*注册时间*/
+    //   `updatedate` datetime default NULL,     /*更新时间*/
+    //   `emergencyphonenum` varchar(50) default NULL, /*紧急联系电话*/
 
     private String carid;
     private String opencarid;

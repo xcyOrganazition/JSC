@@ -60,6 +60,7 @@ public class MaintenanceActivity extends BaseActivity {
             etNearMile.setText(maintainBean.getLastmaintainmileage());//最近保养历程
             etIntervalMile.setText(maintainBean.getMaintenanceinterval());//保养间隔
             tvNearTime.setText(DateUtils.getYMDTime(maintainBean.getLastmaintaintime()));//最近保养时间
+            etTotalMile.setSelection(maintainBean.getMileage().length());
         }
     }
 

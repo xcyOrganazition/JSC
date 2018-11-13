@@ -16,15 +16,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.Car;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.utils.GlideUtils;
 
 /**
  * 车辆管理Adapter
  */
 public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultViewHolder> {
     BaseActivity mContext;
-    List<Car> list;
+    List<CarBean> list;
 
     private OnItemViewClickListener mOnItemClickListener;
 
@@ -33,7 +34,7 @@ public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultV
      *
      * @param list
      */
-    public void refreshList(List<Car> list) {
+    public void refreshList(List<CarBean> list) {
         this.list = list;
         this.notifyDataSetChanged();
 
@@ -43,7 +44,7 @@ public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultV
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public CarManageAdapter(BaseActivity mContext, List<Car> list) {
+    public CarManageAdapter(BaseActivity mContext, List<CarBean> list) {
         this.mContext = mContext;
         this.list = list;
     }
@@ -95,16 +96,20 @@ public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultV
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-
+            tvBind.setOnClickListener(this);
+            tvStealth.setOnClickListener(this);
+            tvUnbind.setOnClickListener(this);
+            tvEdit.setOnClickListener(this);
         }
 
-        public void setData(Car bean, int position) {
-                llHasBind.setVisibility(position % 2 == 0 ? View.VISIBLE : View.INVISIBLE);
-                llNotBind.setVisibility(position % 2 == 0 ? View.INVISIBLE : View.VISIBLE);
-                tvBind.setOnClickListener(this);
-                tvStealth.setOnClickListener(this);
-                tvUnbind.setOnClickListener(this);
-                tvEdit.setOnClickListener(this);
+        public void setData(CarBean bean, int position) {
+            tvPlate.setText(bean.getPlatenumber());
+            tvModel.setText(bean.getBrandname());
+            tvTypeName.setText(bean.getTypename());
+            GlideUtils.loadImage(mContext, bean.getTypepath(), ivCar);
+            llHasBind.setVisibility(bean.getDin() != null ? View.VISIBLE : View.INVISIBLE);
+            llNotBind.setVisibility(bean.getDin() != null ? View.INVISIBLE : View.VISIBLE);
+
         }
 
         @Override

@@ -37,12 +37,30 @@
         app:layout_constraintRight_toRightOf="@+id/root" />
 
     <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_default"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
+        android:background="@drawable/btn_background"
+        android:padding="3dp"
+        android:text="默认"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/root"
+        app:layout_constraintRight_toLeftOf="@+id/tv_address"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="14dp"
+        android:text="oaisjdoiasjdoi jasojoi 奥斯迪加我按实际都爱上就暗示将阿斯爱搜低价奥斯 "
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/tv_name" />
+        app:layout_constraintLeft_toRightOf="@+id/tv_default"
+        app:layout_constraintRight_toRightOf="@+id/tv_edit"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.AddressBean;
+import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 
 /**
@@ -23,7 +23,7 @@ import cn.com.jinshangcheng.listener.OnItemViewClickListener;
  */
 public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewHolder> {
     BaseActivity mContext;
-    List<AddressBean> list;
+    List<Address> list;
 
     private OnItemViewClickListener mOnItemClickListener;
 
@@ -32,7 +32,7 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
      *
      * @param list
      */
-    public void refreshList(List<AddressBean> list) {
+    public void refreshList(List<Address> list) {
         this.list = list;
         this.notifyDataSetChanged();
 
@@ -42,7 +42,7 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
         this.mOnItemClickListener = onItemClickListener;
     }
 
-    public AddressAdapter(BaseActivity mContext, List<AddressBean> list) {
+    public AddressAdapter(BaseActivity mContext, List<Address> list) {
         this.mContext = mContext;
         this.list = list;
     }
@@ -76,6 +76,8 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
         TextView tvPhone;
         @BindView(R.id.tv_edit)
         TextView tvEdit;
+        @BindView(R.id.tv_default)
+        TextView tvDefault;
         @BindView(R.id.tv_address)
         TextView tvAddress;
 
@@ -84,13 +86,13 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
             tvEdit.setOnClickListener(this);
-
         }
 
-        public void setData(AddressBean bean, Context mContext) {
-            tvAddress.setText(bean.address);
-            tvName.setText(bean.name);
-            tvPhone.setText(bean.phone);
+        public void setData(Address bean, Context mContext) {
+            tvAddress.setText(String.format("%s%s", bean.getCity(), bean.getDetailaddress()));
+            tvName.setText(bean.getReceiver());
+            tvPhone.setText(String.valueOf(bean.getPhonenumber()));
+            tvDefault.setVisibility(bean.getIsdefault() == 0 ? View.VISIBLE : View.GONE);//0默认 1非默认 每次添加地址如果是唯一的一个，设为默认
         }
 
         @Override

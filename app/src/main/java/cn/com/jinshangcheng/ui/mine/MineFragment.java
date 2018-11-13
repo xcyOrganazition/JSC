@@ -5,12 +5,21 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.GlideUtils;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -20,10 +29,16 @@ public class MineFragment extends BaseFragment {
 
 
     private static MineFragment mineFragment;
-    Unbinder unbinder;
     @BindView(R.id.iv_headImg)
     ImageView ivHeadImg;
-    Unbinder unbinder1;
+    @BindView(R.id.tv_wxName)
+    TextView tvWxName;
+    @BindView(R.id.tv_userName)
+    TextView tvUserName;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
+    @BindView(R.id.tv_level)
+    TextView tvLevel;
 
     public MineFragment() {
         // Required empty public constructor
@@ -54,6 +69,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        getUserInfo();
     }
 
 
@@ -80,6 +96,44 @@ public class MineFragment extends BaseFragment {
     public void onViewClicked() {
     }
 
+    public void getUserInfo() {
+        RetrofitService.getRetrofit().getUserInfo(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<UserBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<UserBean> baseBean) {
+                        if (baseBean != null && baseBean.data != null) {
+                            MyApplication.setUserBean(baseBean.data);
+                            refreshUserData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void refreshUserData() {
+        UserBean userBean = MyApplication.getUserBean();
+        tvUserName.setText(String.format("%s%s", getResources().getString(R.string.userName), userBean.name));
+        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
+        tvPhone.setText(String.format("%s%s", getResources().getString(R.string.phoneNum), userBean.phonenumber));
+        tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), userBean.userlevel));
+        GlideUtils.loadImage(getHoldingActivity(), userBean.weixinpic, ivHeadImg);
+    }
 
     @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address, R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us})
     public void onViewClicked(View view) {
@@ -116,4 +170,5 @@ public class MineFragment extends BaseFragment {
             getActivity().startActivity(intent);
         }
     }
+
 }

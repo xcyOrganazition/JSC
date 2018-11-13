@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -23,15 +22,25 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarManageAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
-import cn.com.jinshangcheng.bean.Car;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.ListViewDecoration;
 import cn.com.jinshangcheng.widget.TittleBar;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
+/**
+ * 车辆管理
+ */
 public class CarManageActivity extends BaseActivity {
 
     @BindView(R.id.tittleBar)
@@ -41,11 +50,12 @@ public class CarManageActivity extends BaseActivity {
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     private CarManageAdapter adapter;
-    private ArrayList<Car> data;
+    private ArrayList<CarBean> carList;
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
         Intent intent = null;
+
         @Override
         public void onViewClick(int position, View view) {
             switch (view.getId()) {
@@ -71,16 +81,8 @@ public class CarManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        data = new ArrayList<>();
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        data.add(new Car("五菱宏光", "京A123123", "五菱", "123"));
-        adapter = new CarManageAdapter(this, data);
+        carList = new ArrayList<>();
+        adapter = new CarManageAdapter(this, carList);
     }
 
     @Override
@@ -90,15 +92,13 @@ public class CarManageActivity extends BaseActivity {
 //        refreshLayout.setEnableLoadMoreWhenContentNotFull(false);//不满一页不允许加载更多
         refreshLayout.setEnableLoadMore(false);//不允许加载更多
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                Logger.w("refresh");
+                loadCarList();
             }
         });
-
         initRecyclerView();
-
+        refreshLayout.autoRefresh();
 
     }
 
@@ -155,21 +155,48 @@ public class CarManageActivity extends BaseActivity {
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
             if (menuPosition == 0) {// 删除按钮被点击。
-
-
             }
         }
     };
 
-    /**
-     * 加载更多
-     */
+    //请求车辆列表
+    private void loadCarList() {
+        RetrofitService.getRetrofit().getCarList(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<ArrayList<CarBean>>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
+                        if (arrayListBaseBean.code.equals("0") && null != arrayListBaseBean.data) {
+                            carList = arrayListBaseBean.data;
+                            adapter.refreshList(carList);
+                        } else {
+                            showToast(arrayListBaseBean.errorMsg);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        refreshLayout.finishRefresh();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        refreshLayout.finishRefresh();
+                    }
+                });
+    }
+
     private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (!recyclerView.canScrollVertically(1)) {// 手指不能向上滑动了
-                // 判断下是否有数据，如果有数据才去加载更多。
-                Logger.w("bottom");
             }
         }
     };
