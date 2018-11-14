@@ -1,6 +1,8 @@
 package cn.com.jinshangcheng.net;
 
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -274,7 +277,7 @@ public interface NetApi {
                                                        @Field("pageSize") int pageSize);
 
     /**
-     * 获取户账户详细信息
+     * 获取提现记录列表
      *
      * @param userId
      * @param currentPage 当前页
@@ -287,4 +290,14 @@ public interface NetApi {
                                                            @Field("currentPage") int currentPage,
                                                            @Field("pageSize") int pageSize);
 
+
+    /**
+     * 获取用户可提现金额
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/AccountdetailedController/getCanWithdraw")
+    Call<JsonObject> geCanWithdraw(@Field("userid") String userId);
 }

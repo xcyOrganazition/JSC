@@ -41,7 +41,7 @@
 
         <EditText
             android:id="@+id/et_drawMoney"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:hint="可提现金额"
             android:textColor="@color/textBlack"
