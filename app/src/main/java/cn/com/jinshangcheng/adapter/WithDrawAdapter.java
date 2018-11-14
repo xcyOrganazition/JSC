@@ -29,6 +29,11 @@ public class WithDrawAdapter extends RecyclerView.Adapter<WithDrawAdapter.Holder
         this.list = list;
     }
 
+    public void refreshAdapter(List<WithdrawBean> list) {
+        this.list = list;
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -63,7 +68,7 @@ public class WithDrawAdapter extends RecyclerView.Adapter<WithDrawAdapter.Holder
             String test = "2018-10-21：申请提现888元，提现成功。";
             SpannableStringBuilder builder = new SpannableStringBuilder(test);
             ForegroundColorSpan span = new ForegroundColorSpan(context.getResources().getColor(R.color.textGreen));
-            builder.setSpan(span, (test.lastIndexOf("，")+1), test.lastIndexOf("。"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(span, (test.lastIndexOf("，") + 1), test.lastIndexOf("。"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             ivText.setText(builder);
 
 

@@ -13,18 +13,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.bean.MyCustomerBean;
 
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
 
     private Context mContext;
-    private List dataList;
+    private List<MyCustomerBean> dataList;
 
-    public PeopleAdapter(Context mContext, List dataList) {
+    public PeopleAdapter(Context mContext, List<MyCustomerBean> dataList) {
         this.mContext = mContext;
         this.dataList = dataList;
     }
 
-    public void refreshList(List dataList) {
+    public void refreshList(List<MyCustomerBean> dataList) {
         this.dataList = dataList;
         this.notifyDataSetChanged();
     }
@@ -39,8 +40,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setData();
-
+        holder.setData(dataList.get(position), position);
     }
 
     @Override
@@ -62,8 +62,10 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
             ButterKnife.bind(this, itemView);
         }
 
-        public void setData() {
-
+        public void setData(MyCustomerBean bean, int position) {
+            tvCustNum.setText(String.valueOf(bean.teamnum));
+            tvPhone.setText(bean.phonenumber);
+            tvName.setText(bean.name);
         }
     }
 }

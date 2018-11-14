@@ -2,7 +2,7 @@ package cn.com.jinshangcheng.bean;
 
 import java.io.Serializable;
 
-public class WithdrawBean implements Serializable{
+public class WithdrawBean implements Serializable {
 
     /**
      * detaileid : 1DD77FCCFDC94C4FB5CDF3D7F3ACA058
@@ -18,12 +18,13 @@ public class WithdrawBean implements Serializable{
      * orderitem : 8DFC52943B9141A48993FDA609E59E2C
      */
 
+    //registtime(时间)，dealtype(处理类型)，dealbalance（金额）
     private String detaileid;
     private String userid;
     private Object accountid;
     private double dealbalance;
     private long registtime;
-    private int dealtype;
+    private int dealtype;// 0直推奖 1级差奖 2.已申请提现 3.已打款 4已退款
     private String orderid;
     private long updatetime;
 

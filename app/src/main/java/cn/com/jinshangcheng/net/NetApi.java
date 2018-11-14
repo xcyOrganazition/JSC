@@ -6,12 +6,17 @@ import java.util.List;
 
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.Goods;
+import cn.com.jinshangcheng.bean.IncomeBean;
 import cn.com.jinshangcheng.bean.LoginBean;
+import cn.com.jinshangcheng.bean.MyCountBean;
+import cn.com.jinshangcheng.bean.MyCustomerBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -220,5 +225,66 @@ public interface NetApi {
     Observable<BaseBean> delAddress(@Field("userid") String userId,
                                     @Field("addressid") String addressId);
 
+    /**
+     * 获取我的客户数，包括客户总数(teamnum)、直推客户(straightpushnum)、其它客户(othernum)
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/user/getMyCount")
+    Observable<MyCountBean> getMyCount(@Field("userid") String userId);
+
+    /**
+     * 获取我的客户列表
+     *
+     * @param userId
+     * @param currentPage 当前页
+     * @param pageSize    每页有多少条数据
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/user/getMySonUsers")
+    Observable<BaseListBean<MyCustomerBean>> getMyCustomerList(@Field("userid") String userId,
+                                                               @Field("currentPage") int currentPage,
+                                                               @Field("pageSize") int pageSize);
+
+    /**
+     * 获取用户账户统计信息，包括总收益、余额和已提现
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/AccountdetailedController/getDetailCount")
+    Observable<IncomeBean> getDetailCount(@Field("userid") String userId);
+
+    /**
+     * 获取户账户详细信息
+     *
+     * @param userId
+     * @param currentPage 当前页
+     * @param pageSize    每页有多少条数据
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/AccountdetailedController/getDetailData")
+    Observable<BaseListBean<WithdrawBean>> getBillList(@Field("userid") String userId,
+                                                       @Field("currentPage") int currentPage,
+                                                       @Field("pageSize") int pageSize);
+
+    /**
+     * 获取户账户详细信息
+     *
+     * @param userId
+     * @param currentPage 当前页
+     * @param pageSize    每页有多少条数据
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/AccountdetailedController/myWithdrawDetaile")
+    Observable<BaseListBean<WithdrawBean>> getWithdrawList(@Field("userid") String userId,
+                                                           @Field("currentPage") int currentPage,
+                                                           @Field("pageSize") int pageSize);
 
 }
