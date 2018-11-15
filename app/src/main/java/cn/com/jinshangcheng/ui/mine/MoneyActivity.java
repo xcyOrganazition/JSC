@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -48,6 +50,7 @@ public class MoneyActivity extends BaseActivity {
     private int page;
     private List<WithdrawBean> billList;
     private BillAdapter adapter;
+    private int emptyViewHeight;
 
     @Override
     public int setContentViewResource() {
@@ -57,7 +60,6 @@ public class MoneyActivity extends BaseActivity {
     @Override
     public void initData() {
         billList = new ArrayList<>();
-        adapter = new BillAdapter(this, billList);
         page = 1;
     }
 
@@ -73,7 +75,19 @@ public class MoneyActivity extends BaseActivity {
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        ViewTreeObserver viewObserver = refreshLayout.getViewTreeObserver();
+        viewObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                refreshLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                emptyViewHeight = refreshLayout.getHeight();
+                Logger.w("height PX" + emptyViewHeight);
+                Logger.w("height DP" + refreshLayout.getMeasuredHeight());
+                adapter = new BillAdapter(getApplicationContext(), billList, emptyViewHeight);
+                recyclerView.setAdapter(adapter);
+
+            }
+        });
         getIncome();
         getBillList();
     }
@@ -91,6 +105,7 @@ public class MoneyActivity extends BaseActivity {
         }
         startActivity(intent);
     }
+
 
     public void getIncome() {
         RetrofitService.getRetrofit().getDetailCount(MyApplication.getUserId())
@@ -129,7 +144,6 @@ public class MoneyActivity extends BaseActivity {
                 .subscribe(new Observer<BaseListBean<WithdrawBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
@@ -138,7 +152,9 @@ public class MoneyActivity extends BaseActivity {
                         if (null != baseBean) {
                             billList.addAll(baseBean.getBeanList());
                         }
-                        adapter.refreshListData(billList);
+                        if (null != adapter) {
+                            adapter.refreshListData(billList, emptyViewHeight);
+                        }
                     }
 
                     @Override

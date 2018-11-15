@@ -3,6 +3,8 @@ package cn.com.jinshangcheng.ui.mine;
 import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 
@@ -14,6 +16,7 @@ import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BankCardBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +29,13 @@ public class ApplyDrawActivity extends BaseActivity {
 
     @BindView(R.id.et_drawMoney)
     EditText etDrawMoney;
+    @BindView(R.id.ll_cardParent)
+    LinearLayout llCardParent;
+
+
     double maxMoney;
+    private int requestCode = 0x23;
+    private BankCardBean selectedCard;
 
     @Override
     public int setContentViewResource() {
@@ -35,7 +44,7 @@ public class ApplyDrawActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        maxMoney = 100;
+        maxMoney = 0;
 
     }
 
@@ -52,7 +61,8 @@ public class ApplyDrawActivity extends BaseActivity {
                 break;
             case R.id.tv_changeCard://选择银行卡
                 Intent intent = new Intent(ApplyDrawActivity.this, BankCardActivity.class);
-                startActivity(intent);
+                intent.putExtra("isFromSelect", true);
+                startActivityForResult(intent, requestCode);
                 break;
             case R.id.bt_applyDraw://申请提现
                 break;
@@ -64,6 +74,9 @@ public class ApplyDrawActivity extends BaseActivity {
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (null == response.body()) {
+                            return;
+                        }
                         String jsonObj = response.body().toString();
                         try {
                             JSONObject jsonObject = new JSONObject(jsonObj);
@@ -76,8 +89,31 @@ public class ApplyDrawActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                        t.printStackTrace();
                     }
                 });
+    }
+
+    public void refreshCarView() {
+        llCardParent.removeAllViews();
+        if (selectedCard != null) {
+            View cardView = getLayoutInflater().inflate(R.layout.item_bankcard, null);
+            TextView tvBankName = cardView.findViewById(R.id.tv_bankName);
+            TextView tvCardNum = cardView.findViewById(R.id.tv_cardNum);
+            TextView tvBankAddress = cardView.findViewById(R.id.tv_bankAddress);
+            tvBankAddress.setText(selectedCard.accountbank);
+            tvBankName.setText(String.format("开户行：%s", selectedCard.accountbank));
+            tvCardNum.setText(selectedCard.accountnum);
+            llCardParent.addView(cardView);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == this.requestCode && resultCode == BankCardActivity.RESULT_CODE && data != null) {
+            selectedCard = (BankCardBean) data.getSerializableExtra("selectedCard");
+            refreshCarView();
+        }
     }
 }

@@ -81,9 +81,9 @@ public class BankCardAdapter extends SwipeMenuAdapter<BankCardAdapter.DefaultVie
         }
 
         public void setData(BankCardBean bean, Context mContext) {
-//            tvBankAddress.setText(bean.accountbank);
-//            tvBankName.setText(bean.accountbank);
-//            tvCardNum.setText(bean.accountnum);
+            tvBankAddress.setText(bean.accountbank);
+            tvBankName.setText(String.format("开户行：%s", bean.accountbank));
+            tvCardNum.setText(bean.accountnum);
         }
 
         @Override

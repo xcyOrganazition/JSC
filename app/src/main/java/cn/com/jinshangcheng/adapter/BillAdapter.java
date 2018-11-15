@@ -21,6 +21,7 @@ import cn.com.jinshangcheng.utils.DateUtils;
  * 账单变更详情
  */
 public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private int emptyViewHeight;
     Context context;
 
     List<WithdrawBean> list;
@@ -29,13 +30,16 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int viewTypeHasContent = 2;
 
 
-    public BillAdapter(Context context, List<WithdrawBean> list) {
+    public BillAdapter(Context context, List<WithdrawBean> list, int emptyViewHeight) {
         this.context = context;
         this.list = list;
+        this.emptyViewHeight = emptyViewHeight;
+
     }
 
-    public void refreshListData(List<WithdrawBean> list) {
+    public void refreshListData(List<WithdrawBean> list, int emptyViewHeight) {
         this.list = list;
+        this.emptyViewHeight = emptyViewHeight;
         this.notifyDataSetChanged();
     }
 
@@ -45,7 +49,7 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == viewTypeEmpty) {
             View emptyView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_empty_view, parent, false);
             RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+                    emptyViewHeight);
             emptyView.setLayoutParams(lp);
             return new RecyclerView.ViewHolder(emptyView) {
             };

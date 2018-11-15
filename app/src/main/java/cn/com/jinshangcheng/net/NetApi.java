@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.jinshangcheng.bean.Address;
+import cn.com.jinshangcheng.bean.BankCardBean;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.CarBean;
@@ -300,4 +301,14 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/AccountdetailedController/getCanWithdraw")
     Call<JsonObject> geCanWithdraw(@Field("userid") String userId);
+
+    /**
+     * 获取我的银行卡列表
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/getAccountList")
+    Observable<ArrayList<BankCardBean>> getCardList(@Field("userid") String userId);
 }

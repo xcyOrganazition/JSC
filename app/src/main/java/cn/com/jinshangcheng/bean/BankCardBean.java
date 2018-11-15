@@ -10,8 +10,8 @@ public class BankCardBean extends BaseBean<BankCardBean> {
     public String accountuser;
     public String accountbank;
     public String isdefault;
-    public String registtime;
-    public String updatetime;
+    public long registtime;
+    public long updatetime;
 
     public BankCardBean() {
     }

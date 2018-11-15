@@ -2,14 +2,12 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.orhanobut.logger.Logger;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -21,15 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.BankCardAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.BankCardBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
-import cn.com.jinshangcheng.widget.ListViewDecoration;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 银行卡
@@ -41,6 +44,8 @@ public class BankCardActivity extends BaseActivity {
 
     private List<BankCardBean> cardBeanList = new ArrayList<>();
     private BankCardAdapter adapter;
+    public static final int RESULT_CODE = 0x24;
+    private boolean isFromSelect;//是否是选择银行卡
 
     @Override
     public int setContentViewResource() {
@@ -49,12 +54,7 @@ public class BankCardActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        cardBeanList.add(new BankCardBean());
-        cardBeanList.add(new BankCardBean());
-        cardBeanList.add(new BankCardBean());
-        cardBeanList.add(new BankCardBean());
         adapter = new BankCardAdapter(this, cardBeanList);
-
     }
 
     @Override
@@ -71,21 +71,27 @@ public class BankCardActivity extends BaseActivity {
         recyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
         adapter.setOnItemClickListener(onItemClickListener);
         recyclerView.setAdapter(adapter);
-
+        isFromSelect = getIntent().getBooleanExtra("isFromSelect", false);
+        getCardList();//请求卡列表
     }
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
         @Override
         public void onViewClick(int position, View view) {
+            Intent intent = new Intent();
             switch (view.getId()) {
-
                 default:
-                    Intent intent = new Intent(BankCardActivity.this, NewCardActivity.class);
-                    intent.putExtra("card", cardBeanList.get(position));
-                    startActivity(intent);
-                    break;
-
+                    if (isFromSelect) {//选择银行卡
+                        intent.putExtra("selectedCard", cardBeanList.get(position));
+                        setResult(RESULT_CODE, intent);
+                        finish();
+                    } else {
+                        //编辑银行卡
+                        intent = new Intent(BankCardActivity.this, NewCardActivity.class);
+                        intent.putExtra("card", cardBeanList.get(position));
+                        startActivity(intent);
+                    }
             }
         }
     };
@@ -97,8 +103,7 @@ public class BankCardActivity extends BaseActivity {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (!recyclerView.canScrollVertically(1)) {// 手指不能向上滑动了
-                // 判断下是否有数据，如果有数据才去加载更多。
-                Logger.w("bottom");
+
             }
         }
     };
@@ -142,6 +147,36 @@ public class BankCardActivity extends BaseActivity {
             }
         }
     };
+
+    public void getCardList() {
+        RetrofitService.getRetrofit().getCardList(MyApplication.getUserId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<ArrayList<BankCardBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<BankCardBean> bankCardList) {
+                        if (ArrayUtils.hasContent(bankCardList)) {
+                            cardBeanList.addAll(bankCardList);
+                            adapter.refreshList(cardBeanList);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     @OnClick(R.id.bt_newCard)
     public void onViewClicked() {
