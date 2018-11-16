@@ -311,4 +311,65 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/account/getAccountList")
     Observable<ArrayList<BankCardBean>> getCardList(@Field("userid") String userId);
+
+    /**
+     * 添加银行卡
+     *
+     * @param userId
+     * @param accountNum
+     * @param accountUser
+     * @param accountBank
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/addAccount")
+    Observable<BaseBean<BankCardBean>> addBankCard(@Field("userid") String userId,
+                                                   @Field("accountnum") String accountNum,
+                                                   @Field("accountuser") String accountUser,
+                                                   @Field("accountbank") String accountBank,
+                                                   @Field("isdefault") int isDefault);
+
+    /**
+     * 添加银行卡
+     *
+     * @param userId
+     * @param accountNum
+     * @param accountUser
+     * @param accountBank
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/updateAccountById")
+    Observable<BaseBean> updateCard(@Field("userid") String userId,
+                                    @Field("accountid") String accountid,
+                                    @Field("accountnum") String accountNum,
+                                    @Field("accountuser") String accountUser,
+                                    @Field("accountbank") String accountBank,
+                                    @Field("isdefault") int isDefault);
+
+    /**
+     * 删除银行卡
+     *
+     * @param userId
+     * @param accountid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/delAccount")
+    Observable<BaseBean> delCard(@Field("userid") String userId,
+                                 @Field("accountid") String accountid);
+
+    /**
+     * 设置某张银行卡为默认卡
+     *
+     * @param userId
+     * @param accountid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/setDefaultAccount")
+    Observable<BaseBean> setCardDefault(@Field("userid") String userId,
+                                        @Field("accountid") String accountid);
+
 }
+

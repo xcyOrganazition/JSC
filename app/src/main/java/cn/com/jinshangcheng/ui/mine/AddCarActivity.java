@@ -69,7 +69,7 @@ public class AddCarActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_confirm,R.id.tv_selectCarType})
+    @OnClick({R.id.bt_confirm, R.id.tv_selectCarType})
     public void onViewClicked(View view) {
         CommonUtils.hideSoftKeyboard(AddCarActivity.this);
 
@@ -77,11 +77,11 @@ public class AddCarActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.tv_selectCarType:
-                 intent= new Intent(AddCarActivity.this, SelectCarActivity.class);
+                intent = new Intent(AddCarActivity.this, SelectCarActivity.class);
                 startActivity(intent);
                 break;
             case R.id.bt_confirm:
-                 intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
+                intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
                 startActivity(intent);
                 AddCarActivity.this.finish();
 

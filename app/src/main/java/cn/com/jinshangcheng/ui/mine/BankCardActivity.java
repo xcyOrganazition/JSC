@@ -25,6 +25,7 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.BankCardAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.BankCardBean;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.ArrayUtils;
@@ -46,6 +47,7 @@ public class BankCardActivity extends BaseActivity {
     private BankCardAdapter adapter;
     public static final int RESULT_CODE = 0x24;
     private boolean isFromSelect;//是否是选择银行卡
+    private int REQUEST_CODE = 0x28;
 
     @Override
     public int setContentViewResource() {
@@ -81,6 +83,7 @@ public class BankCardActivity extends BaseActivity {
         public void onViewClick(int position, View view) {
             Intent intent = new Intent();
             switch (view.getId()) {
+
                 default:
                     if (isFromSelect) {//选择银行卡
                         intent.putExtra("selectedCard", cardBeanList.get(position));
@@ -90,7 +93,8 @@ public class BankCardActivity extends BaseActivity {
                         //编辑银行卡
                         intent = new Intent(BankCardActivity.this, NewCardActivity.class);
                         intent.putExtra("card", cardBeanList.get(position));
-                        startActivity(intent);
+                        intent.putExtra("isFromNew", false);//是否新增银行卡
+                        startActivityForResult(intent, REQUEST_CODE);
                     }
             }
         }
@@ -116,6 +120,14 @@ public class BankCardActivity extends BaseActivity {
         public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
             int width = DensityUtil.dip2px(mContext, 60);
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+            SwipeMenuItem setDefaultItem = new SwipeMenuItem(mContext)
+                    .setBackgroundDrawable(R.drawable.selector_set_default)
+//                    .setImage(R.mipmap.ic_action_delete)
+                    .setText("默认")
+                    .setTextColor(getResources().getColor(R.color.textBlack))
+                    .setWidth(width)
+                    .setHeight(height);
             SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
                     .setBackgroundDrawable(R.drawable.selector_delete)
 //                    .setImage(R.mipmap.ic_action_delete)
@@ -123,7 +135,8 @@ public class BankCardActivity extends BaseActivity {
                     .setTextColor(Color.WHITE)
                     .setWidth(width)
                     .setHeight(height);
-            swipeRightMenu.addMenuItem(deleteItem);// 添加右侧的按钮
+            swipeRightMenu.addMenuItem(setDefaultItem);// 添加右侧的设为默认按钮
+            swipeRightMenu.addMenuItem(deleteItem);// 添加右侧的删除按钮
         }
     };
 
@@ -141,14 +154,17 @@ public class BankCardActivity extends BaseActivity {
         @Override
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
-            if (menuPosition == 0) {// 删除按钮被点击。
-
-
+            if (menuPosition == 0) {//默认按钮点击
+                setCardDefault(cardBeanList.get(adapterPosition).accountid);
+            } else if (menuPosition == 1) {// 删除按钮被点击。
+                deleteCard(cardBeanList.get(adapterPosition).accountid);
             }
         }
     };
 
     public void getCardList() {
+        cardBeanList.clear();
+        showLoading();
         RetrofitService.getRetrofit().getCardList(MyApplication.getUserId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -164,16 +180,82 @@ public class BankCardActivity extends BaseActivity {
                             cardBeanList.addAll(bankCardList);
                             adapter.refreshList(cardBeanList);
                         }
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        dismissLoading();
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onComplete() {
+                        dismissLoading();
+                    }
+                });
+    }
+
+    public void deleteCard(String cardId) {
+        RetrofitService.getRetrofit().delCard(MyApplication.getUserId(), cardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if (baseBean.code.equals("0")) {
+                            getCardList();
+                            showToast("删除成功");
+                        } else {
+                            showToast(baseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //这是某张卡为默认
+    public void setCardDefault(String cardId) {
+        RetrofitService.getRetrofit().setCardDefault(MyApplication.getUserId(), cardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if (baseBean.code.equals("0")) {
+                            getCardList();
+                            showToast("修改成功");
+                        } else {
+                            showToast(baseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }
@@ -181,6 +263,15 @@ public class BankCardActivity extends BaseActivity {
     @OnClick(R.id.bt_newCard)
     public void onViewClicked() {
         Intent intent = new Intent(BankCardActivity.this, NewCardActivity.class);
-        startActivity(intent);
+        intent.putExtra("isFromNew", true);//是否新增银行卡
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (NewCardActivity.RESULT_CODE == resultCode) {
+            getCardList();//重新请求卡列表
+        }
     }
 }

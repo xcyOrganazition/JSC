@@ -14,6 +14,7 @@ public class BaseBean<T> implements Serializable {
     public boolean paging;//是否分页
     public PageBean page;
     public T data;
+    public T tAccount;
 
     @Override
     public String toString() {

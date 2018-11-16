@@ -9,7 +9,7 @@ public class BankCardBean extends BaseBean<BankCardBean> {
     public String accountnum;
     public String accountuser;
     public String accountbank;
-    public String isdefault;
+    public int isdefault;
     public long registtime;
     public long updatetime;
 

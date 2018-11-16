@@ -79,12 +79,12 @@
             android:maxHeight="100dp"
             android:padding="3dp" />
 
-        <!--<CheckBox-->
-        <!--android:id="@+id/cb_defaultAddress"-->
-        <!--style="@style/textMiddle"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="设为默认地址" />-->
+        <CheckBox
+            android:id="@+id/cb_defaultCard"
+            style="@style/textMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="设为默认卡号" />
 
         <View
             android:layout_width="0dp"

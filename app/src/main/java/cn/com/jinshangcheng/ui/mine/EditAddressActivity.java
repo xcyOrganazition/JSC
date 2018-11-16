@@ -43,9 +43,8 @@ public class EditAddressActivity extends BaseActivity {
     CheckBox cbDefaultAddress;
 
     Address bean;
-    public static final int RESULT_CODE = 0x22;
+    public static final int RESULT_CODE = 0x55;
     private CityWheelSelectPopupWindow popupWindow;
-    private Address address;
     private boolean isNewAddress;
     private String addressId;
 
@@ -142,7 +141,7 @@ public class EditAddressActivity extends BaseActivity {
                     public void onNext(BaseBean<Address> bean) {
                         showToast(bean.message);
                         Intent intent = new Intent();
-                        intent.putExtra("addressBean", address);
+                        intent.putExtra("addressBean", bean);
                         setResult(RESULT_CODE, intent);
                         finish();
                     }
