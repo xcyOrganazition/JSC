@@ -24,6 +24,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import platform.cston.httplib.Cston;
@@ -37,10 +38,18 @@ public class MyApplication extends Application {
     private static String userId = null;//用户Id
     private static String carId = null;//当前选中的CarId
     private static UserBean userBean;//用户信息
-
+    private static CarBean currentCarBean = null;//当前选择的车辆
 
     public MyApplication() {
         instance = this;
+    }
+
+    public static CarBean getCurrentCarBean() {
+        return currentCarBean;
+    }
+
+    public static void setCurrentCarBean(CarBean currentCarBean) {
+        MyApplication.currentCarBean = currentCarBean;
     }
 
     public MyApplication getInstance() {
@@ -62,8 +71,8 @@ public class MyApplication extends Application {
     }
 
     public static String getCarId() {
-        return "8D1481D618B8450C9B7C17323B2F49BD";
-//        return carId;
+//        return "8D1481D618B8450C9B7C17323B2F49BD";
+        return carId;
     }
 
     public static void setCarId(String carId) {

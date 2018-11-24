@@ -91,6 +91,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     private CarListPagerAdapter adapter;
     private GeoCoder mSearch;//地理反编码
     private CarMaintainBean carMaintainBean;//车辆三审信息
+    private ViewPager.OnPageChangeListener pageChangedListener;
 
     public CarFragment() {
         // Required empty public constructor
@@ -165,6 +166,27 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         adapter = new CarListPagerAdapter(carList, getHoldingActivity());
         vpCarList.setAdapter(adapter);
         vpCarList.setPageMargin(DensityUtil.dip2px(getHoldingActivity(), 6));
+        pageChangedListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (carList.size() > position) {
+                    MyApplication.setCarId(carList.get(position).getCarid());
+                    MyApplication.setCurrentCarBean(carList.get(position));
+                    getOtherData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+        vpCarList.addOnPageChangeListener(pageChangedListener);
 
         mPresenter.getCarList();//请求车辆数据
     }
@@ -174,9 +196,10 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
      * 获取其他数据（位置、油耗、保险、年审等）
      */
     public void getOtherData() {
+        tvMileNum.setText(MyApplication.getCurrentCarBean().getMileage());//总里程
+        tvFuelNum.setText(MyApplication.getCurrentCarBean().getFuel());//油耗
         mPresenter.getCarPosition(MyApplication.getCarId());//位置
         mPresenter.getCarMaintainInfo();//年审、保险、保养
-
     }
 
 
@@ -215,11 +238,11 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             tvEmptyView.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
             adapter.refreshList(carList);
+            getOtherData();//请求车辆的其他数据
         } else {//无车辆数据
             tvEmptyView.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
         }
-        getOtherData();//请求车辆的其他数据
     }
 
     //刷新车辆位置数据
@@ -257,8 +280,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             }
         };
         mSearch.setOnGetGeoCodeResultListener(listener);
-        mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-                .location(point));
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(point));
     }
 
     //刷新保养保险年审信息
@@ -268,6 +290,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         tvInsurance.setText(DateUtils.getYMDTime(carMaintainBean.getInsurancedeadline()));//保险信息
         if (null != carMaintainBean.getMaintain()) {//保养信息
             tvMaintenance.setText(DateUtils.getYMDTime(carMaintainBean.getMaintain().getLastmaintaintime()));
+        } else {//没有保养数据
+            tvMaintenance.setText("");
         }
         tvAnnual.setText(DateUtils.getYMDTime(carMaintainBean.getAnnualtrialdeadline()));//年审信息
     }

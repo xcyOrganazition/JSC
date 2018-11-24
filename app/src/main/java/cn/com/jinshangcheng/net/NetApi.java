@@ -18,6 +18,8 @@ import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.MyCountBean;
 import cn.com.jinshangcheng.bean.MyCustomerBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.bean.ReportBean;
+import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
@@ -146,6 +148,66 @@ public interface NetApi {
     Observable<BaseBean> confirmAnnual(@Field("carid") String carid,
                                        @Field("userid") String userId,
                                        @Field("annualtrialdeadlineDate") String time);
+
+    /**
+     * 获取用车报告 日报告
+     *
+     * @param carid
+     * @param userId
+     * @param time
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCarDateReport")
+    Observable<BaseBean<ReportBean>> getCarDateReport(@Field("carid") String carid,
+                                                      @Field("userid") String userId,
+                                                      @Field("startTime") String time);
+
+    /**
+     * 获取用车报告 月报告
+     *
+     * @param carid
+     * @param userId
+     * @param time
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCarMonthReport")
+    Observable<BaseBean<ReportBean>> getCarMonthReport(@Field("carid") String carid,
+                                                       @Field("userid") String userId,
+                                                       @Field("monthTime") String time);
+
+    /**
+     * 获取轨迹列表 日报告
+     *
+     * @param carid
+     * @param userId
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/travel/getTravelList")
+    Observable<ArrayList<TravelBean>> getDayTravelList(@Field("carid") String carid,
+                                                       @Field("userid") String userId,
+                                                       @Field("currentPage") int currentPage,
+                                                       @Field("pageSize") int pageSize,
+                                                       @Field("startTime") String startTime,
+                                                       @Field("stopTime") String stopTime);
+
+    /**
+     * 获取轨迹列表 日报告
+     *
+     * @param carid
+     * @param userId
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/travel/getTravelListByMonth")
+    Observable<ArrayList<TravelBean>> getMonthTravelList(@Field("carid") String carid,
+                                                         @Field("userid") String userId,
+//                                                         @Field("currentPage") int currentPage,
+//                                                         @Field("pageSize") int pageSize,
+                                                         @Field("monthTime") String monthTime);
+
 
     /**
      * 获取商品列表

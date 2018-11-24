@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.mine.EditMineActivity">
 
@@ -30,6 +30,7 @@
 
 
         <ImageView
+            android:id="@+id/iv_headImg"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -57,6 +58,7 @@
 
 
         <EditText
+            android:id="@+id/et_name"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -87,6 +89,7 @@
 
 
         <EditText
+            android:id="@+id/et_nickName"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -116,19 +119,20 @@
             android:text="性别" />
 
         <RadioGroup
+            android:id="@+id/rg_sex"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rb_littleCar"
+                android:id="@+id/rb_male"
                 style="@style/CommonRadioButton"
                 android:checked="true"
                 android:text="男" />
 
             <RadioButton
-                android:id="@+id/rb_bigCar"
+                android:id="@+id/rb_female"
                 style="@style/CommonRadioButton"
                 android:layout_marginLeft="@dimen/common_padding"
                 android:text="女" />
@@ -157,6 +161,7 @@
 
 
         <TextView
+            android:id="@+id/tv_city"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -192,6 +197,7 @@
 
 
         <EditText
+            android:id="@+id/et_phone"
             style="@style/textMoreSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -213,6 +219,7 @@
         android:layout_weight="1" />
 
     <Button
+        android:id="@+id/bt_confirm"
         style="@style/commonButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

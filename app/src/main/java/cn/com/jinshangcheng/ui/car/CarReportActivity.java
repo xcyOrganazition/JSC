@@ -8,10 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
@@ -19,16 +19,31 @@ import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuItem;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.LocusAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.ReportBean;
+import cn.com.jinshangcheng.bean.TravelBean;
+import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 用车报告
@@ -43,26 +58,46 @@ public class CarReportActivity extends BaseActivity {
     TextView tvCarType;
     @BindView(R.id.iv_carImg)
     ImageView ivCarImg;
-    @BindView(R.id.rg_viewType)
-    RadioGroup rgViewType;
     @BindView(R.id.tv_total)
     TextView tvTotal;
     @BindView(R.id.tv_mileNum)
     TextView tvMileNum;
-    @BindView(R.id.tv_fuelNum)
-    TextView tvFuelNum;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.tv_mile)
+    TextView tvMile;
     @BindView(R.id.tv_oil)
     TextView tvOil;
     @BindView(R.id.tv_ave_fuelNum)
     TextView tvAveFuelNum;
+    @BindView(R.id.tv_dccelerateTimes)
+    TextView tvDccelerateTimes;
+    @BindView(R.id.tv_accelerateTimes)
+    TextView tvAccelerateTimes;
+    @BindView(R.id.tv_sharpTurnTimes)
+    TextView tvSharpTurnTimes;
+    @BindView(R.id.tv_hasOverSpeed)
+    TextView tvHasOverSpeed;
+    @BindView(R.id.tv_maxSpeed)
+    TextView tvMaxSpeed;
+    @BindView(R.id.tv_averageSpeed)
+    TextView tvAverageSpeed;
     @BindView(R.id.recyclerView)
-    com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView recyclerView;
+    SwipeMenuRecyclerView recyclerView;
     @BindView(R.id.refreshLayout)
-    com.scwang.smartrefresh.layout.SmartRefreshLayout refreshLayout;
+    SmartRefreshLayout refreshLayout;
 
+
+    private final int DAY = 1;//日视图
+    private final int MONTH = 2;//月视图
 
     private LocusAdapter adapter;
-    private List locusList;
+    private List<TravelBean> travelList;
+    private String currentDate;
+    private int dateType;
+    private int page = 1;
+    private final int PAGE_SIZE = 10;
+
 
     @Override
     public int setContentViewResource() {
@@ -71,21 +106,20 @@ public class CarReportActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        locusList = new ArrayList();
-        locusList.add("");
-        locusList.add("");
-
-        adapter = new LocusAdapter(locusList, this);
+        dateType = DAY;
+        page = 1;
+        currentDate = DateUtils.getYMDTime(System.currentTimeMillis());
+        travelList = new ArrayList<>();
+        adapter = new LocusAdapter(travelList, this);
     }
 
     @Override
     public void initView() {
+        tvDate.setText(currentDate);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                locusList.add("");
-                locusList.add("");
-                adapter.refreshList(locusList);
+                adapter.refreshList(travelList);
                 refreshLayout.finishLoadMore();
 
             }
@@ -110,6 +144,7 @@ public class CarReportActivity extends BaseActivity {
         // 设置菜单Item点击监听。
         recyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
         recyclerView.setAdapter(adapter);
+        getDateReport();
     }
 
     /**
@@ -162,14 +197,219 @@ public class CarReportActivity extends BaseActivity {
         }
     };
 
+    public void getDayTravelList() {
+        RetrofitService.getRetrofit().getDayTravelList(MyApplication.getCarId(), MyApplication.getUserId(),
+                page, PAGE_SIZE, currentDate, currentDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<TravelBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<TravelBean> travelBeans) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void getMonthTravelList() {
+        RetrofitService.getRetrofit().getMonthTravelList(MyApplication.getCarId(), MyApplication.getUserId(),
+                currentDate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ArrayList<TravelBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<TravelBean> travelBeans) {
+                        travelList = travelBeans;
+                        adapter.refreshList(travelList);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    //获取车辆汇报数据
+    public void getDateReport() {
+        showLoading();
+        io.reactivex.Observable<BaseBean<ReportBean>> observable;
+        if (dateType == DAY) {
+            observable = RetrofitService.getRetrofit().getCarDateReport(MyApplication.getCarId(), MyApplication.getUserId(),
+                    currentDate);
+        } else {
+            observable = RetrofitService.getRetrofit().getCarMonthReport(MyApplication.getCarId(), MyApplication.getUserId(),
+                    currentDate);
+        }
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<ReportBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<ReportBean> baseBean) {
+                        if (baseBean.code.equals("0") && baseBean.data != null) {
+                            refreshReportView(baseBean.data);
+                        } else {
+                            resetReportView();
+                            showToast(baseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        resetReportView();
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissLoading();
+                    }
+                });
+    }
+
+    public void refreshReportView(ReportBean reportBean) {
+        tvTotal.setText(reportBean.fuelcost);//用车费用
+        tvMileNum.setText(String.valueOf(reportBean.duration / 3600));//用车时间
+        tvMile.setText(reportBean.mile);//行驶里程
+        tvOil.setText(reportBean.fuelcost);//燃烧油量
+        tvAveFuelNum.setText("暂无");//平均油耗
+        tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
+        tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
+        tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));
+        tvHasOverSpeed.setText(String.format("超速次数：%s次", reportBean.hasoverspeed));
+        tvMaxSpeed.setText(String.format("最高车速：%skm/h", reportBean.maxspeed));
+        tvAverageSpeed.setText(String.format("平均车速：%skm/h", reportBean.averagespeed));
+
+    }
+
+    //重置
+    public void resetReportView() {
+        tvTotal.setText("0");//用车费用
+        tvMileNum.setText("暂无");//用车时间
+        tvMile.setText("暂无");//行驶里程
+        tvOil.setText("暂无");//燃烧油量
+        tvAveFuelNum.setText("暂无");//平均油耗
+        tvDccelerateTimes.setText("急刹车次数：0次");
+        tvAccelerateTimes.setText("急加速次数：0次");
+        tvSharpTurnTimes.setText("急转弯次数：0次");
+        tvHasOverSpeed.setText("超速次数：0次");
+        tvMaxSpeed.setText("最高车速：0km/h");
+        tvAverageSpeed.setText("平均车速：0km/h");
+
+    }
 
     @OnClick({R.id.iv_previousDay, R.id.iv_nextDay})
     public void onViewClicked(View view) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
         switch (view.getId()) {
             case R.id.iv_previousDay:
-                break;
+                try {
+                    if (dateType == DAY) {
+                        calendar.setTime(sdfDay.parse(currentDate));
+                        calendar.add(Calendar.DAY_OF_MONTH, -2);
+                        currentDate = sdfDay.format(calendar.getTime());
+                        getDayTravelList();
+                    } else if (dateType == MONTH) {
+                        calendar.setTime(sdfMonth.parse(currentDate));
+                        calendar.add(Calendar.MONTH, -2);
+                        currentDate = sdfMonth.format(calendar.getTime());
+                        getMonthTravelList();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    break;
+                }
             case R.id.iv_nextDay:
+                try {
+                    if (dateType == DAY) {
+                        calendar.setTime(sdfDay.parse(currentDate));
+                        calendar.add(Calendar.DAY_OF_MONTH, +1);
+                        currentDate = sdfDay.format(calendar.getTime());
+                        getDayTravelList();
+                    } else if (dateType == MONTH) {
+                        calendar.setTime(sdfMonth.parse(currentDate));
+                        calendar.add(Calendar.MONTH, +1);
+                        currentDate = sdfMonth.format(calendar.getTime());
+                        getMonthTravelList();
+                    }
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
                 break;
         }
+        tvDate.setText(currentDate);
+        getDateReport();
     }
+
+    public void refreshDateText() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
+        try {
+            if (dateType == DAY) {
+                calendar.setTime(sdfMonth.parse(currentDate));
+                currentDate = sdfDay.format(calendar.getTime());
+
+            } else if (dateType == MONTH) {
+                calendar.setTime(sdfDay.parse(currentDate));
+                currentDate = sdfMonth.format(calendar.getTime());
+            }
+            tvDate.setText(currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @OnCheckedChanged(R.id.rb_day)
+    public void onDayChecked(boolean checked) {
+        if (checked) {
+            dateType = DAY;
+            refreshDateText();
+            getDateReport();
+            getDayTravelList();
+        }
+    }
+
+    @OnCheckedChanged(R.id.rb_month)
+    public void onMonthChecked(boolean checked) {
+        if (checked) {
+            dateType = MONTH;
+            refreshDateText();
+            getDateReport();
+            getMonthTravelList();
+        }
+
+    }
+
 }

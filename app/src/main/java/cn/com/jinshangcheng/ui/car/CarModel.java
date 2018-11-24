@@ -23,9 +23,10 @@ public class CarModel implements CarContract.IModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
     @Override
     public void loadCarMaintainInfo(Observer observer) {
-        RetrofitService.getRetrofit().getCarMaintainInfo(MyApplication.getUserId(),MyApplication.getCarId())
+        RetrofitService.getRetrofit().getCarMaintainInfo(MyApplication.getUserId(), MyApplication.getCarId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

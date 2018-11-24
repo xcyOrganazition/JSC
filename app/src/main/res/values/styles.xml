@@ -22,6 +22,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--从下到上弹出的dialog-->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -159,7 +165,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@style/cst_platform_ActionSheetDialogAnimation</item>
+        <item name="android:windowAnimationStyle">@style/cst_platform_ActionSheetDialogAnimation
+        </item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
@@ -234,7 +241,6 @@
         <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@color/cst_platform_dividing_line_2</item>
     </style>
-
 
 
     <!-- 通用选项卡左边 button布局样式 -->

@@ -126,7 +126,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <RadioGroup
-                            android:id="@+id/rg_viewType"
+                            android:id="@+id/rg_dateType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkedButton="@id/rb_day"
@@ -157,28 +157,33 @@
                             android:gravity="center"
                             android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rg_viewType">
+                            app:layout_constraintTop_toBottomOf="@+id/rg_dateType">
 
 
                             <ImageView
                                 android:id="@+id/iv_previousDay"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_left" />
 
                             <TextView
+                                android:id="@+id/tv_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/common_padding"
                                 android:layout_marginRight="@dimen/common_padding"
+                                android:gravity="center_horizontal"
+                                android:minWidth="120dp"
                                 android:text="2018年8月31日"
                                 android:textColor="#ff555555"
                                 android:textSize="14sp" />
 
                             <ImageView
                                 android:id="@+id/iv_nextDay"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="15dp"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerInside"
                                 android:src="@mipmap/ic_right" />
 
                         </LinearLayout>
@@ -212,9 +217,10 @@
                             android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:minWidth="35dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:text="8021"
+                            android:text="0"
                             android:textColor="@color/textBlack"
                             android:textSize="20sp" />
 
@@ -311,14 +317,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:text="行驶里程 km"
-                                app:layout_constraintBottom_toTopOf="@+id/tv_fuelNum"
+                                app:layout_constraintBottom_toTopOf="@+id/tv_mile"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/iv_fuel"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_chainStyle="packed" />
 
                             <TextView
-                                android:id="@+id/tv_fuelNum"
+                                android:id="@+id/tv_mile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -458,7 +464,9 @@
                         android:layout_marginLeft="@dimen/common_padding"
                         android:orientation="horizontal">
 
+
                         <TextView
+                            android:id="@+id/tv_dccelerateTimes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -467,6 +475,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_accelerateTimes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -483,6 +492,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv_sharpTurnTimes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -491,6 +501,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_hasOverSpeed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -508,6 +519,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv_maxSpeed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -516,6 +528,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_averageSpeed"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

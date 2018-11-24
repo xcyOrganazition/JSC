@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.car;
 
 import java.util.ArrayList;
 
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.base.BasePresenterImpl;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
@@ -32,9 +33,11 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
             @Override
             public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
                 if (arrayListBaseBean.code.equals("0") && null != arrayListBaseBean.data) {
+                    MyApplication.setCarId(arrayListBaseBean.data.get(0).getCarid());
+                    MyApplication.setCurrentCarBean(arrayListBaseBean.data.get(0));
                     carView.showCarList(arrayListBaseBean.data);
                 } else {
-                    carView.toastErrorMsg(arrayListBaseBean.errorMsg);
+                    carView.toastErrorMsg(arrayListBaseBean.message);
                 }
             }
 
@@ -64,13 +67,13 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
                 if (baseBean.code.equals("0") && null != baseBean.data) {
                     carView.refreshPosition(baseBean.data);
                 } else {
-                    carView.toastErrorMsg(baseBean.errorMsg);
+                    carView.toastErrorMsg(baseBean.message);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-
+                e.printStackTrace();
             }
 
             @Override
@@ -95,13 +98,13 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
                         carView.refreshMaintainData(baseBean.data);
                     }
                 } else {
-                    carView.toastErrorMsg(baseBean.errorMsg);
+                    carView.toastErrorMsg(baseBean.message);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
-
+                e.printStackTrace();
             }
 
             @Override

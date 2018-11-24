@@ -403,6 +403,22 @@ public class DateUtils {
     }
 
     /**
+     * 获取 MM-dd HH:mm 格式的时间
+     *
+     * @param time
+     * @return
+     */
+
+    public static String getMMddHMTime(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日 HH:mm");
+        String result = "";
+        Date date = new Date(time);
+        result = simpleDateFormat.format(date);
+        return result;
+
+    }
+
+    /**
      * 获取 yyyy-MM-dd 格式的时间
      *
      * @param time
@@ -433,9 +449,29 @@ public class DateUtils {
      */
 
     public static String getYMDTime(long time) {
-
         Date date = new Date(time);
         String result = df.format(date);
+        if (time == 0) {
+            result = "";
+        }
+        return result;
+
+    }
+
+    /**
+     * 获取 yyyy-MM 格式的时间
+     *
+     * @param time
+     * @return
+     */
+
+    public static String getYMTime(long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");// 设置日期格式
+        Date date = new Date(time);
+        String result = sdf.format(date);
+        if (time == 0) {
+            result = "";
+        }
         return result;
 
     }
