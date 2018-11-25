@@ -60,7 +60,7 @@ public class CarManageActivity extends BaseActivity {
         public void onViewClick(int position, View view) {
             switch (view.getId()) {
                 case R.id.tv_edit://编辑
-                    intent = new Intent(CarManageActivity.this, NewCardActivity.class);
+                    intent = new Intent(CarManageActivity.this, AddCarActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.tv_bind://立即绑定

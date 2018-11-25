@@ -1,5 +1,7 @@
 package cn.com.jinshangcheng.ui.mine;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -29,7 +31,7 @@ import platform.cston.httplib.search.CarBrandInfoSearch;
 import platform.cston.httplib.search.OnResultListener;
 
 /**
- * 选择车辆
+ * 选择车辆 (车款车型)
  */
 public class SelectCarActivity extends BaseActivity {
 
@@ -47,6 +49,9 @@ public class SelectCarActivity extends BaseActivity {
 
     private CarBrandsAdapter adapter;
     private SelectCarTypeWindow selectCarTypeWindow;
+    public static final int RESULT_CODE = 0x124;
+    public CarBrandsBean selectCarBrands;
+    public CarTypeResult.DataEntity.CarTypesEntity selectCarType;
 
 
     @Override
@@ -98,6 +103,7 @@ public class SelectCarActivity extends BaseActivity {
             @Override
             public void onViewClick(int position, View view) {
                 Logger.w("item" + brandsList.get(position));
+                selectCarBrands = brandsList.get(position);
                 getCarTypeData(brandsList.get(position));//点击品牌 获取车型
             }
         });
@@ -148,14 +154,28 @@ public class SelectCarActivity extends BaseActivity {
                         carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
                     }
                     selectCarTypeWindow = new SelectCarTypeWindow(SelectCarActivity.this,
-                            carBrandsBean, carTypeList, new SelectCarTypeWindow.OnCarModelSelectListener() {
-                        @Override
-                        public void onCarModelSelect(CarModelResult.DataEntity carModel) {
-                            Logger.w("选择的车型 = " + carModel);
-
-                            finish();
-                        }
-                    });
+                            carBrandsBean, carTypeList,
+                            new SelectCarTypeWindow.OnCarTypeSelectListener() {
+                                @Override
+                                public void onCarTypelSelect(CarTypeResult.DataEntity.CarTypesEntity carType) {
+                                    selectCarType = carType;
+                                }
+                            },
+                            new SelectCarTypeWindow.OnCarModelSelectListener() {
+                                @Override
+                                public void onCarModelSelect(CarModelResult.DataEntity carModel) {
+                                    Logger.w("选择的车型 = " + carModel);
+                                    selectCarTypeWindow.dismiss();
+                                    Intent intent = new Intent();
+                                    Bundle bundle = new Bundle();
+                                    intent.putExtra("selectCarBrands", selectCarBrands);
+                                    bundle.putParcelable("selectCarType", selectCarType);
+                                    bundle.putParcelable("selectCarModel", carModel);
+                                    intent.putExtras(bundle);
+                                    setResult(RESULT_CODE, intent);
+                                    finish();
+                                }
+                            });
 //                    selectCarTypeWindow.showAtLocation(tittleBar, Gravity.RIGHT, 0, 0);
                     selectCarTypeWindow.showAsDropDown(tittleBar, 0, 0, Gravity.RIGHT);
                 }

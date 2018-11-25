@@ -10,8 +10,6 @@ import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.PopupWindow;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +29,19 @@ public class SelectCarTypeWindow extends PopupWindow {
     private List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList;//汽车类型
     private List<List<CarModelResult.DataEntity>> carModelListGroup;//车款列表组
     private CarTypeAdapter adapter;
-    private SelectCarTypeWindow.OnCarModelSelectListener listener;
+    private SelectCarTypeWindow.OnCarTypeSelectListener carTypeListener;
+    private SelectCarTypeWindow.OnCarModelSelectListener carModelListener;
 
 
     public SelectCarTypeWindow(Context context, CarBrandsBean carBrandsBean,
                                List<CarTypeResult.DataEntity.CarTypesEntity> carTypeList,
-                               SelectCarTypeWindow.OnCarModelSelectListener listener) {
+                               SelectCarTypeWindow.OnCarTypeSelectListener carTypeListener,
+                               SelectCarTypeWindow.OnCarModelSelectListener carModelListener) {
         this.carBrandsBean = carBrandsBean;
         this.carTypeList = carTypeList;
         this.context = context;
-        this.listener = listener;
+        this.carTypeListener = carTypeListener;
+        this.carModelListener = carModelListener;
         setAnimationStyle(R.style.AnimationRightFade);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -65,6 +66,7 @@ public class SelectCarTypeWindow extends PopupWindow {
         listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                carTypeListener.onCarTypelSelect(carTypeList.get(groupPosition));//选择车型
                 if (carModelListGroup.isEmpty() || carModelListGroup.get(groupPosition) == null || carModelListGroup.get(groupPosition).size() == 0) {
                     getCarModelData(groupPosition);//没有数据请求车款
                 }
@@ -75,29 +77,13 @@ public class SelectCarTypeWindow extends PopupWindow {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 //                OnCarModelSelectListener.onCarModelSelect();
-                listener.onCarModelSelect(carModelListGroup.get(groupPosition).get(childPosition));
+                carModelListener.onCarModelSelect(carModelListGroup.get(groupPosition).get(childPosition));//选择车款
                 return false;
             }
         });
         listView.setAdapter(adapter);
     }
 
-    /**
-     * 请求车型 父列表
-     */
-    private void getCarTypeData() {
-        CarBrandInfoSearch.getInstance().GetCarTypeResult(carBrandsBean.brandId, new OnResultListener.CarTypeResultListener() {
-            @Override
-            public void onCarTypeResult(CarTypeResult carTypeResult, boolean isError, Throwable throwable) {
-                if (!isError) {
-//                    Logger.w("车型   " + carTypeResult.getData().get(0).getCarTypes());
-                    carTypeList = carTypeResult.getData().get(0).getCarTypes();
-                    adapter.refreshList(carTypeList, new ArrayList<CarModelResult.DataEntity>(), 0);
-
-                }
-            }
-        });
-    }
 
     /**
      * 请求车款 子列表
@@ -133,7 +119,11 @@ public class SelectCarTypeWindow extends PopupWindow {
         window.setAttributes(layoutParams);
     }
 
-   static public interface OnCarModelSelectListener{
-         abstract void onCarModelSelect(CarModelResult.DataEntity carModel);
+    static public interface OnCarModelSelectListener {
+        abstract void onCarModelSelect(CarModelResult.DataEntity carModel);
+    }
+
+    static public interface OnCarTypeSelectListener {
+        abstract void onCarTypelSelect(CarTypeResult.DataEntity.CarTypesEntity carType);
     }
 }

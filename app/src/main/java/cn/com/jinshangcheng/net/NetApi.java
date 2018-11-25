@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.jinshangcheng.bean.AddCarResult;
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BankCardBean;
 import cn.com.jinshangcheng.bean.BaseBean;
@@ -432,6 +433,49 @@ public interface NetApi {
     @POST("/account/setDefaultAccount")
     Observable<BaseBean> setCardDefault(@Field("userid") String userId,
                                         @Field("accountid") String accountid);
+
+    /**
+     * 添加车辆
+     *
+     * @param userId
+     * @param cartype           车型(小型车0、大型车1)
+     * @param platenumber       车牌号
+     * @param vin               车架码
+     *                          //     * @param ein               发动机号码
+     * @param brandname         品牌名称
+     * @param brandpath         品牌图片
+     * @param typename          车型名称
+     * @param typepath          车型图片
+     * @param modelId           品牌图片
+     * @param model             车款名称
+     * @param modelpath         车款图片
+     * @param gasno             油号 92,95,98,0.
+     * @param carregistdate     注册时间
+     * @param totalmileage      行驶里程
+     * @param insurancedeadline 保险日期
+     * @param emergencyphonenum 紧急联系人电话
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/addCar")
+    Observable<AddCarResult> addCar(@Field("userid") String userId,
+                                    @Field("cartype") int cartype,
+                                    @Field("platenumber") String platenumber,
+                                    @Field("vin") String vin,
+//                                @Field("ein") String ein,
+                                    @Field("brandname") String brandname,
+                                    @Field("brandpath") String brandpath,
+                                    @Field("typename") String typename,
+                                    @Field("typepath") String typepath,
+                                    @Field("modelId") String modelId,
+                                    @Field("model") String model,
+                                    @Field("modelpath") String modelpath,
+                                    @Field("gasno") int gasno,
+                                    @Field("carregistdate") String carregistdate,
+                                    @Field("totalmileage") String totalmileage,
+                                    @Field("insurancedeadline") String insurancedeadline,
+                                    @Field("emergencyphonenum") String emergencyphonenum
+    );
 
 }
 

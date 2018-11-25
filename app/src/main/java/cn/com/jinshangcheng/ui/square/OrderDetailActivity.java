@@ -37,6 +37,8 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvName;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
+    @BindView(R.id.tv_default)
+    TextView tvDefault;
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.tv_address)
@@ -99,12 +101,13 @@ public class OrderDetailActivity extends BaseActivity {
         tvTotalPrice.setText(String.format("总计 %s 元", totalPrice));
     }
 
-    public void initAddressView(){
+    public void initAddressView() {
         if (address != null) {
             tvName.setText(address.getReceiver());
             tvAddress.setText(address.getCity() + address.getDetailaddress());
             tvEdit.setVisibility(View.INVISIBLE);
             tvPhone.setText(address.getPhonenumber());
+            tvDefault.setVisibility(address.getIsdefault() == 0 ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -162,6 +165,7 @@ public class OrderDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_changeAddress:
                 intent = new Intent(getApplicationContext(), AddressManageActivity.class);
+                intent.putExtra("fromOrder", true);
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.tv_newAddress:
@@ -176,6 +180,10 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == EditAddressActivity.RESULT_CODE) {
+            address = (Address) data.getSerializableExtra("addressBean");
+            setViewVisible();
+        }
+        if (resultCode == AddressManageActivity.RESULT_CODE) {
             address = (Address) data.getSerializableExtra("addressBean");
             setViewVisible();
         }

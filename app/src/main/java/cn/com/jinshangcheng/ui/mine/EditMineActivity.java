@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.GlideUtils;
 import cn.com.jinshangcheng.utils.PictureSelectorUtils;
 
@@ -100,5 +101,11 @@ public class EditMineActivity extends BaseActivity {
                 GlideUtils.loadImage(getApplicationContext(), selectImgPath, ivHeadImg);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        CommonUtils.hideSoftKeyboard(this);
+        super.onDestroy();
     }
 }

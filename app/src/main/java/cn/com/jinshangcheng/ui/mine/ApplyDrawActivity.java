@@ -101,8 +101,8 @@ public class ApplyDrawActivity extends BaseActivity {
             TextView tvBankName = cardView.findViewById(R.id.tv_bankName);
             TextView tvCardNum = cardView.findViewById(R.id.tv_cardNum);
             TextView tvBankAddress = cardView.findViewById(R.id.tv_bankAddress);
-            tvBankAddress.setText(selectedCard.accountbank);
-            tvBankName.setText(String.format("开户行：%s", selectedCard.accountbank));
+            tvBankAddress.setText(String.format("开户行：%s", selectedCard.accountbank));
+            tvBankName.setText(selectedCard.accountuser);
             tvCardNum.setText(selectedCard.accountnum);
             llCardParent.addView(cardView);
         }

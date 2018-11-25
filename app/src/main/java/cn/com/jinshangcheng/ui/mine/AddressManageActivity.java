@@ -53,19 +53,26 @@ public class AddressManageActivity extends BaseActivity {
     private AddressAdapter adapter;
     private ArrayList<Address> addressList;
     private int REQUEST_CODE = 0x123;
+    public static int RESULT_CODE = 0x322;
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
         @Override
         public void onViewClick(int position, View view) {
+            Intent intent;
             switch (view.getId()) {
                 case R.id.tv_edit:
-                    Intent intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
+                    intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
                     intent.putExtra("address", addressList.get(position));
                     startActivityForResult(intent, REQUEST_CODE);
                     break;
                 default:
-
+                    if (getIntent().getBooleanExtra("fromOrder", false)) {
+                        intent = new Intent();
+                        intent.putExtra("addressBean", addressList.get(position));
+                        setResult(RESULT_CODE, intent);
+                        finish();
+                    }
                     break;
             }
         }

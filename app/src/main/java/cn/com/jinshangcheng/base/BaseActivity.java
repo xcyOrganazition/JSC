@@ -63,6 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        CommonUtils.hideSoftKeyboard(this);
         unbind.unbind();
         if (loading != null) {
             loading.dismiss();
