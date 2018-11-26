@@ -18,7 +18,7 @@ public class DateUtils {
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
     public static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public static SimpleDateFormat sdf3 = new SimpleDateFormat("yy-MM-dd HH:mm");
-    public static SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss");
+    public static SimpleDateFormat sdf4 = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
     public static SimpleDateFormat sdf5 = new SimpleDateFormat("HH:mm");
     public static SimpleDateFormat sdf6 = new SimpleDateFormat("yyyy");
 
@@ -410,10 +410,9 @@ public class DateUtils {
      */
 
     public static String getMMddHMTime(long time) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日 HH:mm");
         String result = "";
         Date date = new Date(time);
-        result = simpleDateFormat.format(date);
+        result = sdf4.format(date);
         return result;
 
     }

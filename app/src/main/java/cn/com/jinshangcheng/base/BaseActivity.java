@@ -90,6 +90,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showToast(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        if (msg != null) {
+            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 }

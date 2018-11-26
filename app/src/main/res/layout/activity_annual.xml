@@ -45,6 +45,39 @@
         style="@style/divider"
         android:layout_marginEnd="@dimen/common_padding"
         android:layout_marginStart="@dimen/common_padding" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/common_padding">
+
+        <TextView
+            style="@style/textMoreSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_padding"
+            android:layout_weight="1"
+            android:text="注册时间" />
+
+        <TextView
+            android:id="@+id/tv_registTime"
+            style="@style/textMoreSmall"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:hint="未填写" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="13dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_arrow" />
+    </LinearLayout>
+
+    <View
+        style="@style/divider"
+        android:layout_marginEnd="@dimen/common_padding"
+        android:layout_marginStart="@dimen/common_padding" />
 
 
     <Button

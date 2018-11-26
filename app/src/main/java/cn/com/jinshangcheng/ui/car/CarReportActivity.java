@@ -40,6 +40,7 @@ import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.utils.NumberUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -298,16 +299,29 @@ public class CarReportActivity extends BaseActivity {
 
     public void refreshReportView(ReportBean reportBean) {
         tvTotal.setText(reportBean.fuelcost);//用车费用
-        tvMileNum.setText(String.valueOf(reportBean.duration / 3600));//用车时间
+        tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60)));//用车时间
         tvMile.setText(reportBean.mile);//行驶里程
-        tvOil.setText(reportBean.fuelcost);//燃烧油量
-        tvAveFuelNum.setText("暂无");//平均油耗
+        tvOil.setText(reportBean.fuel);//燃烧油量
+        tvAveFuelNum.setText(getOilAvg(reportBean.fuel,reportBean.mile));//平均油耗
         tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
         tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
         tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));
         tvHasOverSpeed.setText(String.format("超速次数：%s次", reportBean.hasoverspeed));
         tvMaxSpeed.setText(String.format("最高车速：%skm/h", reportBean.maxspeed));
-        tvAverageSpeed.setText(String.format("平均车速：%skm/h", reportBean.averagespeed));
+        tvAverageSpeed.setText(String.format("平均车速：%skm/h", NumberUtils.formatDouble(reportBean.averagespeed)));
+
+    }
+
+    public String getOilAvg(String fuel,String mile){
+        try {
+            Double fuelD = Double.parseDouble(fuel);
+            Double mileD = Double.parseDouble(mile);
+            return NumberUtils.formatDouble(fuelD / mileD / 100);
+        } catch (Exception e) {
+            return "暂无";
+        }
+
+
 
     }
 

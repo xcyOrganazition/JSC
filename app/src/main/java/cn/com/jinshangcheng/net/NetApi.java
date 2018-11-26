@@ -142,13 +142,15 @@ public interface NetApi {
      * @param carid
      * @param userId
      * @param time
+     * @param carregistDate
      * @return bean
      */
     @FormUrlEncoded
     @POST("/car/perfectCarAnnualtriald")
     Observable<BaseBean> confirmAnnual(@Field("carid") String carid,
                                        @Field("userid") String userId,
-                                       @Field("annualtrialdeadlineDate") String time);
+                                       @Field("annualtrialdeadlineDate") String time,
+                                       @Field("carregistDate") String carregistDate);
 
     /**
      * 获取用车报告 日报告

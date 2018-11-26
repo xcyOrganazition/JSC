@@ -289,7 +289,23 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void refreshMaintainData(CarMaintainBean maintainBean) {
         this.carMaintainBean = maintainBean;
-        tvInsurance.setText(DateUtils.getYMDTime(carMaintainBean.getInsurancedeadline()));//保险信息
+        if (carMaintainBean == null) {
+            return;
+        }
+        //保险数据
+        if (carMaintainBean.getInsurancedeadline() != 0) {
+            tvInsurance.setText(DateUtils.getYMDTime(carMaintainBean.getInsurancedeadline()) + "到期");//保险信息
+            long remainTime = carMaintainBean.getInsurancedeadline() - System.currentTimeMillis();
+            long aMonth = 60000L * 60L * 24L * 30L;
+            if (remainTime < 0) {//已经超过过期时间 红色显示
+                tvInsurance.setTextColor(getResources().getColor(R.color.text_red));
+            } else if (remainTime < aMonth) {//不足一个月 橙色显示
+                tvInsurance.setTextColor(getResources().getColor(R.color.textOrange));
+            } else if (remainTime >= aMonth) {//超过一个月 正常显示
+                tvInsurance.setTextColor(getResources().getColor(R.color.textGary));
+            }
+        }
+        //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息
             tvMaintenance.setText(DateUtils.getYMDTime(carMaintainBean.getMaintain().getLastmaintaintime()));
         } else {//没有保养数据

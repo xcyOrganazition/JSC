@@ -19,13 +19,13 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="行驶轨迹"
+            android:visibility="gone"
             android:textColor="#ff555555" />
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:layout_weight="1"
             android:text="09:00:56-11:00:00"
             android:textColor="#ff666666"
@@ -37,6 +37,7 @@
             android:drawableLeft="@mipmap/ic_share"
             android:drawablePadding="5dp"
             android:text="分享"
+            android:visibility="gone"
             android:textColor="#ff666666"
             android:textSize="13sp" />
 
