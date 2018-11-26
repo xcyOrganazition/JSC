@@ -124,9 +124,9 @@
                             android:id="@+id/tv_fuelTittle"
                             style="@style/textSmallest"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="16dp"
                             android:layout_marginStart="10dp"
-                            android:text="平均油耗L/km"
+                            android:text="平均油耗L/100km"
                             app:layout_constraintBottom_toTopOf="@+id/tv_fuelNum"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/iv_fuel"
@@ -353,6 +353,7 @@
                         android:text="" />
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/iv_shareLocation"
                         style="@style/textSmallest"
                         android:layout_width="wrap_content"

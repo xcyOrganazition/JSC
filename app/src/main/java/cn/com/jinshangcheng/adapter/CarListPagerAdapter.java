@@ -60,7 +60,7 @@ public class CarListPagerAdapter extends PagerAdapter {
         tvCarLicense.setText(bean.getPlatenumber());
         tvCarBrand.setText(bean.getBrandname());
         GlideUtils.loadImage(context, bean.getBrandpath(), ivBranchImg);
-        GlideUtils.loadImage(context, bean.getTypepath(), ivCarImg);
+        GlideUtils.loadImage(context, bean.getBrandpath(), ivCarImg);
         tvCarType.setText(bean.getTypename());
         container.addView(view);
         return view;

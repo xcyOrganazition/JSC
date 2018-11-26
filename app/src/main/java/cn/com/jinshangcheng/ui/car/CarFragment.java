@@ -3,7 +3,6 @@ package cn.com.jinshangcheng.ui.car;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -126,22 +126,24 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     public void initView() {
         bdMapView.showScaleControl(false);//隐藏比例尺
         bdMapView.showZoomControls(false);//隐藏放大缩小按钮
+        UiSettings uiSettings = bdMapView.getMap().getUiSettings();
+        uiSettings.setAllGesturesEnabled(false);//禁用拖拽、缩放手势
         //解决百度地图与ViewPager滑动冲突
-        bdMapView.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-                return false;
-            }
-        });
+//        bdMapView.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_MOVE:
+//                        v.getParent().requestDisallowInterceptTouchEvent(true);
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                    case MotionEvent.ACTION_CANCEL:
+//                        v.getParent().requestDisallowInterceptTouchEvent(false);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         ShareUrlSearch mShareUrlSearch = ShareUrlSearch.newInstance();
         mShareUrlSearch.setOnGetShareUrlResultListener(new OnGetShareUrlResultListener() {
             @Override
