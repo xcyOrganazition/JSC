@@ -59,16 +59,16 @@ public class CarManageActivity extends BaseActivity {
         @Override
         public void onViewClick(int position, View view) {
             switch (view.getId()) {
-                case R.id.tv_edit://编辑
-                    intent = new Intent(CarManageActivity.this, AddCarActivity.class);
-                    startActivity(intent);
-                    break;
+
                 case R.id.tv_bind://立即绑定
                     break;
                 case R.id.tv_unbind://解除绑定
                     break;
                 case R.id.tv_stealth://隐身管理
                     break;
+                default://点击条目 编辑车辆
+                    intent = new Intent(CarManageActivity.this, AddCarActivity.class);
+                    startActivity(intent);
             }
         }
     };

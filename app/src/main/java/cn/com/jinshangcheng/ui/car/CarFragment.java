@@ -44,6 +44,7 @@ import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.utils.NumberUtils;
 
 
 /**
@@ -199,7 +200,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
      */
     public void getOtherData() {
         tvMileNum.setText(MyApplication.getCurrentCarBean().getMileage());//总里程
-        tvFuelNum.setText(MyApplication.getCurrentCarBean().getFuel());//油耗
+        String fuelAvg = NumberUtils.getOilAvg(MyApplication.getCurrentCarBean().getFuel(), MyApplication.getCurrentCarBean().getMileage());
+        tvFuelNum.setText(fuelAvg);//油耗
         mPresenter.getCarPosition(MyApplication.getCarId());//位置
         mPresenter.getCarMaintainInfo();//年审、保险、保养
     }

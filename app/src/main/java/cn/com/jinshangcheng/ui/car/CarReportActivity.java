@@ -1,5 +1,6 @@
 package cn.com.jinshangcheng.ui.car;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.ReportBean;
 import cn.com.jinshangcheng.bean.TravelBean;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
@@ -97,7 +99,7 @@ public class CarReportActivity extends BaseActivity {
     private String currentDate;
     private int dateType;
     private int page = 1;
-    private final int PAGE_SIZE = 10;
+    private final int PAGE_SIZE = 5;
 
 
     @Override
@@ -112,17 +114,29 @@ public class CarReportActivity extends BaseActivity {
         currentDate = DateUtils.getYMDTime(System.currentTimeMillis());
         travelList = new ArrayList<>();
         adapter = new LocusAdapter(travelList, this);
+        adapter.setOnItemViewClickListener(new OnItemViewClickListener() {
+            @Override
+            public void onViewClick(int position, View view) {
+                Intent intent = new Intent(CarReportActivity.this, TravelActivity.class);
+                intent.putExtra("travelBean", travelList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     public void initView() {
         tvDate.setText(currentDate);
+        refreshLayout.setEnableRefresh(false);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
-                adapter.refreshList(travelList);
-                refreshLayout.finishLoadMore();
-
+                page++;
+                if (dateType == DAY) {
+                    getDayTravelList();
+                } else {
+                    getMonthTravelList();
+                }
             }
 
             @Override
@@ -146,6 +160,7 @@ public class CarReportActivity extends BaseActivity {
         recyclerView.setSwipeMenuItemClickListener(menuItemClickListener);
         recyclerView.setAdapter(adapter);
         getDateReport();
+        getDayTravelList();
     }
 
     /**
@@ -199,8 +214,12 @@ public class CarReportActivity extends BaseActivity {
     };
 
     public void getDayTravelList() {
+        if (page == 1) {
+            travelList.clear();
+            adapter.refreshList(travelList);
+        }
         RetrofitService.getRetrofit().getDayTravelList(MyApplication.getCarId(), MyApplication.getUserId(),
-                page, PAGE_SIZE, currentDate, currentDate)
+                page, PAGE_SIZE, currentDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<TravelBean>>() {
@@ -211,7 +230,9 @@ public class CarReportActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ArrayList<TravelBean> travelBeans) {
-
+                        travelList.addAll(travelBeans);
+                        adapter.refreshList(travelList);
+                        refreshLayout.finishLoadMore();
                     }
 
                     @Override
@@ -227,8 +248,12 @@ public class CarReportActivity extends BaseActivity {
     }
 
     public void getMonthTravelList() {
+        if (page == 1) {
+            travelList.clear();
+            adapter.refreshList(travelList);
+        }
         RetrofitService.getRetrofit().getMonthTravelList(MyApplication.getCarId(), MyApplication.getUserId(),
-                currentDate)
+                page, PAGE_SIZE, currentDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<TravelBean>>() {
@@ -239,13 +264,14 @@ public class CarReportActivity extends BaseActivity {
 
                     @Override
                     public void onNext(ArrayList<TravelBean> travelBeans) {
-                        travelList = travelBeans;
+                        travelList.addAll(travelBeans);
                         adapter.refreshList(travelList);
+                        refreshLayout.finishLoadMore();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -299,30 +325,16 @@ public class CarReportActivity extends BaseActivity {
 
     public void refreshReportView(ReportBean reportBean) {
         tvTotal.setText(reportBean.fuelcost);//用车费用
-        tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60)));//用车时间
-        tvMile.setText(reportBean.mile);//行驶里程
+        tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60D)));//用车时间
+        tvMile.setText(reportBean.mileage);//行驶里程
         tvOil.setText(reportBean.fuel);//燃烧油量
-        tvAveFuelNum.setText(getOilAvg(reportBean.fuel,reportBean.mile));//平均油耗
+        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mileage));//平均油耗
         tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
         tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
         tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));
         tvHasOverSpeed.setText(String.format("超速次数：%s次", reportBean.hasoverspeed));
         tvMaxSpeed.setText(String.format("最高车速：%skm/h", reportBean.maxspeed));
         tvAverageSpeed.setText(String.format("平均车速：%skm/h", NumberUtils.formatDouble(reportBean.averagespeed)));
-
-    }
-
-    public String getOilAvg(String fuel,String mile){
-        try {
-            Double fuelD = Double.parseDouble(fuel);
-            Double mileD = Double.parseDouble(mile);
-            return NumberUtils.formatDouble(fuelD / mileD / 100);
-        } catch (Exception e) {
-            return "暂无";
-        }
-
-
-
     }
 
     //重置
@@ -346,6 +358,7 @@ public class CarReportActivity extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
+        page = 1;//重置分页数据
         switch (view.getId()) {
             case R.id.iv_previousDay:
                 try {
@@ -362,8 +375,8 @@ public class CarReportActivity extends BaseActivity {
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    break;
                 }
+                break;
             case R.id.iv_nextDay:
                 try {
                     if (dateType == DAY) {
@@ -386,6 +399,9 @@ public class CarReportActivity extends BaseActivity {
         getDateReport();
     }
 
+    /**
+     * 日月切换是 文案调整
+     */
     public void refreshDateText() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
@@ -409,6 +425,7 @@ public class CarReportActivity extends BaseActivity {
     public void onDayChecked(boolean checked) {
         if (checked) {
             dateType = DAY;
+            page = 1;
             refreshDateText();
             getDateReport();
             getDayTravelList();
@@ -419,6 +436,7 @@ public class CarReportActivity extends BaseActivity {
     public void onMonthChecked(boolean checked) {
         if (checked) {
             dateType = MONTH;
+            page = 1;
             refreshDateText();
             getDateReport();
             getMonthTravelList();

@@ -26,6 +26,7 @@
         app:layout_constraintRight_toLeftOf="@+id/tv_edit" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

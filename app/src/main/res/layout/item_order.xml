@@ -49,6 +49,7 @@
         />
     <View style="@style/divider" />
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_expressNumber"
         android:padding="@dimen/common_padding"
         android:layout_width="wrap_content"
@@ -58,6 +59,7 @@
         android:textSize="14sp"
         />
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/common_padding"

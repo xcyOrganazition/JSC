@@ -21,6 +21,7 @@ import cn.com.jinshangcheng.bean.MyCustomerBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.ReportBean;
 import cn.com.jinshangcheng.bean.TravelBean;
+import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
@@ -193,11 +194,10 @@ public interface NetApi {
                                                        @Field("userid") String userId,
                                                        @Field("currentPage") int currentPage,
                                                        @Field("pageSize") int pageSize,
-                                                       @Field("startTime") String startTime,
-                                                       @Field("stopTime") String stopTime);
+                                                       @Field("startDate") String startTime);
 
     /**
-     * 获取轨迹列表 日报告
+     * 获取轨迹列表 月报告
      *
      * @param carid
      * @param userId
@@ -207,9 +207,25 @@ public interface NetApi {
     @POST("/travel/getTravelListByMonth")
     Observable<ArrayList<TravelBean>> getMonthTravelList(@Field("carid") String carid,
                                                          @Field("userid") String userId,
-//                                                         @Field("currentPage") int currentPage,
-//                                                         @Field("pageSize") int pageSize,
+                                                         @Field("currentPage") int currentPage,
+                                                         @Field("pageSize") int pageSize,
                                                          @Field("monthTime") String monthTime);
+
+    /**
+     * 获取轨迹点列表
+     *
+     * @param carid
+     * @param userId
+     * @param startTime
+     * @param stopTime
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/travel/getTCarGpsPointsForOneTravel")
+    Observable<ArrayList<TravelPointBean>> getTravelPointList(@Field("carid") String carid,
+                                                              @Field("userid") String userId,
+                                                              @Field("startTime") long startTime,
+                                                              @Field("stopTime") long stopTime);
 
 
     /**
@@ -239,6 +255,16 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/address/getDefaultAddress")
     Observable<Address> getDefaultAddress(@Field("userid") String userId);
+
+    /**
+     * 设置默认地址
+     *
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/address/setDefaultAddress")
+    Observable<BaseBean> setDefaultAddress(@Field("userid") String userId,
+                                           @Field("addressid") String addressid);
 
     /**
      * 添加地址

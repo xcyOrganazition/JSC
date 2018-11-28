@@ -61,17 +61,18 @@ public class AddressManageActivity extends BaseActivity {
         public void onViewClick(int position, View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.tv_edit:
-                    intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
-                    intent.putExtra("address", addressList.get(position));
-                    startActivityForResult(intent, REQUEST_CODE);
-                    break;
+
                 default:
-                    if (getIntent().getBooleanExtra("fromOrder", false)) {
+                    if (getIntent().getBooleanExtra("fromOrder", false)) {//从订单页面跳转来的
                         intent = new Intent();
                         intent.putExtra("addressBean", addressList.get(position));
                         setResult(RESULT_CODE, intent);
                         finish();
+                    } else {
+                        //编辑地址
+                        intent = new Intent(AddressManageActivity.this, EditAddressActivity.class);
+                        intent.putExtra("address", addressList.get(position));
+                        startActivityForResult(intent, REQUEST_CODE);
                     }
                     break;
             }
@@ -133,6 +134,13 @@ public class AddressManageActivity extends BaseActivity {
         public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
             int width = DensityUtil.dip2px(mContext, 60);
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            SwipeMenuItem setDefaultItem = new SwipeMenuItem(mContext)
+                    .setBackgroundDrawable(R.drawable.selector_set_default)
+//                    .setImage(R.mipmap.ic_action_delete)
+                    .setText("默认")
+                    .setTextColor(getResources().getColor(R.color.textBlack))
+                    .setWidth(width)
+                    .setHeight(height);
             SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
                     .setBackgroundDrawable(R.drawable.selector_delete)
 //                    .setImage(R.mipmap.ic_action_delete)
@@ -140,6 +148,7 @@ public class AddressManageActivity extends BaseActivity {
                     .setTextColor(Color.WHITE)
                     .setWidth(width)
                     .setHeight(height);
+            swipeRightMenu.addMenuItem(setDefaultItem);// 设为默认
             swipeRightMenu.addMenuItem(deleteItem);// 添加右侧的按钮
         }
     };
@@ -158,7 +167,10 @@ public class AddressManageActivity extends BaseActivity {
         @Override
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
-            if (menuPosition == 0) {// 删除按钮被点击。
+            if (menuPosition == 0) {// 默认按钮被点击。
+                setDefaultAddress(addressList.get(adapterPosition).getAddressid());
+            }
+           else if (menuPosition == 1) {// 删除按钮被点击。
                 deleteAddress(addressList.get(adapterPosition).getAddressid());
             }
         }
@@ -207,6 +219,37 @@ public class AddressManageActivity extends BaseActivity {
                 });
     }
 
+    public void setDefaultAddress(String addressId) {
+        RetrofitService.getRetrofit().setDefaultAddress(MyApplication.getUserId(), addressId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if (baseBean.code.equals("0")) {
+                            loadAddressList();
+                            showToast("设置成功");
+                        } else {
+                            showToast(baseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
     public void deleteAddress(String addressId) {
         RetrofitService.getRetrofit().delAddress(MyApplication.getUserId(), addressId)
                 .subscribeOn(Schedulers.io())

@@ -12,7 +12,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by xu on 2016/11/16.
+ * Created by xu on 2018/11/16.
  */
 public class RetrofitService {
 

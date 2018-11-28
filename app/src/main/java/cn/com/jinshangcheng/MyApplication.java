@@ -81,7 +81,7 @@ public class MyApplication extends Application {
 
     public static String getUserId() {
 //        return userId;
-        return "39";
+        return "22";
     }
 
     public static void setUserId(String userId) {

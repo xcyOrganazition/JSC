@@ -39,17 +39,7 @@
                 app:layout_constraintTop_toTopOf="@id/iv_headImg"
                 app:layout_constraintVertical_bias="0">
 
-                <TextView
-                    android:id="@+id/tv_wxName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:padding="3dp"
-                    android:text="@string/wxName"
 
-                    android:textAllCaps="false"
-                    android:textColor="@color/textBlack"
-                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tv_userName"

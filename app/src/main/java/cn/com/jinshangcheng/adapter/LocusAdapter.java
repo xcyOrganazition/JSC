@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.bean.TravelBean;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.MapUtils;
 
@@ -28,6 +29,7 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
 
     private List<TravelBean> locusList;
     private Context context;
+    private OnItemViewClickListener onItemViewClickListener;
 
     public LocusAdapter(List<TravelBean> locusList, Context context) {
         this.locusList = locusList;
@@ -61,7 +63,11 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
         return locusList.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder {
+    public void setOnItemViewClickListener(OnItemViewClickListener onItemViewClickListener) {
+        this.onItemViewClickListener = onItemViewClickListener;
+    }
+
+    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.tv_locusName)
         TextView tvLocusName;
         @BindView(R.id.tv_time)
@@ -107,6 +113,7 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         public void setData(TravelBean bean) {
@@ -115,6 +122,13 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
             tvTime.setText(startTime + " - " + stopTime);
             MapUtils.getAddress(new LatLng(bean.startLatitude, bean.startLongitude), startAddressListener);
             MapUtils.getAddress(new LatLng(bean.stopLatitude, bean.stopLongitude), endAddressListener);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (null != onItemViewClickListener) {
+                onItemViewClickListener.onViewClick(getAdapterPosition(),v);
+            }
         }
     }
 }

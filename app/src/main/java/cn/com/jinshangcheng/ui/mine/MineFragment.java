@@ -31,8 +31,6 @@ public class MineFragment extends BaseFragment {
     private static MineFragment mineFragment;
     @BindView(R.id.iv_headImg)
     ImageView ivHeadImg;
-    @BindView(R.id.tv_wxName)
-    TextView tvWxName;
     @BindView(R.id.tv_userName)
     TextView tvUserName;
     @BindView(R.id.tv_phone)
@@ -129,10 +127,33 @@ public class MineFragment extends BaseFragment {
     public void refreshUserData() {
         UserBean userBean = MyApplication.getUserBean();
         tvUserName.setText(String.format("%s%s", getResources().getString(R.string.userName), userBean.name));
-        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
+//        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
         tvPhone.setText(String.format("%s%s", getResources().getString(R.string.phoneNum), userBean.phonenumber));
-        tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), userBean.userlevel));
+        tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), getRankText(userBean.userlevel)));
         GlideUtils.loadImage(getHoldingActivity(), userBean.weixinpic, ivHeadImg);
+    }
+
+    //会员等级
+    public String getRankText(int cellvalue) {
+        if (cellvalue == 0) {
+            return "会员";
+        } else if (cellvalue == 1) {
+            return "经销商";
+        } else if (cellvalue == 2) {
+            return "区县代理";
+        } else if (cellvalue == 3) {
+            return "金牌区县代理";
+        } else if (cellvalue == 4) {
+            return "市级代理";
+        } else if (cellvalue == 5) {
+            return "金牌市级代理";
+        } else if (cellvalue == 6) {
+            return "省级代理";
+        } else if (cellvalue == 7) {
+            return "金牌省级代理";
+        } else {
+            return "暂无";
+        }
     }
 
     @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address, R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us})

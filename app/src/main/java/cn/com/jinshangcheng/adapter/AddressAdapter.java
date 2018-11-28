@@ -74,8 +74,6 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
         TextView tvName;
         @BindView(R.id.tv_phone)
         TextView tvPhone;
-        @BindView(R.id.tv_edit)
-        TextView tvEdit;
         @BindView(R.id.tv_default)
         TextView tvDefault;
         @BindView(R.id.tv_address)
@@ -85,7 +83,6 @@ public class AddressAdapter extends SwipeMenuAdapter<AddressAdapter.DefaultViewH
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-            tvEdit.setOnClickListener(this);
         }
 
         public void setData(Address bean, Context mContext) {
