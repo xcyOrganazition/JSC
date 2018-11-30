@@ -16,6 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.orhanobut.logger.Logger;
+
+import java.util.List;
+
 import butterknife.BindView;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
@@ -50,6 +58,7 @@ public class MainActivity extends BaseActivity {
     private Fragment[] fragments;
 
     private long firstTime = 0; //记录首次点击返回键时间
+    private EMMessageListener msgListener;//环信消息监听
 
 
     @Override
@@ -79,7 +88,68 @@ public class MainActivity extends BaseActivity {
 
         initTabItem();
         tittleBar.hideNavigation();//隐藏返回键
+        loginHX("appTest", "123456");//登陆环信
+    }
 
+    public void loginHX(String userName, String password) {
+        EMClient.getInstance().login(userName, password, new EMCallBack() {//回调
+            @Override
+            public void onSuccess() {
+                EMClient.getInstance().groupManager().loadAllGroups();//加载分组信息
+                EMClient.getInstance().chatManager().loadAllConversations();//加载聊天信息
+                addOnEMMessageListener();
+                Logger.e("登录聊天服务器成功！");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Logger.e("登录聊天服务器失败");
+            }
+        });
+
+    }
+
+    public void addOnEMMessageListener() {
+        msgListener = new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                //收到消息
+                for (EMMessage message : messages) {
+                    Logger.w("收到消息" + message.toString());
+                }
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> messages) {
+                //收到已读回执
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> message) {
+                //收到已送达回执
+            }
+
+            @Override
+            public void onMessageRecalled(List<EMMessage> messages) {
+                //消息被撤回
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                //消息状态变动
+            }
+        };
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
     private void initTabItem() {
@@ -175,4 +245,10 @@ public class MainActivity extends BaseActivity {
         return super.onKeyUp(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //移除环信消息监听
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+    }
 }

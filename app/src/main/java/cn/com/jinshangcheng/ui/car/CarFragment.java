@@ -285,6 +285,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         };
         mSearch.setOnGetGeoCodeResultListener(listener);
         mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(point));
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.zoomTo(14));
     }
 
     //刷新保养保险年审信息

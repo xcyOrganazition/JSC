@@ -109,8 +109,8 @@ public class PositionFragment extends BaseFragment {
         mapView.getMap().setMyLocationEnabled(true);
         //定位相关配置
         BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.mipmap.ic_location);//标记图标
-        int accuracyCircleFillColor = 0xAAFFFF88;//自定义精度圈填充颜色
-        int accuracyCircleStrokeColor = 0xAA00FF00;//自定义精度圈边框颜色
+        int accuracyCircleFillColor = 0xFFFFFFFF;//自定义精度圈填充颜色
+        int accuracyCircleStrokeColor = 0xFFFFFFFF;//自定义精度圈边框颜色
         mapView.getMap().setMyLocationConfiguration(new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker,
                 accuracyCircleFillColor, accuracyCircleStrokeColor));
@@ -143,12 +143,12 @@ public class PositionFragment extends BaseFragment {
 
     }
 
-    public void checkLoactionPermission(){
-        if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){//未开启定位权限
+    public void checkLoactionPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},200);
-        }else{
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
             locationClient.start();//开始定位
         }
     }
@@ -157,16 +157,17 @@ public class PositionFragment extends BaseFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case 200://刚才的识别码
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){//用户同意权限,执行我们的操作
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//用户同意权限,执行我们的操作
                     //开始定位
                     locationClient.start();
-                }else{//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
+                } else {//用户拒绝之后,当然我们也可以弹出一个窗口,直接跳转到系统设置页面
                     getHoldingActivity().showToast("未开启定位权限,请手动到设置去开启权限");
                 }
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 

@@ -2,10 +2,13 @@ package cn.com.jinshangcheng.ui.car;
 
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.MapUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -50,17 +54,43 @@ public class TravelActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 绘制轨迹
+     *
+     * @param travelPointList
+     */
     public void drawTravel(ArrayList<TravelPointBean> travelPointList) {
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_red_point);//轨迹点
-        List<OverlayOptions> options = new ArrayList<OverlayOptions>();//要绘制的百度坐标点集合
+//        List<OverlayOptions> options = new ArrayList<OverlayOptions>();//要绘制的百度坐标点集合
+        List<LatLng> points = new ArrayList<LatLng>();//要绘制的百度坐标点集合
         for (TravelPointBean pointBean : travelPointList) {
-            OverlayOptions option = new MarkerOptions()
-                    .position(new LatLng(pointBean.latitude, pointBean.longitude))
-                    .icon(bitmap);
-            options.add(option);
+            LatLng latLng = MapUtils.changeMapTerm(new LatLng(pointBean.latitude, pointBean.longitude));//坐标转换
+            points.add(latLng);
         }
-        bdMapView.getMap().addOverlays(options);
+        OverlayOptions ooPolyline = new PolylineOptions().width(10)
+                .color(getResources().getColor(R.color.themeColor)).points(points);
+        bdMapView.getMap().addOverlay(ooPolyline);
+        //绘制起始、结束坐标点
+        LatLng startPoint = MapUtils.changeMapTerm(new LatLng(travelPointList.get(0).latitude, travelPointList.get(0).longitude));
+        LatLng endPoint = MapUtils.changeMapTerm(new LatLng(travelPointList.get(travelPointList.size() - 1).latitude,
+                travelPointList.get(travelPointList.size() - 1).longitude));
+        BitmapDescriptor startBitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions option1 = new MarkerOptions()
+                .position(startPoint)
+                .icon(startBitmap);
+        OverlayOptions option2 = new MarkerOptions()
+                .position(endPoint)
+                .icon(startBitmap);
+        bdMapView.getMap().addOverlay(option1);//在地图上绘制起始点
+        bdMapView.getMap().addOverlay(option2);//在地图上绘制结束点
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(startPoint);
+        builder.include(endPoint);
+        LatLngBounds latLngBounds = builder.build();
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLngBounds(latLngBounds));// 设置显示在屏幕中的地图地理范围
+//        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.zoomTo(14));//设置地图缩放等级
     }
+
 
     public void getPointList() {
         showLoading();
