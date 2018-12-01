@@ -31,4 +31,12 @@ public class CarModel implements CarContract.IModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    @Override
+    public void loadCanRoadHelp(Observer observer) {
+        RetrofitService.getRetrofit().getCanRoadHelp(MyApplication.getCurrentCarBean().getPlatenumber(), MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

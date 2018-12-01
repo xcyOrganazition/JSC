@@ -22,6 +22,8 @@ public interface CarContract {
 
         void refreshMaintainData(CarMaintainBean carMaintainBean);
 
+        void intentToSaveActivity();
+
 
     }
 
@@ -33,6 +35,8 @@ public interface CarContract {
 
         void getCarMaintainInfo();
 
+        void getCanRoadHelp();
+
     }
 
     interface IModel {
@@ -41,6 +45,8 @@ public interface CarContract {
         void loadCarPosition(String car, Observer observer);
 
         void loadCarMaintainInfo(Observer observer);
+
+        void loadCanRoadHelp(Observer observer);
 
     }
 

@@ -324,11 +324,11 @@ public class CarReportActivity extends BaseActivity {
     }
 
     public void refreshReportView(ReportBean reportBean) {
-        tvTotal.setText(reportBean.fuelcost);//用车费用
+        tvTotal.setText(NumberUtils.formatDouble(reportBean.fuelcost));//用车费用
         tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60D)));//用车时间
-        tvMile.setText(reportBean.mileage);//行驶里程
-        tvOil.setText(reportBean.fuel);//燃烧油量
-        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mileage));//平均油耗
+        tvMile.setText(NumberUtils.formatDouble(reportBean.mileage));//行驶里程
+        tvOil.setText(NumberUtils.formatDouble(reportBean.fuel));//燃烧油量
+        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mileage));//油耗
         tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
         tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
         tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));
@@ -364,12 +364,12 @@ public class CarReportActivity extends BaseActivity {
                 try {
                     if (dateType == DAY) {
                         calendar.setTime(sdfDay.parse(currentDate));
-                        calendar.add(Calendar.DAY_OF_MONTH, -2);
+                        calendar.add(Calendar.DAY_OF_MONTH, -1);
                         currentDate = sdfDay.format(calendar.getTime());
                         getDayTravelList();
                     } else if (dateType == MONTH) {
                         calendar.setTime(sdfMonth.parse(currentDate));
-                        calendar.add(Calendar.MONTH, -2);
+                        calendar.add(Calendar.MONTH, -1);
                         currentDate = sdfMonth.format(calendar.getTime());
                         getMonthTravelList();
                     }

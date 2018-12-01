@@ -114,4 +114,35 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
         });
 
     }
+
+    @Override
+    public void getCanRoadHelp() {
+        carView.showLoading();
+        model.loadCanRoadHelp(new Observer<BaseBean<CarMaintainBean>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(BaseBean<CarMaintainBean> baseBean) {
+                if (baseBean.code.equals("0")) {
+                    carView.intentToSaveActivity();
+                } else {
+                    carView.toastErrorMsg(baseBean.message);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                carView.hideLoading();
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+                carView.hideLoading();
+            }
+        });
+    }
 }

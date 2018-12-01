@@ -104,6 +104,17 @@ public interface NetApi {
     Observable<BaseBean<CheckDataBean>> getCheckReport(@Field("carid") String carid, @Field("userid") String userId);
 
     /**
+     * 道路救援验证接口 是否允许打开道路救援
+     *
+     * @param platenumber
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/roadHelp")
+    Observable<BaseBean> getCanRoadHelp(@Field("platenumber") String platenumber, @Field("userid") String userId);
+
+
+    /**
      * 完善车保险信息
      *
      * @param carid

@@ -112,6 +112,7 @@ public class TravelActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         dismissLoading();
+                        showToast("请求失败，请重试");
 
                     }
 

@@ -106,9 +106,9 @@ public class AddCarActivity extends BaseActivity {
                     @Override
                     public void onNext(AddCarResult baseBean) {
                         if ("0".equals(baseBean.code)) {
-//                            Intent intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
-//                            startActivity(intent);
-//                            AddCarActivity.this.finish();
+                            Intent intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
+                            startActivity(intent);
+                            AddCarActivity.this.finish();
                         }
                         showToast(baseBean.message);
 
@@ -174,10 +174,10 @@ public class AddCarActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.bt_confirm:
-//                saveCarData();
-                intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
-                startActivity(intent);
-                AddCarActivity.this.finish();
+                saveCarData();
+//                intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
+//                startActivity(intent);
+//                AddCarActivity.this.finish();
                 break;
             case R.id.tv_carRegistDate:
                 final DatePickerDialog dialog = new DatePickerDialog(AddCarActivity.this,

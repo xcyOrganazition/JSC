@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_padding"
             android:layout_weight="1"
-            android:text="注册时间" />
+            android:text="车辆注册时间" />
 
         <TextView
             android:id="@+id/tv_registTime"

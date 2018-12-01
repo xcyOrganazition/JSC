@@ -120,7 +120,7 @@ public class MyApplication extends Application {
     public static String getUserId() {
 //        return userId;
         //22 王辉 ，39 明明
-        return "22";
+        return "39";
     }
 
     public static void setUserId(String userId) {

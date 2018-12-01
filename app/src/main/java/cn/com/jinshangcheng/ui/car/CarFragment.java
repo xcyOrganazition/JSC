@@ -317,6 +317,12 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         tvAnnual.setText(DateUtils.getYMDTime(carMaintainBean.getAnnualtrialdeadline()));//年审信息
     }
 
+    @Override
+    public void intentToSaveActivity() {
+        Intent intent = new Intent(getActivity(), RoadHelpActivity.class);
+        startActivity(intent);
+    }
+
 
     @OnClick({R.id.ll_check, R.id.ll_report, R.id.ll_violation, R.id.ll_help, R.id.tv_checkDetail,
             R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
@@ -334,6 +340,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             case R.id.ll_violation://查询违章
                 break;
             case R.id.ll_help://道路救援
+                mPresenter.getCanRoadHelp();//查看是否允许调用道路救援
                 break;
             case R.id.tv_checkDetail://查询检测详情
                 break;
