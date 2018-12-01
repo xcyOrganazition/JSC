@@ -78,12 +78,16 @@
                     android:layout_marginLeft="@dimen/common_padding"
                     android:text="车牌号码" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
+                    android:background="@drawable/btn_background"
+                    android:layout_width="30dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
                     android:layout_height="match_parent" />
 
                 <EditText
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/et_licenseNum"
                     style="@style/textMoreSmall"
                     android:layout_width="0dp"

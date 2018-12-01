@@ -3,14 +3,11 @@ package cn.com.jinshangcheng.ui.mine;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -24,10 +21,11 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.AddCarResult;
 import cn.com.jinshangcheng.bean.CarBrandsBean;
+import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.login.BindBoxActivity;
 import cn.com.jinshangcheng.utils.CommonUtils;
-import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.widget.LicenseDialog;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -46,7 +44,7 @@ public class AddCarActivity extends BaseActivity {
     @BindView(R.id.rg_carType)
     RadioGroup rgCarType;
     @BindView(R.id.spinner)
-    Spinner spinner;
+    TextView spinner;
     @BindView(R.id.bt_confirm)
     Button btConfirm;
     @BindView(R.id.et_licenseNum)
@@ -68,12 +66,12 @@ public class AddCarActivity extends BaseActivity {
 
     private final int REQUEST_CODE = 0x123;
 
-    private String[] array = new String[]{"京", "晋", "津", "冀", "鲁", "台", "蒙", "京", "晋", "津",
-            "冀", "鲁", "台", "蒙", "京", "晋", "津", "冀", "鲁", "台", "蒙"};
+
     String selectCity;
     CarBrandsBean selectCarBrands;//车品牌
     CarTypeResult.DataEntity.CarTypesEntity selectCarType;//车型
     CarModelResult.DataEntity selectCarModel;//车款
+    private LicenseDialog licenseDialog;//车牌选择Dialog
 
     @Override
     public int setContentViewResource() {
@@ -82,32 +80,12 @@ public class AddCarActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        selectCity = array[0];
-
+        selectCity = ConstParams.cityArray[0];
     }
 
     @Override
     public void initView() {
-        spinner.setDropDownWidth(DensityUtil.dip2px(this, 50)); //下拉宽度
-//        spinner.setDropDownHorizontalOffset(100); //下拉的横向偏移
-        spinner.setDropDownVerticalOffset(DensityUtil.dip2px(this, 25)); //下拉的纵向偏移
-        final ArrayAdapter spinnerAdapter = new ArrayAdapter<>(getApplicationContext(),
-                R.layout.spinner_item, array);
-        spinner.setAdapter(spinnerAdapter);
-        spinnerAdapter.setDropDownViewResource(R.layout.spinner_drop_item);
-        spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinner.setSelection(position);
-                selectCity = array[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        spinner.setText(selectCity);
     }
 
     public void saveCarData() {
@@ -185,7 +163,7 @@ public class AddCarActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_confirm, R.id.tv_selectCarType, R.id.tv_carRegistDate, R.id.tv_insuranceDate})
+    @OnClick({R.id.bt_confirm, R.id.tv_selectCarType, R.id.tv_carRegistDate, R.id.tv_insuranceDate,R.id.spinner})
     public void onViewClicked(View view) {
         CommonUtils.hideSoftKeyboard(AddCarActivity.this);
         Intent intent;
@@ -235,7 +213,12 @@ public class AddCarActivity extends BaseActivity {
 
                 dialog2.show();
                 break;
-
+            case R.id.spinner:
+                if (licenseDialog == null) {
+                     licenseDialog= new LicenseDialog();
+                }
+                licenseDialog.show(getSupportFragmentManager(),"license");
+                break;
         }
     }
 
@@ -256,4 +239,9 @@ public class AddCarActivity extends BaseActivity {
         }
     }
 
+    public void selectCity(String cityName) {
+        selectCity = cityName;
+        spinner.setText(selectCity);
+        licenseDialog.dismiss();
+    }
 }

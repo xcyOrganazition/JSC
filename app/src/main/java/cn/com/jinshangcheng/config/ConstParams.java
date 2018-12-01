@@ -11,4 +11,8 @@ public class ConstParams {
 
     public static final int PAGE_COUNT = 10;//一页有多少条数据
 
+    //车牌 城市缩写
+    private static String allCityText = "京 津 沪 渝 冀 豫 云 辽 黑 湘 皖 鲁 新 苏 浙 赣 鄂 桂 甘 晋 蒙 陕 吉 闽 贵 粤 青 藏 川 宁 琼 使 领";
+    public static String[] cityArray = allCityText.split(" ");
+
 }
