@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,16 +16,19 @@ import com.orhanobut.logger.Logger;
 import java.util.Calendar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.AddCarResult;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarBrandsBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.login.BindBoxActivity;
 import cn.com.jinshangcheng.utils.CommonUtils;
+import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.widget.LicenseDialog;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -51,6 +55,8 @@ public class AddCarActivity extends BaseActivity {
     EditText etLicenseNum;
     @BindView(R.id.et_vin)
     EditText etVin;
+    @BindView(R.id.et_ein)
+    EditText etEin;
     @BindView(R.id.tv_selectCarType)
     TextView tvSelectCarType;
     @BindView(R.id.tv_carRegistDate)
@@ -63,6 +69,14 @@ public class AddCarActivity extends BaseActivity {
     RadioGroup rgOilType;
     @BindView(R.id.et_emergencyPhonenum)
     EditText etEmergencyPhonenum;
+    @BindView(R.id.gasno_92)
+    RadioButton gasno92;
+    @BindView(R.id.gasno_95)
+    RadioButton gasno95;
+    @BindView(R.id.gasno_98)
+    RadioButton gasno98;
+    @BindView(R.id.gasno_0)
+    RadioButton gasno0;
 
     private final int REQUEST_CODE = 0x123;
 
@@ -71,7 +85,10 @@ public class AddCarActivity extends BaseActivity {
     CarBrandsBean selectCarBrands;//车品牌
     CarTypeResult.DataEntity.CarTypesEntity selectCarType;//车型
     CarModelResult.DataEntity selectCarModel;//车款
+
     private LicenseDialog licenseDialog;//车牌选择Dialog
+    private boolean isUpDateCar;
+    private CarBean carBean;
 
     @Override
     public int setContentViewResource() {
@@ -81,17 +98,72 @@ public class AddCarActivity extends BaseActivity {
     @Override
     public void initData() {
         selectCity = ConstParams.cityArray[0];
+        isUpDateCar = getIntent().getBooleanExtra("fromCarManage", false);
+        if (isUpDateCar) {
+            carBean = (CarBean) getIntent().getSerializableExtra("carBean");
+
+        }
     }
 
     @Override
     public void initView() {
-        spinner.setText(selectCity);
+        if (isUpDateCar) {
+            initCarData();
+        }
+    }
+
+    //填充车辆数据
+    public void initCarData() {
+        if (carBean != null) {
+            if ("0".equals(carBean.getCartype())) {
+                rbLittleCar.setChecked(true);
+            } else {
+                rbBigCar.setChecked(true);
+            }
+            spinner.setText(String.valueOf(carBean.getPlatenumber().charAt(0)));
+            selectCity = String.valueOf(carBean.getPlatenumber().charAt(0));
+            etLicenseNum.setText(carBean.getPlatenumber().substring(1));
+            etVin.setText(carBean.getVin());
+            etEin.setText(carBean.getEin());
+            tvSelectCarType.setText(carBean.getModel());
+            selectCarBrands = new CarBrandsBean();
+            selectCarBrands.brandName = carBean.getBrandname();
+            selectCarBrands.picturePath = carBean.getBrandpath();
+            selectCarType = new CarTypeResult.DataEntity.CarTypesEntity();
+            selectCarType.typeName = carBean.getTypename();
+            selectCarType.picturePath = carBean.getTypepath();
+            selectCarModel = new CarModelResult.DataEntity();
+            selectCarModel.modelName = carBean.getModel();
+            selectCarModel.picturePath = carBean.getModelpath();
+            tvCarRegistDate.setText(DateUtils.getYMDTime(carBean.getRegistdate()));
+            etTotalMileage.setText(String.valueOf(carBean.getTotalmileage()));
+            tvInsuranceDate.setText(DateUtils.getYMDTime(carBean.getInsurancedeadline()));
+            switch (carBean.getGasno()) {
+                case 0:
+                    gasno0.setChecked(true);
+                    break;
+                case 92:
+                    gasno92.setChecked(true);
+                    break;
+                case 95:
+                    gasno95.setChecked(true);
+                    break;
+                case 98:
+                    gasno98.setChecked(true);
+                    break;
+                default:
+                    gasno92.setChecked(true);
+                    break;
+            }
+
+//            etEmergencyPhonenum.setText(carBean.get);
+        }
     }
 
     public void saveCarData() {
         showLoading();
         RetrofitService.getRetrofit().addCar(MyApplication.getUserId(), getCarTypeCode(), getPlateNumber(),
-                etVin.getText().toString(), selectCarBrands.brandName, selectCarBrands.picturePath,
+                etVin.getText().toString(), etEin.getText().toString(), selectCarBrands.brandName, selectCarBrands.picturePath,
                 selectCarType.typeName, selectCarType.picturePath, selectCarModel.modelId, selectCarModel.modelName,
                 selectCarModel.picturePath, getGasnoCode(), tvCarRegistDate.getText().toString(),
                 etTotalMileage.getText().toString(), tvInsuranceDate.getText().toString(), etEmergencyPhonenum.getText().toString())
@@ -149,7 +221,7 @@ public class AddCarActivity extends BaseActivity {
 
     }
 
-    //获取车型号 （大型车 小型车）
+    //获取车型号 小型车0、大型车1
     public int getCarTypeCode() {
         int checkedRadioButtonId = rgCarType.getCheckedRadioButtonId();
         switch (checkedRadioButtonId) {
@@ -162,8 +234,14 @@ public class AddCarActivity extends BaseActivity {
         }
     }
 
+    //校验数据是否全部填写
+    public boolean cheackData() {
 
-    @OnClick({R.id.bt_confirm, R.id.tv_selectCarType, R.id.tv_carRegistDate, R.id.tv_insuranceDate,R.id.spinner})
+        return true;
+    }
+
+
+    @OnClick({R.id.bt_confirm, R.id.tv_selectCarType, R.id.tv_carRegistDate, R.id.tv_insuranceDate, R.id.spinner})
     public void onViewClicked(View view) {
         CommonUtils.hideSoftKeyboard(AddCarActivity.this);
         Intent intent;
@@ -174,7 +252,9 @@ public class AddCarActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.bt_confirm:
-                saveCarData();
+                if (cheackData()) {
+                    saveCarData();
+                }
 //                intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
 //                startActivity(intent);
 //                AddCarActivity.this.finish();
@@ -215,9 +295,9 @@ public class AddCarActivity extends BaseActivity {
                 break;
             case R.id.spinner:
                 if (licenseDialog == null) {
-                     licenseDialog= new LicenseDialog();
+                    licenseDialog = new LicenseDialog();
                 }
-                licenseDialog.show(getSupportFragmentManager(),"license");
+                licenseDialog.show(getSupportFragmentManager(), "license");
                 break;
         }
     }
@@ -243,5 +323,12 @@ public class AddCarActivity extends BaseActivity {
         selectCity = cityName;
         spinner.setText(selectCity);
         licenseDialog.dismiss();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

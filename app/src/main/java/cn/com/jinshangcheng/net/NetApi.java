@@ -484,7 +484,7 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/car/invisibleinfo")
     Observable<BaseBean<StealthBean>> getStealthData(@Field("userid") String userId,
-                                           @Field("carid") String carid);
+                                                     @Field("carid") String carid);
 
     /**
      * 开启隐身
@@ -523,7 +523,7 @@ public interface NetApi {
      * @param cartype           车型(小型车0、大型车1)
      * @param platenumber       车牌号
      * @param vin               车架码
-     *                          //     * @param ein               发动机号码
+     * @param ein               发动机号码
      * @param brandname         品牌名称
      * @param brandpath         品牌图片
      * @param typename          车型名称
@@ -544,7 +544,7 @@ public interface NetApi {
                                     @Field("cartype") int cartype,
                                     @Field("platenumber") String platenumber,
                                     @Field("vin") String vin,
-//                                @Field("ein") String ein,
+                                    @Field("ein") String ein,
                                     @Field("brandname") String brandname,
                                     @Field("brandpath") String brandpath,
                                     @Field("typename") String typename,
@@ -553,9 +553,9 @@ public interface NetApi {
                                     @Field("model") String model,
                                     @Field("modelpath") String modelpath,
                                     @Field("gasno") int gasno,
-                                    @Field("carregistdate") String carregistdate,
+                                    @Field("carRegistdate") String carregistdate,
                                     @Field("totalmileage") String totalmileage,
-                                    @Field("insurancedeadline") String insurancedeadline,
+                                    @Field("insurancedeadlineDate") String insurancedeadline,
                                     @Field("emergencyphonenum") String emergencyphonenum
     );
 

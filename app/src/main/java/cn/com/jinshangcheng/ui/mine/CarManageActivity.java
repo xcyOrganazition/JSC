@@ -53,6 +53,8 @@ public class CarManageActivity extends BaseActivity {
     private CarManageAdapter adapter;
     private ArrayList<CarBean> carList;
 
+    private final int REQUEST_CODE = 0x41;
+
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
         Intent intent = null;
@@ -75,7 +77,9 @@ public class CarManageActivity extends BaseActivity {
                     break;
                 default://点击条目 编辑车辆
                     intent = new Intent(CarManageActivity.this, AddCarActivity.class);
-                    startActivity(intent);
+                    intent.putExtra("carBean", carList.get(position));
+                    intent.putExtra("fromCarManage",true);
+                    startActivityForResult(intent, REQUEST_CODE);
             }
         }
     };
