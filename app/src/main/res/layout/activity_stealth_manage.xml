@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.car.RoadHelpActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="隐身管理" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_setStartView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/white_bg"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/textMoreSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="隐身设置" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/textMoreSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置隐身时间" />
+
+
+            <NumberPicker
+                android:id="@+id/pickerDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></NumberPicker>
+
+            <TextView
+                style="@style/textMoreSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="天" />
+
+            <NumberPicker
+                android:id="@+id/pickerHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/textMoreSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="小时" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_open"
+            style="@style/commonButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/common_padding"
+            android:text="开启隐身" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_setStopView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/white_bg"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/textMoreSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="隐身设置" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_padding"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="@dimen/common_padding">
+
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/textMoreSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:text="隐身状态:" />
+
+            <Switch
+                android:id="@+id/switch_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:textIsSelectable="true" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_totalTime"
+            style="@style/textMoreSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:text="隐身时长:" />
+
+        <TextView
+            android:id="@+id/tv_remainTime"
+            style="@style/textMoreSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:text="距离隐身结束还剩:" />
+
+
+    </LinearLayout>
+</LinearLayout>

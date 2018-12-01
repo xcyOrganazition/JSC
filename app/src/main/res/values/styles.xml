@@ -86,10 +86,10 @@
     <style name="commonButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/btnDarkBg</item>
         <item name="colorButtonNormal">@color/btnBg</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
         <item name="android:background">@drawable/btn_background</item>
         <item name="android:textColor">@color/white</item>
     </style>

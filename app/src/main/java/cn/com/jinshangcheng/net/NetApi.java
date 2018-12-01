@@ -20,6 +20,7 @@ import cn.com.jinshangcheng.bean.MyCountBean;
 import cn.com.jinshangcheng.bean.MyCustomerBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.ReportBean;
+import cn.com.jinshangcheng.bean.StealthBean;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.bean.UserBean;
@@ -472,6 +473,48 @@ public interface NetApi {
     @POST("/account/setDefaultAccount")
     Observable<BaseBean> setCardDefault(@Field("userid") String userId,
                                         @Field("accountid") String accountid);
+
+    /**
+     * 获取隐身数据
+     *
+     * @param userId
+     * @param carid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/invisibleinfo")
+    Observable<BaseBean<StealthBean>> getStealthData(@Field("userid") String userId,
+                                           @Field("carid") String carid);
+
+    /**
+     * 开启隐身
+     *
+     * @param userId
+     * @param carid
+     * @param days
+     * @param hours
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/begininvisible")
+    Observable<BaseBean> beginStealth(@Field("userid") String userId,
+                                      @Field("carid") String carid,
+                                      @Field("days") String days,
+                                      @Field("hours") String hours);
+
+    /**
+     * 关闭隐身
+     *
+     * @param userId
+     * @param carid
+     * @param invisibleid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/stopinvisible")
+    Observable<BaseBean> stopStealth(@Field("userid") String userId,
+                                     @Field("carid") String carid,
+                                     @Field("invisibleid") String invisibleid);
 
     /**
      * 添加车辆

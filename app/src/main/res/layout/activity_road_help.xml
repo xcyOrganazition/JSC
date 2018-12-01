@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.car.RoadHelpActivity">
+android:orientation="vertical"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ui.car.RoadHelpActivity">
 
-    <cn.com.jinshangcheng.widget.TittleBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:centerText="道路救援" />
+<cn.com.jinshangcheng.widget.TittleBar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:centerText="道路救援" />
 </LinearLayout>

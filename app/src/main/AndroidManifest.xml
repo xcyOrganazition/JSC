@@ -210,10 +210,11 @@
         <activity android:name=".ui.square.OrderDetailActivity" />
         <!-- 我的订单 -->
         <activity android:name=".ui.mine.MyOrderActivity" />
-        <!--轨迹详情-->
+        <!-- 轨迹详情 -->
         <activity android:name=".ui.car.TravelActivity" />
-        <!--道路救援-->
-        <activity android:name=".ui.car.RoadHelpActivity"></activity>
+        <!-- 道路救援 -->
+        <activity android:name=".ui.car.RoadHelpActivity" />
+        <activity android:name=".ui.mine.StealthManageActivity"></activity>
     </application>
 
 </manifest>

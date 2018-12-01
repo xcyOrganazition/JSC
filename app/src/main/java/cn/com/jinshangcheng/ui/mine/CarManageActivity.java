@@ -30,6 +30,7 @@ import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.ui.login.BindBoxActivity;
 import cn.com.jinshangcheng.utils.DensityUtil;
 import cn.com.jinshangcheng.widget.ListViewDecoration;
 import cn.com.jinshangcheng.widget.TittleBar;
@@ -61,10 +62,16 @@ public class CarManageActivity extends BaseActivity {
             switch (view.getId()) {
 
                 case R.id.tv_bind://立即绑定
+                    intent = new Intent(CarManageActivity.this, BindBoxActivity.class);
+                    intent.putExtra("carId", carList.get(position).getCarid());
+                    startActivity(intent);
                     break;
                 case R.id.tv_unbind://解除绑定
                     break;
                 case R.id.tv_stealth://隐身管理
+                    intent = new Intent(CarManageActivity.this, StealthManageActivity.class);
+                    intent.putExtra("carId", carList.get(position).getCarid());
+                    startActivity(intent);
                     break;
                 default://点击条目 编辑车辆
                     intent = new Intent(CarManageActivity.this, AddCarActivity.class);
