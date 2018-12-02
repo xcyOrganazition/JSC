@@ -55,7 +55,7 @@ public class LicenseDialog extends DialogFragment {
 
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 7));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 6));
         adapter = new LicenseAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         adapter.setListener(new OnItemViewClickListener() {

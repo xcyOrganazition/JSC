@@ -107,6 +107,7 @@ public class AddCarActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        spinner.setText(selectCity);
         if (isUpDateCar) {
             initCarData();
         }

@@ -517,6 +517,26 @@ public interface NetApi {
                                      @Field("invisibleid") String invisibleid);
 
     /**
+     * 设置轨迹保护
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/travel/protectAllMyTravel")
+    Observable<BaseBean> startProtect(@Field("userid") String userId);
+
+    /**
+     * 关闭轨迹保护
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/travel/releaseAllMyTravel")
+        Observable<BaseBean> stopProtect(@Field("userid") String userId);
+
+    /**
      * 添加车辆
      *
      * @param userId

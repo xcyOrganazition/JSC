@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +17,6 @@ import android.widget.TextView;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.ui.mine.PrivacyActivity;
-import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -28,6 +24,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.ui.mine.PrivacyActivity;
+import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 
 /**
  * 手势密码弹窗
@@ -161,7 +160,6 @@ public class GestureDialog extends DialogFragment {
                 secondPwd = pwd;
                 if (firstPwd.equals(secondPwd)) {//两次录入一致
                     tvTip.setText("手势密码设置成功");
-                    SharedPreferenceUtils.setStringSP(SP_KEY, secondPwd);//保存密码
                     autoClear(true);
                 } else {//两次输入不一致
                     tvTip.setText("两次密码不一致，请重新绘制");
@@ -172,7 +170,7 @@ public class GestureDialog extends DialogFragment {
             case DO_UNLOCK:
                 if (truePwd.equals(pwd)) {//密码输入正确
                     tvTip.setText("解锁成功");
-                    SharedPreferenceUtils.setStringSP(SP_KEY, secondPwd);//保存密码
+                    SharedPreferenceUtils.setStringSP(SP_KEY, "");
                     autoClear(true);
                 } else {//密码错误
                     tvTip.setText("密码不正确");
@@ -216,6 +214,7 @@ public class GestureDialog extends DialogFragment {
                             curMode = FIRST_INPUT;
                             tvTip.setText("请开始绘制");
                         } else if (isCorrect) { //两次录一致成功 关闭
+                            activity.lockLocal(secondPwd);
                             GestureDialog.this.dismiss();
                         }
                         break;
@@ -224,7 +223,6 @@ public class GestureDialog extends DialogFragment {
                             tvTip.setText("请开始绘制");
                         } else if (isCorrect) { //密码正确
                             activity.unLockLocal();
-                            SharedPreferenceUtils.setStringSP(SP_KEY, "");//清空密码
                             GestureDialog.this.dismiss();
                         }
                         break;

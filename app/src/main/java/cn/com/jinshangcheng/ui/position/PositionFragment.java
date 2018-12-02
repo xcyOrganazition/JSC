@@ -231,5 +231,13 @@ public class PositionFragment extends BaseFragment {
             mapView.getMap().setMyLocationData(locData);//设置定位信息
         }
     }
+
+    //规划导航路线
+    public void planRoad(){
+//        BaiduNaviManagerFactory.getBaiduNaviManager().init(activity, mSDCardPath, APP_FOLDER_NAME,
+//                new IBaiduNaviManager.INaviInitListener());
+//        BNRoutePlanNode sNode = new BNRoutePlanNode(116.30142, 40.05087, "百度大厦", "百度大厦", coType);
+//        BNRoutePlanNode eNode = new BNRoutePlanNode(116.39750, 39.90882, "北京天安门", "北京天安门", coType);
+    }
 }
 
