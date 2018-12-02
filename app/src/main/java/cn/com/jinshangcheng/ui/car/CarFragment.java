@@ -41,7 +41,6 @@ import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
-import cn.com.jinshangcheng.ui.mine.StealthManageActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
@@ -339,7 +338,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 intent = new Intent(getActivity(), CarReportActivity.class);
                 break;
             case R.id.ll_violation://查询违章
-
+                intent = new Intent(getActivity(), DemoMainActivity.class);
                 break;
             case R.id.ll_help://道路救援
                 mPresenter.getCanRoadHelp();//查看是否允许调用道路救援

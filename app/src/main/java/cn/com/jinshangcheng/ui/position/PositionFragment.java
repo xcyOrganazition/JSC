@@ -3,9 +3,11 @@ package cn.com.jinshangcheng.ui.position;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,17 +16,32 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.route.BikingRouteResult;
+import com.baidu.mapapi.search.route.DrivingRouteResult;
+import com.baidu.mapapi.search.route.IndoorRouteResult;
+import com.baidu.mapapi.search.route.MassTransitRouteResult;
+import com.baidu.mapapi.search.route.OnGetRoutePlanResultListener;
+import com.baidu.mapapi.search.route.PlanNode;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
+import com.baidu.mapapi.search.route.TransitRouteResult;
+import com.baidu.mapapi.search.route.WalkingRouteLine;
+import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
+import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.Unbinder;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
+import cn.com.jinshangcheng.utils.WalkingRouteOverlay;
 
 /**
  * 位置模块
@@ -229,15 +246,131 @@ public class PositionFragment extends BaseFragment {
                     .direction(0).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             mapView.getMap().setMyLocationData(locData);//设置定位信息
+
+            LatLng startPosition = new LatLng(116.30142, 40.05087);
+            LatLng carPosition = new LatLng(116.30149, 40.05080);
+            planRoad(startPosition, carPosition);
         }
     }
 
     //规划导航路线
-    public void planRoad(){
-//        BaiduNaviManagerFactory.getBaiduNaviManager().init(activity, mSDCardPath, APP_FOLDER_NAME,
-//                new IBaiduNaviManager.INaviInitListener());
-//        BNRoutePlanNode sNode = new BNRoutePlanNode(116.30142, 40.05087, "百度大厦", "百度大厦", coType);
-//        BNRoutePlanNode eNode = new BNRoutePlanNode(116.39750, 39.90882, "北京天安门", "北京天安门", coType);
+    public void planRoad(LatLng start, LatLng end) {
+        String mSDCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        //初始化导航
+//        BaiduNaviManagerFactory.getBaiduNaviManager().init(getActivity(),
+//                mSDCardPath, "cn.com.jinshangcheng", new IBaiduNaviManager.INaviInitListener() {
+//
+//                    @Override
+//                    public void onAuthResult(int status, String msg) {
+//                        if (0 == status) {
+//                            Logger.w("key校验成功");
+//                        } else {
+//                            Logger.w("key校验失败");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void initStart() {
+//                        Logger.w("百度导航引擎初始化开始");
+//                    }
+//
+//                    @Override
+//                    public void initSuccess() {
+//                        Logger.w("百度导航引擎初始化成功");
+//                    }
+//
+//                    @Override
+//                    public void initFailed() {
+//                        Logger.w("百度导航引擎初始化失败");
+//                    }
+//
+//                });
+
+        RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
+        mSearch.setOnGetRoutePlanResultListener(new OnGetRoutePlanResultListener() {
+            @Override
+            public void onGetWalkingRouteResult(WalkingRouteResult result) {
+                if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Logger.e("路线导航错误：" + result.error.name());
+                    getHoldingActivity().showToast("抱歉，未找到结果");
+                }
+                if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
+                    // 起终点或途经点地址有岐义，通过以下接口获取建议查询信息
+                    // result.getSuggestAddrInfo()
+
+                    return;
+                }
+                if (result.error == SearchResult.ERRORNO.NO_ERROR) {
+
+                    if (result.getRouteLines().size() > 1) {
+
+                    } else if (result.getRouteLines().size() == 1) {
+                        // 直接显示
+                        WalkingRouteLine line = result.getRouteLines().get(0);
+                        WalkingRouteOverlay overlay = new MyWalkingRouteOverlay(mapView.getMap());
+                        mapView.getMap().setOnMarkerClickListener(overlay);
+                        overlay.setData(result.getRouteLines().get(0));
+                        overlay.addToMap();
+                        overlay.zoomToSpan();
+
+                    } else {
+                        Log.d("route result", "结果数<0");
+                        return;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onGetTransitRouteResult(TransitRouteResult transitRouteResult) {
+
+            }
+
+            @Override
+            public void onGetMassTransitRouteResult(MassTransitRouteResult massTransitRouteResult) {
+
+            }
+
+            @Override
+            public void onGetDrivingRouteResult(DrivingRouteResult drivingRouteResult) {
+
+            }
+
+            @Override
+            public void onGetIndoorRouteResult(IndoorRouteResult indoorRouteResult) {
+
+            }
+
+            @Override
+            public void onGetBikingRouteResult(BikingRouteResult bikingRouteResult) {
+
+            }
+        });
+        PlanNode stMassNode = PlanNode.withCityNameAndPlaceName("北京", "西二旗地铁站");
+        PlanNode enMassNode = PlanNode.withCityNameAndPlaceName("北京", "百度科技园");
+        mSearch.walkingSearch((new WalkingRoutePlanOption())
+                .from(stMassNode).to(enMassNode));
+//        mSearch.walkingSearch((new WalkingRoutePlanOption())
+//                .from(PlanNode.withLocation(start)).to(PlanNode.withLocation(end)));
+    }
+
+    private class MyWalkingRouteOverlay extends WalkingRouteOverlay {
+
+        public MyWalkingRouteOverlay(BaiduMap baiduMap) {
+            super(baiduMap);
+        }
+
+        @Override
+        public BitmapDescriptor getStartMarker() {
+            //起始点Marker
+            return BitmapDescriptorFactory.fromResource(R.mipmap.main_position_select);
+        }
+
+        @Override
+        public BitmapDescriptor getTerminalMarker() {
+            //结束点Marker
+            return BitmapDescriptorFactory.fromResource(R.mipmap.main_position_select);
+        }
     }
 }
 
