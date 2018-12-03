@@ -22,10 +22,10 @@
     <!-- *************************百度地图所需权限**************************** -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 允许程序访问额外的定位提供者指令获取模拟定位信息 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- 获取粗略位置 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_GPS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
 
     <!-- *************************环信所需权限********************** -->
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -217,9 +217,9 @@
         <activity android:name=".ui.car.TravelActivity" />
         <!-- 道路救援 -->
         <activity android:name=".ui.car.RoadHelpActivity" />
-        <!--隐身-->
+        <!-- 隐身 -->
         <activity android:name=".ui.mine.StealthManageActivity" />
-
+        <activity android:name=".ui.position.LeadRoadActivity"></activity>
     </application>
 
 </manifest>

@@ -6,10 +6,11 @@ android {
     defaultConfig {
         applicationId "cn.com.jinshangcheng"
         minSdkVersion 20
-        targetSdkVersion 23
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
     signingConfigs {
@@ -33,6 +34,9 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.sdksigning
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 
     repositories {
@@ -87,6 +91,6 @@ dependencies {
     //环信
 //    implementation 'com.hyphenate:hyphenate-sdk-lite:3.5.0'
     implementation files('src/main/jniLibs/hyphenatechat_3.5.2.jar')
-    implementation (name: 'onsdk_all', ext: 'aar')
-    implementation (name: 'NaviTts', ext: 'aar')
+    implementation(name: 'onsdk_all', ext: 'aar')
+    implementation(name: 'NaviTts', ext: 'aar')
 }
