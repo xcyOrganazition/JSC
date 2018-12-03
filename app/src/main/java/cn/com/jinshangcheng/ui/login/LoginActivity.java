@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -17,7 +16,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.orhanobut.logger.Logger;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +37,9 @@ import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.AuthorizationInfo;
 import platform.cston.httplib.search.AuthUser;
 import platform.cston.httplib.search.OnResultListener;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 登陆
@@ -55,6 +60,7 @@ public class LoginActivity extends BaseActivity {
     private long coldDown = 120000;//120s 冷却时间
     private String countDownHint;//倒计时显示文字
     private CountDownTimer timer;
+    private String mVeriyCode = "";
 
     @Override
     public int setContentViewResource() {
@@ -105,37 +111,33 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-
+    //验证输入是否正确
     private void attemptLogin() {
         etPhoneNum.setError(null);
         etPassword.setError(null);
 
-        String phoneNum = etPhoneNum.getText().toString();
-        String password = etPassword.getText().toString();
+        String phoneNum = etPhoneNum.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
-        boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(phoneNum)) {
-            etPhoneNum.setError("请输入手机号");
-            focusView = etPhoneNum;
-            cancel = true;
-
-        }
-        if (!TextUtils.isEmpty(password)) {
-            etPassword.setError("请输入密码");
-            focusView = etPassword;
-            cancel = true;
-        }
-        if (!cancel) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-    }
-
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+//        if (TextUtils.isEmpty(phoneNum)) {
+//            etPhoneNum.setError("请输入手机号");
+//            focusView = etPhoneNum;
+//            return;
+//
+//        }
+//        if (TextUtils.isEmpty(password)) {
+//            etPassword.setError("请输入验证码");
+//            etPassword.requestFocus();
+//            return;
+//        }
+//        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
+//            etPassword.setError("验证码不正确");
+//            focusView = etPassword;
+//            return;
+//        }
+        doLogin(phoneNum);
     }
 
 
@@ -143,16 +145,42 @@ public class LoginActivity extends BaseActivity {
      * 获取验证码
      */
     private void getVerify() {
-
         String phoneNum = etPhoneNum.getText().toString();
-        countDown(coldDown);
-        finishTime = System.currentTimeMillis() + coldDown;
+        if (!CommonUtils.isMobilePhone(phoneNum)) {
+            showToast("手机号输入有误");
+            return;
+        }
+        RetrofitService.getRetrofit().getVerifyCode(phoneNum).enqueue(
+                new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (null == response.body()) {
+                            return;
+                        }
+                        countDown(coldDown);
+                        finishTime = System.currentTimeMillis() + coldDown;
+                        try {
+                            String s = response.body().toString();
+                            JSONObject body = new JSONObject(s);
+                            mVeriyCode = body.getString("verifycode");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        t.printStackTrace();
+                        showToast("验证码获取失败");
+                    }
+                }
+        );
     }
 
-    public void doLogin(String phone, String veriyCode) {
+    public void doLogin(String phone) {
 
-        RetrofitService.getRetrofit().login(phone, veriyCode)
+        RetrofitService.getRetrofit().login(phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoginBean>() {
@@ -164,12 +192,16 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onNext(LoginBean loginBean) {
-
+                        Intent intent = new Intent(LoginActivity.this, AddInviterActivity.class);
+//                Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+//                startActivities(new Intent[]{intent2, intent});
+                        LoginActivity.this.finish();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -244,11 +276,7 @@ public class LoginActivity extends BaseActivity {
                 getVerify();//获取验证码
                 break;
             case R.id.bt_login://登陆
-//                attemptLogin();
-//                doLogin("13241025667", "");
-                Intent intent = new Intent(LoginActivity.this, AddInviterActivity.class);
-                startActivity(intent);
-                LoginActivity.this.finish();
+                attemptLogin();
                 break;
         }
     }

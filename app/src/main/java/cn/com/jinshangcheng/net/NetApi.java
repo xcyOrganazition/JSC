@@ -42,13 +42,21 @@ public interface NetApi {
      * 登录
      *
      * @param phoneNumber
-     * @param verifyCode
      * @return bean
      */
     @FormUrlEncoded
     @POST("/user/registOrLogin")
-    Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber,
-                                @Field("verifyCode") String verifyCode);
+    Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber);
+
+    /**
+     * 获取验证码
+     *
+     * @param phoneNumber
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/user/getVerifyCode")
+    Call<JsonObject> getVerifyCode(@Field("phoneNumber") String phoneNumber);
 
     /**
      * 获取用户信息
@@ -534,7 +542,7 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/travel/releaseAllMyTravel")
-        Observable<BaseBean> stopProtect(@Field("userid") String userId);
+    Observable<BaseBean> stopProtect(@Field("userid") String userId);
 
     /**
      * 添加车辆
