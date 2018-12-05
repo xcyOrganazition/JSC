@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity {
                 //收到消息
                 for (EMMessage message : messages) {
                     Logger.w("收到消息" + message.toString());
+                    Logger.w("发送人：" + message.getFrom() + "    消息内容：" + message.getBody().toString());
                 }
             }
 

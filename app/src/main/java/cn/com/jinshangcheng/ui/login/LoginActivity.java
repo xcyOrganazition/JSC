@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -23,16 +24,22 @@ import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.LoginBean;
+import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.net.NetApi;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.MainActivity;
 import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.AuthorizationInfo;
 import platform.cston.httplib.search.AuthUser;
@@ -179,37 +186,62 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void doLogin(String phone) {
-
-        RetrofitService.getRetrofit().login(phone)
+        showLoading();
+        final NetApi retrofit = RetrofitService.getRetrofit();
+        retrofit.login(phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Function<LoginBean, ObservableSource<BaseBean<UserBean>>>() {
+                    @Override
+                    public ObservableSource<BaseBean<UserBean>> apply(LoginBean loginBean) {
+                        if (!"0".equals(loginBean.code)) {
+                            showToast(loginBean.message);
+                            dismissLoading();
+                            return null;
+                        }
+                        MyApplication.setUserId(loginBean.userid);
+                        SharedPreferenceUtils.setStringSP("userId", loginBean.userid);
+                        return retrofit.getUserInfo(loginBean.userid);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoginBean>() {
-
+                .subscribe(new Observer<BaseBean<UserBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(LoginBean loginBean) {
-                        Intent intent = new Intent(LoginActivity.this, AddInviterActivity.class);
-//                Intent intent2 = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-//                startActivities(new Intent[]{intent2, intent});
-                        LoginActivity.this.finish();
+                    public void onNext(BaseBean<UserBean> baseBean) {
+                        if ("0".equals(baseBean.code) && baseBean.data != null) {
+                            MyApplication.setUserBean(baseBean.data);
+                            Intent intentInviter = new Intent(LoginActivity.this, AddInviterActivity.class);
+                            Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
+                            if (!"1".equals(baseBean.data.userid) && TextUtils.isEmpty(baseBean.data.parentid)) {
+                                //未绑定推荐人 跳转推荐人页面
+                                startActivities(new Intent[]{intentMain, intentInviter});
+                            } else {
+                                //已绑定推荐人 跳转MainActivity
+                                startActivity(intentMain);
+                            }
+                            LoginActivity.this.finish();
+                        } else {
+                            showToast(baseBean.message);
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        dismissLoading();
                         e.printStackTrace();
                     }
 
                     @Override
                     public void onComplete() {
-
+                        dismissLoading();
                     }
                 });
-
     }
 
 
