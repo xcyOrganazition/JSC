@@ -78,7 +78,7 @@ public class CarManageActivity extends BaseActivity {
                 default://点击条目 编辑车辆
                     intent = new Intent(CarManageActivity.this, AddCarActivity.class);
                     intent.putExtra("carBean", carList.get(position));
-                    intent.putExtra("fromCarManage",true);
+                    intent.putExtra("fromCarManage", true);
                     startActivityForResult(intent, REQUEST_CODE);
             }
         }

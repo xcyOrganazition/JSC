@@ -59,6 +59,18 @@ public interface NetApi {
     Call<JsonObject> getVerifyCode(@Field("phoneNumber") String phoneNumber);
 
     /**
+     * 设置推荐人
+     *
+     * @param userid
+     * @param parentPhoneNum
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/user/updateUserParentId")
+    Call<JsonObject> upDateParentId(@Field("userid") String userid,
+                                    @Field("parentPhoneNum") String parentPhoneNum);
+
+    /**
      * 获取用户信息
      *
      * @param userid
@@ -412,6 +424,24 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/AccountdetailedController/getCanWithdraw")
     Call<JsonObject> geCanWithdraw(@Field("userid") String userId);
+
+    /**
+     * 申请提现
+     *
+     * @param userId
+     * @param accountbank
+     * @param accountuser
+     * @param accountnum
+     * @param dealbalance
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/AccountdetailedController/drawMyMoney")
+    Observable<BaseBean> drawMyMoney(@Field("userid") String userId,
+                                     @Field("accountbank") String accountbank,
+                                     @Field("accountuser") String accountuser,
+                                     @Field("accountnum") String accountnum,
+                                     @Field("dealbalance") String dealbalance);
 
     /**
      * 获取我的银行卡列表

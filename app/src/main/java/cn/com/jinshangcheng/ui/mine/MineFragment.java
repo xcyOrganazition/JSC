@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -126,7 +127,7 @@ public class MineFragment extends BaseFragment {
 
     public void refreshUserData() {
         UserBean userBean = MyApplication.getUserBean();
-        tvUserName.setText(String.format("%s%s", getResources().getString(R.string.userName), userBean.name));
+        tvUserName.setText(String.format("%s%s", getResources().getString(R.string.userName), TextUtils.isEmpty(userBean.name) ? "" : userBean.name));
 //        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
         tvPhone.setText(String.format("%s%s", getResources().getString(R.string.phoneNum), userBean.phonenumber));
         tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), getRankText(userBean.userlevel)));

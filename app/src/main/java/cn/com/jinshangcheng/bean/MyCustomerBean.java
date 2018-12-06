@@ -33,7 +33,7 @@ public class MyCustomerBean extends BaseListBean<MyCustomerBean> {
     public String phonenumber;
     public long registdate;
     public long updatedate;
-    public long qrcodepath;
+    public String qrcodepath;
     public String parentid;
     public int teamnum;
     public int straightpush;

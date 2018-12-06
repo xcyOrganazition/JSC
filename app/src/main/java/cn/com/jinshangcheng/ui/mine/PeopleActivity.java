@@ -61,7 +61,8 @@ public class PeopleActivity extends BaseActivity {
     @Override
     public void initView() {
         refreshLayout.setEnableRefresh(false);//禁止刷新
-        refreshLayout.setEnableLoadMoreWhenContentNotFull(false);//不满一页禁止加载
+        refreshLayout.setEnableLoadMore(true);//允许加载更多
+        refreshLayout.setEnableLoadMoreWhenContentNotFull(true);//不满一页禁止加载
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
@@ -124,7 +125,8 @@ public class PeopleActivity extends BaseActivity {
                             adapter.refreshList(customerList);
                             refreshLayout.finishLoadMore();
                             if (myCustomerBean.getBeanList().size() < ConstParams.PAGE_COUNT) {
-                                refreshLayout.setNoMoreData(true);
+//                                refreshLayout.setNoMoreData(true);
+                                refreshLayout.setEnableLoadMore(false);//不允许加载更多
                             }
                         }
                     }

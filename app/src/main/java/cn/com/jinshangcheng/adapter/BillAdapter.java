@@ -100,7 +100,7 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void setData(WithdrawBean bean, int position) {
-            String time = DateUtils.getYMDTime(bean.getRegisttime());
+            String time = DateUtils.getYMDTime(bean.getUpdatetime());
             double money = Math.abs(bean.getDealbalance());
             String type = "";
             switch (bean.getDealtype()) {// 0直推奖 1级差奖 2.已申请提现 3.已打款 4已退款

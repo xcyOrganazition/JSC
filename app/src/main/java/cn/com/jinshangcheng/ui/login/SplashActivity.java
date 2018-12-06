@@ -36,6 +36,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initView() {
         if (!TextUtils.isEmpty(userId)) {
+            MyApplication.setUserId(userId);
             getUserInfo();//已经登陆过 请求用户数据
         } else {
             startIntentTimer();

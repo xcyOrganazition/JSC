@@ -39,6 +39,7 @@ public class WithDrawActivity extends BaseActivity {
     private int page;
 
     @Override
+
     public int setContentViewResource() {
         return R.layout.activity_with_draw;
     }
@@ -70,6 +71,7 @@ public class WithDrawActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         refreshLayout.autoRefresh();
+        refreshLayout.setEnableLoadMoreWhenContentNotFull(false);
 
     }
 
@@ -87,6 +89,7 @@ public class WithDrawActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseListBean<WithdrawBean> baseBean) {
                         refreshLayout.finishLoadMore();
+                        refreshLayout.finishRefresh();
                         if (null != baseBean) {
                             list.addAll(baseBean.getBeanList());
                         }
@@ -96,6 +99,8 @@ public class WithDrawActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        refreshLayout.finishLoadMore();
+                        refreshLayout.finishRefresh();
                     }
 
                     @Override

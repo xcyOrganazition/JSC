@@ -98,12 +98,14 @@ public class MoneyActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_history://提现记录
                 intent = new Intent(MoneyActivity.this, WithDrawActivity.class);
+                startActivity(intent);
                 break;
             case R.id.bt_requestDraw://申请提现
                 intent = new Intent(MoneyActivity.this, ApplyDrawActivity.class);
+                startActivityForResult(intent, 0x100);
                 break;
         }
-        startActivity(intent);
+
     }
 
 
@@ -170,4 +172,14 @@ public class MoneyActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == ApplyDrawActivity.RESULT_CODE) {
+            billList.clear();
+            page = 1;
+            getIncome();
+            getBillList();
+        }
+    }
 }

@@ -66,11 +66,10 @@
                 android:layout_marginStart="@dimen/common_padding" />
 
 
-
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/common_padding">
 
@@ -98,14 +97,16 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写车牌号"
-                    android:text="A88888"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="A88888" />
 
             </LinearLayout>
+
             <View
                 style="@style/divider"
                 android:layout_marginEnd="@dimen/common_padding"
                 android:layout_marginStart="@dimen/common_padding" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,9 +128,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="123123123123"
                     android:hint="请填写车架号码"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="JNKCS15FXFM700506" />
 
             </LinearLayout>
 
@@ -137,6 +138,7 @@
                 style="@style/divider"
                 android:layout_marginEnd="@dimen/common_padding"
                 android:layout_marginStart="@dimen/common_padding" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,9 +160,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="454545454545"
-                    android:hint="请填写车架号码"
-                    android:inputType="text" />
+                    android:hint="请填写发动机号"
+                    android:inputType="text"
+                    android:text="VQ37583748A" />
 
             </LinearLayout>
 
@@ -226,8 +228,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="2018-11-21"
-                    android:hint="请选择注册时间" />
+                    android:hint="请选择注册时间"
+                    android:text="2018-11-21" />
 
                 <ImageView
                     android:layout_width="7dp"
@@ -262,10 +264,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="1000"
                     android:background="@null"
                     android:hint="请填写行驶距离"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="1000" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -301,8 +303,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="2018-12-11"
-                    android:hint="请输入保险日期" />
+                    android:hint="请输入保险日期"
+                    android:text="2018-12-11" />
 
                 <ImageView
                     android:layout_width="7dp"
@@ -339,8 +341,8 @@
 
                     <RadioButton
                         android:id="@+id/gasno_92"
-                        android:checked="true"
                         style="@style/CommonRadioButton"
+                        android:checked="true"
                         android:text="92#" />
 
                     <RadioButton
@@ -389,9 +391,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:text="13812345678"
                     android:hint="请填写紧急联系电话"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:text="13812345678" />
 
 
             </LinearLayout>

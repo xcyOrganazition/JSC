@@ -2,7 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,7 +16,6 @@ import com.orhanobut.logger.Logger;
 import java.util.Calendar;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
@@ -237,6 +236,38 @@ public class AddCarActivity extends BaseActivity {
 
     //校验数据是否全部填写
     public boolean cheackData() {
+        if (TextUtils.isEmpty(etLicenseNum.getText().toString())) {//车牌为null
+            showToast("请填写车牌信息");
+            return false;
+        }
+        if (TextUtils.isEmpty(etVin.getText().toString())) {
+            showToast("请填写车架号码");
+            return false;
+        }
+        if (TextUtils.isEmpty(etEin.getText().toString())) {
+            showToast("请填写发动机号");
+            return false;
+        }
+        if (selectCarBrands == null || selectCarType == null || selectCarModel == null) {//未选择车型
+            showToast("请选择车型");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvCarRegistDate.getText().toString())) {//未填写车辆注册时间
+            showToast("请填写注册时间");
+            return false;
+        }
+        if (TextUtils.isEmpty(etTotalMileage.getText().toString())) {//未填写行驶距离
+            showToast("请填写注行驶距离");
+            return false;
+        }
+        if (TextUtils.isEmpty(tvInsuranceDate.getText().toString())) {//未填写保险日期
+            showToast("请填写注行驶距离");
+            return false;
+        }
+        if (TextUtils.isEmpty(etEmergencyPhonenum.getText().toString())) {//未填写紧急联系人
+            showToast("请填写紧急联系人");
+            return false;
+        }
 
         return true;
     }
@@ -326,10 +357,4 @@ public class AddCarActivity extends BaseActivity {
         licenseDialog.dismiss();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

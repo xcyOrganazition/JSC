@@ -119,8 +119,8 @@ public class MyApplication extends Application {
 
     public static String getUserId() {
 //        return userId;
-        //22 王辉 ，39 明明  23 韩贺
-        return "39";
+        //22 王辉 ，39 明明  23 韩贺 1毛总
+        return "1";
     }
 
     public static void setUserId(String userId) {

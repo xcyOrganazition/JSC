@@ -8,6 +8,7 @@ import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -33,8 +34,10 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
             @Override
             public void onNext(BaseBean<ArrayList<CarBean>> arrayListBaseBean) {
                 if (arrayListBaseBean.code.equals("0") && null != arrayListBaseBean.data) {
-                    MyApplication.setCarId(arrayListBaseBean.data.get(0).getCarid());
-                    MyApplication.setCurrentCarBean(arrayListBaseBean.data.get(0));
+                    if (ArrayUtils.hasContent(arrayListBaseBean.data)) {
+                        MyApplication.setCarId(arrayListBaseBean.data.get(0).getCarid());
+                        MyApplication.setCurrentCarBean(arrayListBaseBean.data.get(0));
+                    }
                     carView.showCarList(arrayListBaseBean.data);
                 } else {
                     carView.toastErrorMsg(arrayListBaseBean.message);
