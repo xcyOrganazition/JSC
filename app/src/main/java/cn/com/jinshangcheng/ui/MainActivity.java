@@ -29,6 +29,7 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
 import cn.com.jinshangcheng.ui.communicate.CommunicateFragment;
+import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditMineActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
@@ -120,8 +121,12 @@ public class MainActivity extends BaseActivity {
             public void onMessageReceived(List<EMMessage> messages) {
                 //收到消息
                 for (EMMessage message : messages) {
-                    Logger.w("收到消息" + message.toString());
-                    Logger.w("发送人：" + message.getFrom() + "    消息内容：" + message.getBody().toString());
+                    Logger.w("发送人：" + message.getFrom());
+                    int startIndex = message.getBody().toString().indexOf("\"");
+                    String jsonString = message.getBody().toString().substring(startIndex);
+                    Logger.w("json内容：" + jsonString);
+                    
+
                 }
             }
 
@@ -251,5 +256,17 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         //移除环信消息监听
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == CarManageActivity.RESULT_CODE && data != null) {
+            if (data.getBooleanExtra("needUpdateCarList", false)) {
+                Logger.e("更新CarFragment");
+                CarFragment carFragment = (CarFragment) fragments[0];
+                carFragment.mPresenter.getCarList();
+            }
+        }
     }
 }

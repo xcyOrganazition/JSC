@@ -41,6 +41,7 @@ import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
+import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.position.LeadRoadActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
@@ -89,7 +90,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     public static int RESULT_CODE = 0x12;
     private List<CarBean> carList = new ArrayList<>();
 
-    private CarPresenter mPresenter;
+    public CarPresenter mPresenter;
     private CarListPagerAdapter adapter;
     private GeoCoder mSearch;//地理反编码
     private CarMaintainBean carMaintainBean;//车辆三审信息
@@ -230,7 +231,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     }
 
     public void toastErrorMsg(String errorMsg) {
-        Toast.makeText(getHoldingActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+        if (isFragmentVisible) {
+            Toast.makeText(getHoldingActivity(), errorMsg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -376,6 +379,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         //修改过三审数据  需要重新请求
         if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
             mPresenter.getCarMaintainInfo();
+        }
+        if (resultCode == CarManageActivity.RESULT_CODE) {
+            com.orhanobut.logger.Logger.e("CarFragment");
         }
     }
 

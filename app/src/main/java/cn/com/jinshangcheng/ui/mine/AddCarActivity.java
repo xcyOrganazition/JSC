@@ -87,7 +87,10 @@ public class AddCarActivity extends BaseActivity {
 
     private LicenseDialog licenseDialog;//车牌选择Dialog
     private boolean isUpDateCar;
+    private boolean isFromCarManage;
     private CarBean carBean;
+
+    public static int RESULT_CODE = 0x19;
 
     @Override
     public int setContentViewResource() {
@@ -97,8 +100,9 @@ public class AddCarActivity extends BaseActivity {
     @Override
     public void initData() {
         selectCity = ConstParams.cityArray[0];
-        isUpDateCar = getIntent().getBooleanExtra("fromCarManage", false);
-        if (isUpDateCar) {
+        isFromCarManage = getIntent().getBooleanExtra("fromCarManage", false);
+        isUpDateCar = getIntent().getBooleanExtra("isUpDateCar", false);
+        if (isFromCarManage && isUpDateCar) {
             carBean = (CarBean) getIntent().getSerializableExtra("carBean");
 
         }
@@ -178,9 +182,52 @@ public class AddCarActivity extends BaseActivity {
                     @Override
                     public void onNext(AddCarResult baseBean) {
                         if ("0".equals(baseBean.code)) {
+                            showToast("保存成功");
                             Intent intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
-                            startActivity(intent);
+                            intent.putExtra("isFromCarManage", isFromCarManage);
+                            intent.putExtra("carId", baseBean.carid);
+                            intent.putExtra("carId", baseBean.carid);
+                            startActivityForResult(intent, 0x1);
                             AddCarActivity.this.finish();
+                        } else {
+                            showToast(baseBean.message);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissLoading();
+                    }
+                });
+    }
+
+    public void upDateCarData() {
+        showLoading();
+        RetrofitService.getRetrofit().updateCar(MyApplication.getUserId(), carBean.getCarid(), getCarTypeCode(), getPlateNumber(),
+                etVin.getText().toString(), etEin.getText().toString(), selectCarBrands.brandName, selectCarBrands.picturePath,
+                selectCarType.typeName, selectCarType.picturePath, selectCarModel.modelId, selectCarModel.modelName,
+                selectCarModel.picturePath, getGasnoCode(), tvCarRegistDate.getText().toString(),
+                etTotalMileage.getText().toString(), tvInsuranceDate.getText().toString(), etEmergencyPhonenum.getText().toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AddCarResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(AddCarResult baseBean) {
+                        if ("0".equals(baseBean.code)) {
+                            setResult(RESULT_CODE);
+                            finish();
                         }
                         showToast(baseBean.message);
 
@@ -261,7 +308,7 @@ public class AddCarActivity extends BaseActivity {
             return false;
         }
         if (TextUtils.isEmpty(tvInsuranceDate.getText().toString())) {//未填写保险日期
-            showToast("请填写注行驶距离");
+            showToast("请填写保险日期");
             return false;
         }
         if (TextUtils.isEmpty(etEmergencyPhonenum.getText().toString())) {//未填写紧急联系人
@@ -285,7 +332,11 @@ public class AddCarActivity extends BaseActivity {
                 break;
             case R.id.bt_confirm:
                 if (cheackData()) {
-                    saveCarData();
+                    if (isUpDateCar) {
+                        upDateCarData();
+                    } else {
+                        saveCarData();
+                    }
                 }
 //                intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
 //                startActivity(intent);

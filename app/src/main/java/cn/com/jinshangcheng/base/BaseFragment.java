@@ -24,7 +24,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 当前Fragment是否处于可见状态标志，防止因ViewPager的缓存机制而导致回调函数的触发
      */
-    private boolean isFragmentVisible;
+    protected boolean isFragmentVisible;
 
     /**
      * onCreateView()里返回的view,在onCreateView里必须对该变量进行初始化

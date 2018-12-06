@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
@@ -177,7 +179,8 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.tv_car:
                 intent = new Intent(getHoldingActivity(), CarManageActivity.class);
-                break;
+                startActivityForResult(intent, 0x888);
+                return;
             case R.id.tv_order:
                 intent = new Intent(getHoldingActivity(), MyOrderActivity.class);
                 break;
@@ -193,4 +196,11 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == CarManageActivity.RESULT_CODE) {
+            Logger.e("MineFargment");
+        }
+    }
 }

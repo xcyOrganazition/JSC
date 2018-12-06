@@ -617,5 +617,82 @@ public interface NetApi {
                                     @Field("emergencyphonenum") String emergencyphonenum
     );
 
+    /**
+     * 添加车辆
+     *
+     * @param userId
+     * @param carid             要修改的车辆Id
+     * @param cartype           车型(小型车0、大型车1)
+     * @param platenumber       车牌号
+     * @param vin               车架码
+     * @param ein               发动机号码
+     * @param brandname         品牌名称
+     * @param brandpath         品牌图片
+     * @param typename          车型名称
+     * @param typepath          车型图片
+     * @param modelId           品牌图片
+     * @param model             车款名称
+     * @param modelpath         车款图片
+     * @param gasno             油号 92,95,98,0.
+     * @param carregistdate     注册时间
+     * @param totalmileage      行驶里程
+     * @param insurancedeadline 保险日期
+     * @param emergencyphonenum 紧急联系人电话
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/updateCarInfo")
+    Observable<AddCarResult> updateCar(@Field("userid") String userId,
+                                       @Field("carid") String carid,
+                                       @Field("cartype") int cartype,
+                                       @Field("platenumber") String platenumber,
+                                       @Field("vin") String vin,
+                                       @Field("ein") String ein,
+                                       @Field("brandname") String brandname,
+                                       @Field("brandpath") String brandpath,
+                                       @Field("typename") String typename,
+                                       @Field("typepath") String typepath,
+                                       @Field("modelId") String modelId,
+                                       @Field("model") String model,
+                                       @Field("modelpath") String modelpath,
+                                       @Field("gasno") int gasno,
+                                       @Field("carRegistdate") String carregistdate,
+                                       @Field("totalmileage") String totalmileage,
+                                       @Field("insurancedeadlineDate") String insurancedeadline,
+                                       @Field("emergencyphonenum") String emergencyphonenum
+    );
+
+    /**
+     * 绑定盒子
+     *
+     * @param userId
+     * @param carid
+     * @param din    驾图盒子唯一识别码（车机号）
+     * @param sn     车机序列号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/box/addBox")
+    Observable<BaseBean> bindBox(@Field("userid") String userId,
+                                 @Field("carid") String carid,
+                                 @Field("din") String din,
+                                 @Field("sn") String sn);
+
+    /**
+     * 解绑盒子
+     *
+     * @param userId
+     * @param carid
+     * @param din    驾图盒子唯一识别码（车机号）
+     * @param sn     车机序列号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/box/unbindBox")
+    Observable<BaseBean> unbindBox(@Field("userid") String userId,
+                                   @Field("carid") String carid,
+                                   @Field("din") String din,
+                                   @Field("sn") String sn);
+
 }
 

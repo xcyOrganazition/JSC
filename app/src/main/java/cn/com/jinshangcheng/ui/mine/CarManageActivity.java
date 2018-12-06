@@ -53,7 +53,8 @@ public class CarManageActivity extends BaseActivity {
     private CarManageAdapter adapter;
     private ArrayList<CarBean> carList;
 
-    private final int REQUEST_CODE = 0x41;
+    private static final int REQUEST_CODE = 0x41;
+    public static final int RESULT_CODE = 0x42;
 
     //reacyclerView的点击监听
     private OnItemViewClickListener onItemClickListener = new OnItemViewClickListener() {
@@ -66,9 +67,12 @@ public class CarManageActivity extends BaseActivity {
                 case R.id.tv_bind://立即绑定
                     intent = new Intent(CarManageActivity.this, BindBoxActivity.class);
                     intent.putExtra("carId", carList.get(position).getCarid());
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE);
                     break;
                 case R.id.tv_unbind://解除绑定
+                    intent = new Intent(CarManageActivity.this, UnbindBoxActivity.class);
+                    intent.putExtra("carId", carList.get(position).getCarid());
+                    startActivityForResult(intent, REQUEST_CODE);
                     break;
                 case R.id.tv_stealth://隐身管理
                     intent = new Intent(CarManageActivity.this, StealthManageActivity.class);
@@ -79,6 +83,7 @@ public class CarManageActivity extends BaseActivity {
                     intent = new Intent(CarManageActivity.this, AddCarActivity.class);
                     intent.putExtra("carBean", carList.get(position));
                     intent.putExtra("fromCarManage", true);
+                    intent.putExtra("isUpDateCar", true);
                     startActivityForResult(intent, REQUEST_CODE);
             }
         }
@@ -172,6 +177,7 @@ public class CarManageActivity extends BaseActivity {
 
     //请求车辆列表
     private void loadCarList() {
+        carList.clear();
         RetrofitService.getRetrofit().getCarList(MyApplication.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -216,7 +222,19 @@ public class CarManageActivity extends BaseActivity {
     @OnClick(R.id.bt_newCar)
     public void onViewClicked() {
         Intent intent = new Intent(CarManageActivity.this, AddCarActivity.class);
-//        intent.putExtra("address", data.get(position));
-        startActivity(intent);
+        intent.putExtra("fromCarManage", true);
+        intent.putExtra("isUpDateCar", false);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        com.orhanobut.logger.Logger.e("CarManager收到");
+        if (resultCode == AddCarActivity.RESULT_CODE) {
+            loadCarList();
+            //需要通知首页更新汽车列表
+            setResult(RESULT_CODE, new Intent().putExtra("needUpdateCarList", true));
+        }
     }
 }

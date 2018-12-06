@@ -107,8 +107,9 @@ public class CarManageAdapter extends SwipeMenuAdapter<CarManageAdapter.DefaultV
             tvModel.setText(bean.getBrandname());
             tvTypeName.setText(bean.getTypename());
             GlideUtils.loadImage(mContext, bean.getTypepath(), ivCar);
-            llHasBind.setVisibility(bean.getDin() != null ? View.VISIBLE : View.INVISIBLE);
-            llNotBind.setVisibility(bean.getDin() != null ? View.INVISIBLE : View.VISIBLE);
+            llHasBind.setVisibility(bean.getDin() != null ? View.VISIBLE : View.INVISIBLE);//已绑定 显示解绑按钮
+            tvStealth.setVisibility(bean.getDin() != null ? View.VISIBLE : View.INVISIBLE);//已绑定 显示隐身管理
+            llNotBind.setVisibility(bean.getDin() != null ? View.INVISIBLE : View.VISIBLE);//未绑定 显示绑定按钮
 
         }
 
