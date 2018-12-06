@@ -171,6 +171,7 @@ public class CarManageActivity extends BaseActivity {
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
             if (menuPosition == 0) {// 删除按钮被点击。
+                deleteCar(carList.get(adapterPosition).getCarid(), adapterPosition);
             }
         }
     };
@@ -210,6 +211,42 @@ public class CarManageActivity extends BaseActivity {
                 });
     }
 
+    //请求车辆列表
+    private void deleteCar(String carId, final int position) {
+
+        RetrofitService.getRetrofit().deleteCar(MyApplication.getUserId(), carId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if ("0".equals(baseBean.code)) {
+                            carList.remove(position);
+                            adapter.refreshList(carList);
+                            setResult(RESULT_CODE, new Intent().putExtra("needUpdateCarList", true));
+                        } else {
+                            showToast(baseBean.message);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -230,7 +267,7 @@ public class CarManageActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        com.orhanobut.logger.Logger.e("CarManager收到");
+        com.orhanobut.logger.Logger.e("CarManager收到   resultCode=" + resultCode);
         if (resultCode == AddCarActivity.RESULT_CODE) {
             loadCarList();
             //需要通知首页更新汽车列表

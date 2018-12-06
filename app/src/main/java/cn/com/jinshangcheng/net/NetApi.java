@@ -663,6 +663,18 @@ public interface NetApi {
     );
 
     /**
+     * 删除车辆
+     *
+     * @param userId
+     * @param carid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/car/deleteCar")
+    Observable<BaseBean> deleteCar(@Field("userid") String userId,
+                                   @Field("carid") String carid);
+
+    /**
      * 绑定盒子
      *
      * @param userId

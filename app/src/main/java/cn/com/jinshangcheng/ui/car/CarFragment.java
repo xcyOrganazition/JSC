@@ -256,10 +256,15 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     //刷新车辆位置数据
     @Override
     public void refreshPosition(PositionBean positionBean) {
+        if (positionBean == null) {//没有获取到坐标信息 清除marker
+            bdMapView.getMap().clear();
+            tvLocation.setText("未知");
+            return;
+        }
         LatLng point = new LatLng(positionBean.getLatitude(), positionBean.getLongitude());//构建Marker坐标
         bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
         BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
+                .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
                 .position(point)
                 .icon(bitmap);

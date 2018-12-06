@@ -19,7 +19,7 @@ import cn.com.jinshangcheng.net.RetrofitService;
  */
 public class GlideUtils {
     public static RequestOptions options = new RequestOptions()
-            .centerCrop()
+            .centerInside()
             .placeholder(R.mipmap.ic_launcher)
             .error(R.mipmap.ic_launcher)
             .priority(Priority.NORMAL)

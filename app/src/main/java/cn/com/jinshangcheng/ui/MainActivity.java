@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.model.LatLng;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
@@ -218,6 +219,12 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+    }
+
+    public void setCarPosition(LatLng carPosition) {
+        PositionFragment positionFragment = (PositionFragment) fragments[2];
+        positionFragment.setCarPosition(carPosition);
+
     }
 
 

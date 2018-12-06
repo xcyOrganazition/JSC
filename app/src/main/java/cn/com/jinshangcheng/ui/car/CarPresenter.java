@@ -1,5 +1,7 @@
 package cn.com.jinshangcheng.ui.car;
 
+import com.baidu.mapapi.model.LatLng;
+
 import java.util.ArrayList;
 
 import cn.com.jinshangcheng.MyApplication;
@@ -8,6 +10,7 @@ import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.ui.MainActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -69,9 +72,18 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
             public void onNext(BaseBean<PositionBean> baseBean) {
                 if (baseBean.code.equals("0") && null != baseBean.data) {
                     carView.refreshPosition(baseBean.data);
+                    if (carView.getActivity() instanceof MainActivity) {
+                        LatLng point = new LatLng(baseBean.data.getLatitude(), baseBean.data.getLongitude());
+                        ((MainActivity) carView.getActivity()).setCarPosition(point);
+                    }
                 } else {
                     carView.toastErrorMsg(baseBean.message);
+                    carView.refreshPosition(null);
+                    if (carView.getActivity() instanceof MainActivity) {
+                        ((MainActivity) carView.getActivity()).setCarPosition(null);
+                    }
                 }
+
             }
 
             @Override

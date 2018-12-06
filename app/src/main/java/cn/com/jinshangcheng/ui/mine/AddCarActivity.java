@@ -187,6 +187,7 @@ public class AddCarActivity extends BaseActivity {
                             intent.putExtra("isFromCarManage", isFromCarManage);
                             intent.putExtra("carId", baseBean.carid);
                             intent.putExtra("carId", baseBean.carid);
+                            setResult(RESULT_CODE);
                             startActivityForResult(intent, 0x1);
                             AddCarActivity.this.finish();
                         } else {

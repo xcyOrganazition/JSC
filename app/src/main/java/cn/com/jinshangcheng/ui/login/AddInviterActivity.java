@@ -52,7 +52,7 @@ public class AddInviterActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(stringObj);
                             showToast(jsonObject.getString("message"));
-                            if ("".equals(jsonObject.getString("code"))) {
+                            if ("0".equals(jsonObject.getString("code"))) {
                                 Intent intent = new Intent(AddInviterActivity.this, AddCarActivity.class);
                                 startActivity(intent);
                                 finish();

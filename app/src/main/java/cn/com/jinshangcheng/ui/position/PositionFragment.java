@@ -3,7 +3,6 @@ package cn.com.jinshangcheng.ui.position;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,8 +19,9 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.route.BikingRouteResult;
@@ -53,6 +53,13 @@ public class PositionFragment extends BaseFragment {
     Unbinder unbinder;
     private LocationClient locationClient;
 
+    public boolean getLoactionSuccesss = false;
+    public boolean getCarPositionSuccesss = false;
+
+    public LatLng carPosition;
+    public LatLng curLocation;
+
+
     public PositionFragment() {
         // Required empty public constructor
     }
@@ -72,7 +79,6 @@ public class PositionFragment extends BaseFragment {
     @Override
     public View createView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.fragment_position, null, false);
-
     }
 
     @Override
@@ -119,6 +125,29 @@ public class PositionFragment extends BaseFragment {
 
     }
 
+    public void setCarPosition(LatLng carPosition) {
+        if (carPosition != null) {
+            getCarPositionSuccesss = true;
+            this.carPosition = carPosition;
+            if (getCarPositionSuccesss) {
+                planRoad(curLocation, this.carPosition);
+            }
+        } else {//未获取到车辆定位
+            mapView.getMap().clear();
+            if (curLocation != null) {
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(curLocation)
+                        .icon(bitmap);
+                //在地图上添加Marker，并显示
+                mapView.getMap().addOverlay(option);
+            }
+        }
+
+    }
+
+
     @Override
     public void initView() {
         mapView.showScaleControl(false);//隐藏比例尺
@@ -132,13 +161,7 @@ public class PositionFragment extends BaseFragment {
                 MyLocationConfiguration.LocationMode.FOLLOWING, true, mCurrentMarker,
                 accuracyCircleFillColor, accuracyCircleStrokeColor));
 //        LatLng point = new LatLng(lat, lng);//构建Marker坐标
-//        BitmapDescriptor bitmap = BitmapDescriptorFactory
-//                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
-//        OverlayOptions option = new MarkerOptions()
-//                .position(point)
-//                .icon(bitmap);
-//        //在地图上添加Marker，并显示
-//        mapView.getMap().addOverlay(option);
+
 
         //解决百度地图与ViewPager滑动冲突
         mapView.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
@@ -240,51 +263,22 @@ public class PositionFragment extends BaseFragment {
             int errorCode = location.getLocType();
 
             // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(0).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
-            mapView.getMap().setMyLocationData(locData);//设置定位信息
-
-            LatLng startPosition = new LatLng(116.30142, 40.05087);
-            LatLng carPosition = new LatLng(116.30149, 40.05080);
-            planRoad(startPosition, carPosition);
+//            MyLocationData locData = new MyLocationData.Builder()
+//                    .accuracy(0)
+//                    // 此处设置开发者获取到的方向信息，顺时针0-360
+//                    .direction(0).latitude(location.getLatitude())
+//                    .longitude(location.getLongitude()).build();
+//            mapView.getMap().setMyLocationData(locData);//设置定位信息
+            curLocation = new LatLng(location.getLatitude(), location.getLongitude());
+            getLoactionSuccesss = true;
+            if (getCarPositionSuccesss) {
+                planRoad(curLocation, carPosition);
+            }
         }
     }
 
     //规划导航路线
     public void planRoad(LatLng start, LatLng end) {
-        String mSDCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        //初始化导航
-//        BaiduNaviManagerFactory.getBaiduNaviManager().init(getActivity(),
-//                mSDCardPath, "cn.com.jinshangcheng", new IBaiduNaviManager.INaviInitListener() {
-//
-//                    @Override
-//                    public void onAuthResult(int status, String msg) {
-//                        if (0 == status) {
-//                            Logger.w("key校验成功");
-//                        } else {
-//                            Logger.w("key校验失败");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void initStart() {
-//                        Logger.w("百度导航引擎初始化开始");
-//                    }
-//
-//                    @Override
-//                    public void initSuccess() {
-//                        Logger.w("百度导航引擎初始化成功");
-//                    }
-//
-//                    @Override
-//                    public void initFailed() {
-//                        Logger.w("百度导航引擎初始化失败");
-//                    }
-//
-//                });
 
         RoutePlanSearch mSearch = RoutePlanSearch.newInstance();
         mSearch.setOnGetRoutePlanResultListener(new OnGetRoutePlanResultListener() {
@@ -348,10 +342,10 @@ public class PositionFragment extends BaseFragment {
         });
         PlanNode stMassNode = PlanNode.withCityNameAndPlaceName("北京", "西二旗地铁站");
         PlanNode enMassNode = PlanNode.withCityNameAndPlaceName("北京", "百度科技园");
-        mSearch.walkingSearch((new WalkingRoutePlanOption())
-                .from(stMassNode).to(enMassNode));
 //        mSearch.walkingSearch((new WalkingRoutePlanOption())
-//                .from(PlanNode.withLocation(start)).to(PlanNode.withLocation(end)));
+//                .from(stMassNode).to(enMassNode));
+        mSearch.walkingSearch((new WalkingRoutePlanOption())
+                .from(PlanNode.withLocation(start)).to(PlanNode.withLocation(end)));
     }
 
     private class MyWalkingRouteOverlay extends WalkingRouteOverlay {
