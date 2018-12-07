@@ -42,7 +42,6 @@ import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
-import cn.com.jinshangcheng.ui.position.LeadRoadActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
@@ -336,6 +335,11 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @OnClick({R.id.ll_check, R.id.ll_report, R.id.ll_violation, R.id.ll_help, R.id.tv_checkDetail,
             R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
     public void onViewClicked(View view) {
+        if (MyApplication.getCurrentCarBean() == null || MyApplication.getCurrentCarBean().getDin() == null) {
+            toastErrorMsg("车辆未绑定盒子");
+            return;
+        }
+
         Intent intent = null;
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
@@ -347,7 +351,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 intent = new Intent(getActivity(), CarReportActivity.class);
                 break;
             case R.id.ll_violation://查询违章
-                intent = new Intent(getActivity(), LeadRoadActivity.class);
+//                intent = new Intent(getActivity(), LeadRoadActivity.class);
+                intent = new Intent(getActivity(), ViolationActivity.class);
                 break;
             case R.id.ll_help://道路救援
                 mPresenter.getCanRoadHelp();//查看是否允许调用道路救援
@@ -368,6 +373,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 intent = new Intent(getActivity(), AnnualActivity.class);
                 intent.putExtra("maintainBean", carMaintainBean);
                 startActivityForResult(intent, REQUEST_CODE);
+                return;
             case R.id.iv_shareLocation://分享:
 
                 return;

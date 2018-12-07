@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ import cn.com.jinshangcheng.utils.GlideUtils;
  */
 public class CarListPagerAdapter extends PagerAdapter {
     @BindView(R.id.tv_carLicense)
-    EditText tvCarLicense;
+    TextView tvCarLicense;
     @BindView(R.id.tv_carBrand)
     TextView tvCarBrand;
     @BindView(R.id.tv_carType)

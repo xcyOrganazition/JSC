@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,12 +35,14 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.LocusAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.ReportBean;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.utils.GlideUtils;
 import cn.com.jinshangcheng.utils.NumberUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -54,7 +55,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CarReportActivity extends BaseActivity {
 
     @BindView(R.id.tv_carLicense)
-    EditText tvCarLicense;
+    TextView tvCarLicense;
     @BindView(R.id.tv_carBrand)
     TextView tvCarBrand;
     @BindView(R.id.tv_carType)
@@ -126,6 +127,7 @@ public class CarReportActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        initTopView();
         tvDate.setText(currentDate);
         refreshLayout.setEnableRefresh(false);
         refreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -163,6 +165,17 @@ public class CarReportActivity extends BaseActivity {
         getDayTravelList();
     }
 
+    private void initTopView() {
+        CarBean bean = MyApplication.getCurrentCarBean();
+
+        tvCarLicense.setText(bean.getPlatenumber());
+        tvCarBrand.setText(bean.getBrandname());
+//        GlideUtils.loadImage(getApplicationContext(), bean.getBrandpath(), ivBranchImg);
+        GlideUtils.loadImage(getApplicationContext(), bean.getBrandpath(), ivCarImg);
+        tvCarType.setText(bean.getTypename());
+    }
+
+
     /**
      * 菜单创建器。在Item要创建菜单的时候调用。
      */
@@ -197,6 +210,7 @@ public class CarReportActivity extends BaseActivity {
         @Override
         public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
             closeable.smoothCloseMenu();// 关闭被点击的菜单。
+            deleteTravel(travelList.get(adapterPosition).travelid, adapterPosition);
         }
     };
 
@@ -281,6 +295,38 @@ public class CarReportActivity extends BaseActivity {
                 });
     }
 
+    public void deleteTravel(String travelid, final int position) {
+
+        RetrofitService.getRetrofit().deleteTravel(MyApplication.getCarId(), travelid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        showToast(baseBean.message);
+                        if ("0".equals(baseBean.code)) {
+                            travelList.remove(position);
+                            adapter.refreshList(travelList);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showToast("删除失败，稍后再试");
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     //获取车辆汇报数据
     public void getDateReport() {
         showLoading();
@@ -326,9 +372,9 @@ public class CarReportActivity extends BaseActivity {
     public void refreshReportView(ReportBean reportBean) {
         tvTotal.setText(NumberUtils.formatDouble(reportBean.fuelcost));//用车费用
         tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60D)));//用车时间
-        tvMile.setText(NumberUtils.formatDouble(reportBean.mileage));//行驶里程
+        tvMile.setText(NumberUtils.formatDouble(reportBean.mile));//行驶里程
         tvOil.setText(NumberUtils.formatDouble(reportBean.fuel));//燃烧油量
-        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mileage));//油耗
+        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mile));//油耗
         tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
         tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
         tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));

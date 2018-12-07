@@ -24,6 +24,7 @@ import cn.com.jinshangcheng.bean.StealthBean;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.bean.ViolationBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
@@ -186,6 +187,18 @@ public interface NetApi {
                                        @Field("carregistDate") String carregistDate);
 
     /**
+     * 完善车年审信息
+     *
+     * @param carid
+     * @param userId
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getBreakRule")
+    Observable<ViolationBean> getViolation(@Field("carid") String carid,
+                                           @Field("userid") String userId);
+
+    /**
      * 获取用车报告 日报告
      *
      * @param carid
@@ -242,6 +255,18 @@ public interface NetApi {
                                                          @Field("currentPage") int currentPage,
                                                          @Field("pageSize") int pageSize,
                                                          @Field("monthTime") String monthTime);
+
+    /**
+     * 删除某条轨迹
+     *
+     * @param userId
+     * @param travelid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/travel/delTheOneOfMyTravel")
+    Observable<BaseBean> deleteTravel(@Field("userId") String userId,
+                                      @Field("travelid") String travelid);
 
     /**
      * 获取轨迹点列表

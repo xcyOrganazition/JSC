@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-    <EditText
+    <TextView
         android:id="@+id/tv_carLicense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,9 +26,9 @@
 
     <ImageView
         android:id="@+id/iv_branchImg"
-        android:visibility="gone"
         android:layout_width="18dp"
         android:layout_height="18dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/tv_carType"
         app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
         app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
@@ -37,13 +37,13 @@
 
         android:id="@+id/tv_carBrand"
         style="@style/textMiddle"
-        app:layout_constraintBottom_toTopOf="@+id/tv_carType"
-        app:layout_constraintTop_toBottomOf="@+id/tv_carLicense"
-        app:layout_constraintLeft_toRightOf="@+id/iv_branchImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:text="奔驰汽车" />
+        android:text="奔驰汽车"
+        app:layout_constraintBottom_toTopOf="@+id/tv_carType"
+        app:layout_constraintLeft_toRightOf="@+id/iv_branchImg"
+        app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
 
     <TextView
         android:id="@+id/tv_carType"
