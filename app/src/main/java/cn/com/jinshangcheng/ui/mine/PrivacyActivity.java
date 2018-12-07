@@ -3,7 +3,6 @@ package cn.com.jinshangcheng.ui.mine;
 import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.orhanobut.logger.Logger;
@@ -54,6 +53,7 @@ public class PrivacyActivity extends BaseActivity {
     @Override
     public void initView() {
         tittleBar.setTittle("隐私管理");
+        switchLocal.setChecked(isProtect);
         switchLocal.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -67,11 +67,11 @@ public class PrivacyActivity extends BaseActivity {
                 return true;
             }
         });
-        switchLocal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            }
-        });
+//        switchLocal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//            }
+//        });
 
     }
 

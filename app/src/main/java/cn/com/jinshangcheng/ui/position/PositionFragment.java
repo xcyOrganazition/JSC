@@ -18,6 +18,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
@@ -135,16 +136,22 @@ public class PositionFragment extends BaseFragment {
         } else {//未获取到车辆定位
             mapView.getMap().clear();
             if (curLocation != null) {
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
-                OverlayOptions option = new MarkerOptions()
-                        .position(curLocation)
-                        .icon(bitmap);
-                //在地图上添加Marker，并显示
-                mapView.getMap().addOverlay(option);
+                drawLocationPoint();
             }
         }
+    }
 
+    public void drawLocationPoint() {
+        if (curLocation != null) {
+            BitmapDescriptor bitmap = BitmapDescriptorFactory
+                    .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
+            OverlayOptions option = new MarkerOptions()
+                    .position(curLocation)
+                    .icon(bitmap);
+            //在地图上添加Marker，并显示
+            mapView.getMap().addOverlay(option);
+            mapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(curLocation));
+        }
     }
 
 
@@ -287,7 +294,8 @@ public class PositionFragment extends BaseFragment {
                 if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
                     Logger.e("路线导航错误：" + result.error.name());
                     if (getHoldingActivity() != null) {
-                        getHoldingActivity().showToast("抱歉，未找到结果");
+//                        getHoldingActivity().showToast("抱歉，未找到结果");
+                        drawLocationPoint();
                     }
                 }
                 if (result.error == SearchResult.ERRORNO.AMBIGUOUS_ROURE_ADDR) {
