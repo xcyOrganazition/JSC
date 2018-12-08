@@ -22,6 +22,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * 隐身管理
+ */
 public class StealthManageActivity extends BaseActivity {
 
     @BindView(R.id.pickerDay)
@@ -97,7 +100,9 @@ public class StealthManageActivity extends BaseActivity {
         switchLocal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                stopStealth();
+                if (!isChecked) {
+                    stopStealth();
+                }
             }
         });
     }
@@ -157,10 +162,12 @@ public class StealthManageActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseBean baseBean) {
+                        dismissLoading();
                         if ("0".equals(baseBean.code)) {
 
                         }
                         showToast(baseBean.message);
+                        finish();
                     }
 
                     @Override
@@ -171,7 +178,8 @@ public class StealthManageActivity extends BaseActivity {
 
                     @Override
                     public void onComplete() {
-                        getStealthData();
+
+//                        getStealthData();
                     }
                 });
     }
@@ -190,12 +198,14 @@ public class StealthManageActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseBean baseBean) {
+                        dismissLoading();
                         if ("0".equals(baseBean.code)) {
-                            getStealthData();
+//                            getStealthData();
                             showToast("已取消隐身");
                         }else {
                             showToast(baseBean.message);
                         }
+                        finish();
                     }
 
                     @Override
@@ -206,7 +216,6 @@ public class StealthManageActivity extends BaseActivity {
 
                     @Override
                     public void onComplete() {
-                        dismissLoading();
                     }
                 });
     }

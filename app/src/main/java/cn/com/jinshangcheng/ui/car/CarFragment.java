@@ -301,6 +301,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     public void refreshMaintainData(CarMaintainBean maintainBean) {
         this.carMaintainBean = maintainBean;
         if (carMaintainBean == null) {
+            tvInsurance.setText("");
+            tvMaintenance.setText("");
+            tvAnnual.setText("");
             return;
         }
         //保险数据
@@ -315,6 +318,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             } else if (remainTime >= aMonth) {//超过一个月 正常显示
                 tvInsurance.setTextColor(getResources().getColor(R.color.textGary));
             }
+        }else {//没有保险数据
+            tvInsurance.setText("");
         }
         //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息

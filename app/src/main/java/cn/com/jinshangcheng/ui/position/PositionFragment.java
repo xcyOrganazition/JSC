@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -39,7 +41,6 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.utils.WalkingRouteOverlay;
@@ -51,7 +52,8 @@ public class PositionFragment extends BaseFragment {
     private static PositionFragment positionFragment;
     @BindView(R.id.mapView)
     MapView mapView;
-    Unbinder unbinder;
+    @BindView(R.id.switch_Traffic)
+    Switch switchTraffic;
     private LocationClient locationClient;
 
     public boolean getLoactionSuccesss = false;
@@ -186,8 +188,12 @@ public class PositionFragment extends BaseFragment {
                 return false;
             }
         });
-
-
+        switchTraffic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mapView.getMap().setTrafficEnabled(isChecked);
+            }
+        });
     }
 
     public void checkLoactionPermission() {

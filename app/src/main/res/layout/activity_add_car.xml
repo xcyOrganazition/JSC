@@ -97,8 +97,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写车牌号"
-                    android:inputType="text"
-                    android:text="A88888" />
+                    android:inputType="text" />
 
             </LinearLayout>
 
@@ -129,8 +128,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写车架号码"
-                    android:inputType="text"
-                    android:text="JNKCS15FXFM700506" />
+                    android:inputType="text" />
 
             </LinearLayout>
 
@@ -161,8 +159,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写发动机号"
-                    android:inputType="text"
-                    android:text="VQ37583748A" />
+                    android:inputType="text"/>
 
             </LinearLayout>
 
@@ -228,8 +225,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="请选择注册时间"
-                    android:text="2018-11-21" />
+                    android:hint="请选择注册时间" />
 
                 <ImageView
                     android:layout_width="7dp"
@@ -266,8 +262,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写行驶距离"
-                    android:inputType="number"
-                    android:text="1000" />
+                    android:inputType="number" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -303,8 +298,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="请输入保险日期"
-                    android:text="2018-12-11" />
+                    android:hint="请输入保险日期" />
 
                 <ImageView
                     android:layout_width="7dp"
@@ -392,8 +386,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写紧急联系电话"
-                    android:inputType="number"
-                    android:text="13812345678" />
+                    android:inputType="phone" />
 
 
             </LinearLayout>

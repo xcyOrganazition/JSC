@@ -25,6 +25,7 @@ public class Goods extends BaseBean<Goods> {
     private long registtime;
     private long updatetime;
     private int orderby;
+    public int quantity;
 
     public String getGoodsid() {
         return goodsid;

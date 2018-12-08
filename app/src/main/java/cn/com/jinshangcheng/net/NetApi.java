@@ -18,6 +18,7 @@ import cn.com.jinshangcheng.bean.IncomeBean;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.MyCountBean;
 import cn.com.jinshangcheng.bean.MyCustomerBean;
+import cn.com.jinshangcheng.bean.OrderBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.ReportBean;
 import cn.com.jinshangcheng.bean.StealthBean;
@@ -293,6 +294,16 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/goods/getGoodsList")
     Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
+    /**
+     * 查看我的订单(分页显示)
+     *
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/order/getMyOrders")
+    Observable<BaseListBean<OrderBean>> getMyOrders(@Field("userid") String userId,
+                                                    @Field("currentPage") int currentPage,
+                                                    @Field("pageSize") int pageSize);
 
     /**
      * 获取地址列表
