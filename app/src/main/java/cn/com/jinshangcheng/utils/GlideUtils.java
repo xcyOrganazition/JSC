@@ -25,6 +25,13 @@ public class GlideUtils {
             .priority(Priority.NORMAL)
             .signature(new ObjectKey(UUID.randomUUID().toString()))
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+    public static RequestOptions optionsCenter = new RequestOptions()
+            .centerCrop()
+            .placeholder(R.mipmap.ic_launcher)
+            .error(R.mipmap.ic_launcher)
+            .priority(Priority.NORMAL)
+            .signature(new ObjectKey(UUID.randomUUID().toString()))
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
 
 
     public static void loadImage(Context context, String url, ImageView imageView) {
@@ -41,7 +48,7 @@ public class GlideUtils {
 
         Glide.with(context.getApplicationContext())
                 .load(url)
-                .apply(options)
+                .apply(optionsCenter)
                 .into(imageView);
     }
 

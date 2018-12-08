@@ -21,6 +21,7 @@ import cn.com.jinshangcheng.bean.MyCountBean;
 import cn.com.jinshangcheng.bean.MyCustomerBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -121,6 +122,10 @@ public class PeopleActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseListBean<MyCustomerBean> myCustomerBean) {
                         if (null != myCustomerBean) {
+                            if (!ArrayUtils.hasContent(myCustomerBean.getBeanList()) && page == 1) {
+                                showToast("暂无人脉");
+                                return;
+                            }
                             customerList.addAll(myCustomerBean.getBeanList());
                             adapter.refreshList(customerList);
                             refreshLayout.finishLoadMore();

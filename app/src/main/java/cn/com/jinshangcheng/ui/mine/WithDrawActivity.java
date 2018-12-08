@@ -19,6 +19,7 @@ import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -90,9 +91,11 @@ public class WithDrawActivity extends BaseActivity {
                     public void onNext(BaseListBean<WithdrawBean> baseBean) {
                         refreshLayout.finishLoadMore();
                         refreshLayout.finishRefresh();
-                        if (null != baseBean) {
-                            list.addAll(baseBean.getBeanList());
+                        if (!ArrayUtils.hasContent(baseBean.getBeanList()) && page == 1) {
+                            showToast("暂无提现记录");
+                            return;
                         }
+                        list.addAll(baseBean.getBeanList());
                         adapter.refreshAdapter(list);
                     }
 
