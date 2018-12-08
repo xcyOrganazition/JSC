@@ -1,5 +1,7 @@
 package cn.com.jinshangcheng.utils;
 
+import android.text.TextUtils;
+
 import java.text.DecimalFormat;
 
 public class NumberUtils {
@@ -16,6 +18,9 @@ public class NumberUtils {
     }
 
     public static String formatDouble(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "0";
+        }
         Double d = Double.parseDouble(str);
         com.orhanobut.logger.Logger.w("Double" + d);
         DecimalFormat df = new DecimalFormat("#.00");

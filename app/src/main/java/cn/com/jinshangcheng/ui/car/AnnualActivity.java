@@ -46,10 +46,10 @@ public class AnnualActivity extends BaseActivity {
     public void initData() {
         carMaintainBean = (CarMaintainBean) getIntent().getSerializableExtra("maintainBean");
         if (carMaintainBean != null) {
-            time = DateUtils.getYMDTime(carMaintainBean.getAnnualtrialdeadline());
             if (carMaintainBean.getMaintain() != null) {
-                registTime = DateUtils.getYMDTime(carMaintainBean.getMaintain().getRegistdate());
+                time = DateUtils.getYMDTime(carMaintainBean.getMaintain().getAnnualtrialdeadline());
             }
+            registTime = DateUtils.getYMDTime(carMaintainBean.getCarregistdate());
         }
     }
 

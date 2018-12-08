@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#43a119"
     android:orientation="vertical">
 
     <cn.com.jinshangcheng.widget.TittleBar
@@ -21,7 +20,7 @@
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backLightGreen"
+            android:background="@color/backGroundGary"
             android:overScrollMode="never"
             android:scrollbars="none">
 

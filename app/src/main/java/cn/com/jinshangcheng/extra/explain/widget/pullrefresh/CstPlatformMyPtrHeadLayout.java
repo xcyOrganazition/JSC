@@ -29,7 +29,7 @@ public class CstPlatformMyPtrHeadLayout extends MyPtrLayout {
         mHeaderView = new CstPlatformPtrHeaderView(getContext());
         LayoutParams lp = mHeaderView.getLayoutParams();
         if (lp == null) {
-            lp = new LayoutParams(LayoutParams. MATCH_PARENT,
+            lp = new LayoutParams(LayoutParams.MATCH_PARENT,
                     CstPlatformUtils.dip2px(getContext(), 148));
         }
         mHeaderView.setLayoutParams(lp);

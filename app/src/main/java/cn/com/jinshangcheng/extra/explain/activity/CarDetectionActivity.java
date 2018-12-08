@@ -1038,7 +1038,7 @@ public class CarDetectionActivity extends CstBaseActivity {
             return CarDetectionEntity.DETECTION_NO_SUPPORT;
         }
         //冷却液温度(℃)
-        if ((mCarConDetectionResult.highcoolantCt == null || mCarConDetectionResult.highcoolantCt.equals("null"))
+        if ((mCarConDetectionResult == null || mCarConDetectionResult.highcoolantCt == null || mCarConDetectionResult.highcoolantCt.equals("null"))
                 && isParamSupportedTemperature(Double.toString(bean.coolantct))) {
             return CarDetectionEntity.DETECTION_NORMAL;
         } else {
