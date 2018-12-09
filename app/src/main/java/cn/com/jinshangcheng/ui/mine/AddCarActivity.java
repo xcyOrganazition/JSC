@@ -29,6 +29,7 @@ import cn.com.jinshangcheng.ui.login.BindBoxActivity;
 import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.widget.LicenseDialog;
+import cn.com.jinshangcheng.widget.TittleBar;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -40,6 +41,8 @@ import platform.cston.httplib.bean.CarTypeResult;
 public class AddCarActivity extends BaseActivity {
 
 
+    @BindView(R.id.tittleBar)
+    TittleBar tittleBar;
     @BindView(R.id.rb_littleCar)
     RadioButton rbLittleCar;
     @BindView(R.id.rb_bigCar)
@@ -110,6 +113,10 @@ public class AddCarActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        if (!isFromCarManage) {//初次登陆 添加车辆
+            tittleBar.hideNavigation();
+            tittleBar.setTittle("添加车辆");
+        }
         spinner.setText(selectCity);
         if (isUpDateCar) {
             initCarData();

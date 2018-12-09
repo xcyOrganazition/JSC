@@ -107,7 +107,6 @@ public class TittleBar extends RelativeLayout {
      */
     public void setNoAction() {
         toolbar.getMenu().clear();
-
     }
 
 

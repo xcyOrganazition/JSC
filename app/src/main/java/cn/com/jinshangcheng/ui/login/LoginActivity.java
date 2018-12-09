@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity {
     private String countDownHint;//倒计时显示文字
     private CountDownTimer timer;
     private String mVeriyCode = "";
+    private String phoneNum = "";
 
     @Override
     public int setContentViewResource() {
@@ -101,11 +102,15 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        phoneNum = SharedPreferenceUtils.getStringSP("phoneNum");
         countDownHint = this.getString(R.string.countDownHint);
     }
 
     @Override
     public void initView() {
+        if (!TextUtils.isEmpty(phoneNum)) {
+            etPhoneNum.setText(phoneNum);
+        }
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -120,6 +125,7 @@ public class LoginActivity extends BaseActivity {
 
     //验证输入是否正确
     private void attemptLogin() {
+        CommonUtils.hideSoftKeyboard(this);
         etPhoneNum.setError(null);
         etPassword.setError(null);
 
@@ -128,22 +134,22 @@ public class LoginActivity extends BaseActivity {
 
         View focusView = null;
 
-        if (TextUtils.isEmpty(phoneNum)) {
-            etPhoneNum.setError("请输入手机号");
-            focusView = etPhoneNum;
-            return;
-
-        }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("请输入验证码");
-            etPassword.requestFocus();
-            return;
-        }
-        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
-            etPassword.setError("验证码不正确");
-            focusView = etPassword;
-            return;
-        }
+//        if (TextUtils.isEmpty(phoneNum)) {
+//            etPhoneNum.setError("请输入手机号");
+//            focusView = etPhoneNum;
+//            return;
+//
+//        }
+//        if (TextUtils.isEmpty(password)) {
+//            etPassword.setError("请输入验证码");
+//            etPassword.requestFocus();
+//            return;
+//        }
+//        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
+//            etPassword.setError("验证码不正确");
+//            focusView = etPassword;
+//            return;
+//        }
         doLogin(phoneNum);
     }
 
@@ -185,7 +191,7 @@ public class LoginActivity extends BaseActivity {
         );
     }
 
-    public void doLogin(String phone) {
+    public void doLogin(final String phone) {
         showLoading();
         final NetApi retrofit = RetrofitService.getRetrofit();
         retrofit.login(phone)
@@ -201,6 +207,7 @@ public class LoginActivity extends BaseActivity {
                         }
                         MyApplication.setUserId(loginBean.userid);
                         SharedPreferenceUtils.setStringSP("userId", loginBean.userid);
+                        SharedPreferenceUtils.setStringSP("phoneNum", phone);
                         return retrofit.getUserInfo(loginBean.userid);
                     }
                 })

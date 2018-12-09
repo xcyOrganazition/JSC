@@ -266,8 +266,8 @@ public class PositionFragment extends BaseFragment {
             //获取经度信息
             double longitude = location.getLongitude();
 
-            Logger.w("经度" + longitude);
-            Logger.w("纬度" + latitude);
+//            Logger.w("经度" + longitude);
+//            Logger.w("纬度" + latitude);
             //获取定位精度，默认值为0.0f
             float radius = location.getRadius();
             //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准

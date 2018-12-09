@@ -9,6 +9,7 @@
     tools:context=".ui.mine.AddCarActivity">
 
     <cn.com.jinshangcheng.widget.TittleBar
+        android:id="@+id/tittleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:centerText="车辆信息" />
@@ -127,8 +128,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:text="JNKCS15FXFM700506"
                     android:hint="请填写车架号码"
-                    android:inputType="text" />
+                    android:inputType="textEmailAddress" />
 
             </LinearLayout>
 
@@ -159,7 +161,8 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="请填写发动机号"
-                    android:inputType="text"/>
+                    android:text="VQ37583748A"
+                    android:inputType="textEmailAddress" />
 
             </LinearLayout>
 

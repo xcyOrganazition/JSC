@@ -2,7 +2,7 @@
     <string name="app_name">锦尚程</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">消息通知</string>
+    <string name="title_notifications">退出登陆</string>
 
     <string name="carfragment">CarFragment</string>
     <string name="title_activity_test">TestActivity</string>

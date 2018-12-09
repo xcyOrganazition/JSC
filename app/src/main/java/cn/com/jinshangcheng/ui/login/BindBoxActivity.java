@@ -102,8 +102,8 @@ public class BindBoxActivity extends BaseActivity {
                                 setResult(AddCarActivity.RESULT_CODE);
                                 finish();
                             } else {
-                                Intent intent = new Intent(BindBoxActivity.this, MainActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(BindBoxActivity.this, MainActivity.class);
+//                                startActivity(intent);
                             }
                         }
                     }

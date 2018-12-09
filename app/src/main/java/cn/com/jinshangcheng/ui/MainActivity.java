@@ -29,11 +29,13 @@ import butterknife.BindView;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
+import cn.com.jinshangcheng.ui.login.LoginActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditMineActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
+import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 import cn.com.jinshangcheng.widget.TittleBar;
 
 public class MainActivity extends BaseActivity {
@@ -163,6 +165,8 @@ public class MainActivity extends BaseActivity {
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
+
+    //右上角下拉菜单
     private void initTabItem() {
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < TAB_NAMES.length; i++) {
@@ -195,6 +199,12 @@ public class MainActivity extends BaseActivity {
                                 case R.id.navigation_dashboard:
                                     Intent intent = new Intent(MainActivity.this, EditMineActivity.class);
                                     startActivity(intent);
+                                    break;
+                                case R.id.navigation_logout:
+                                    SharedPreferenceUtils.setStringSP("userId", "");
+                                    Intent intent2 = new Intent(MainActivity.this, LoginActivity.class);
+                                    startActivity(intent2);
+                                    finish();
                                     break;
 
                             }
