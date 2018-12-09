@@ -8,8 +8,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
@@ -45,6 +47,7 @@ import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
+import cn.com.jinshangcheng.utils.MapUtils;
 import cn.com.jinshangcheng.utils.NumberUtils;
 
 
@@ -94,6 +97,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     private GeoCoder mSearch;//地理反编码
     private CarMaintainBean carMaintainBean;//车辆三审信息
     private ViewPager.OnPageChangeListener pageChangedListener;
+    private LatLng carPosition;
 
     public CarFragment() {
         // Required empty public constructor
@@ -191,16 +195,46 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             }
         };
         vpCarList.addOnPageChangeListener(pageChangedListener);
-
+        bdMapView.getMap().setOnMapClickListener(mapClicklistener);
         mPresenter.getCarList();//请求车辆数据
     }
+
+    //地图单击事件监听
+    BaiduMap.OnMapClickListener mapClicklistener = new BaiduMap.OnMapClickListener() {
+        /**
+         * 地图单击事件回调函数
+         * @param point 点击的地理坐标
+         */
+        public void onMapClick(LatLng point) {
+            if (carPosition == null) {
+                return;
+            }
+            Intent intent = new Intent(getActivity(), CarLocationActivity.class);
+            intent.putExtra("carPosition", carPosition);
+            startActivity(intent);
+        }
+
+        /**
+         * 地图内 Poi 单击事件回调函数
+         * @param poi 点击的 poi 信息
+         */
+        public boolean onMapPoiClick(MapPoi poi) {
+            return false;
+        }
+    };
 
 
     /**
      * 获取其他数据（位置、油耗、保险、年审等）
      */
     public void getOtherData() {
-        tvMileNum.setText(MyApplication.getCurrentCarBean().getMileage());//总里程
+        if (MyApplication.getCurrentCarBean() == null) {
+            return;
+        }
+        if (MyApplication.getCurrentCarBean().getMileage() != null) {
+            Double metter = Double.parseDouble(MyApplication.getCurrentCarBean().getMileage()) / 1000;
+            tvMileNum.setText(NumberUtils.formatDouble(metter));//总里程
+        }
         String fuelAvg = NumberUtils.getOilAvg(MyApplication.getCurrentCarBean().getFuel(), MyApplication.getCurrentCarBean().getMileage());
         tvFuelNum.setText(fuelAvg);//油耗
         mPresenter.getCarPosition(MyApplication.getCarId());//位置
@@ -256,18 +290,21 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     @Override
     public void refreshPosition(PositionBean positionBean) {
         if (positionBean == null) {//没有获取到坐标信息 清除marker
+            carPosition = null;
             bdMapView.getMap().clear();
             tvLocation.setText("未知");
             return;
         }
         LatLng point = new LatLng(positionBean.getLatitude(), positionBean.getLongitude());//构建Marker坐标
-        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
+        carPosition = MapUtils.changeMapTerm(point);
         BitmapDescriptor bitmap = BitmapDescriptorFactory
                 .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option = new MarkerOptions()
-                .position(point)
+                .position(carPosition)
                 .icon(bitmap);
         bdMapView.getMap().addOverlay(option);//在地图上添加Marker，并显示
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.newLatLng(point));
+        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.zoomTo(14));
 
         mSearch = GeoCoder.newInstance();//创建地理编码检索实例；
         OnGetGeoCoderResultListener listener = new OnGetGeoCoderResultListener() {
@@ -292,8 +329,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             }
         };
         mSearch.setOnGetGeoCodeResultListener(listener);
-        mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(point));
-        bdMapView.getMap().setMapStatus(MapStatusUpdateFactory.zoomTo(14));
+        mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(carPosition));
     }
 
     //刷新保养保险年审信息
@@ -318,7 +354,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             } else if (remainTime >= aMonth) {//超过一个月 正常显示
                 tvInsurance.setTextColor(getResources().getColor(R.color.textGary));
             }
-        }else {//没有保险数据
+        } else {//没有保险数据
             tvInsurance.setText("");
         }
         //保养数据
@@ -352,7 +388,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
 
     @OnClick({R.id.ll_check, R.id.ll_report, R.id.ll_violation, R.id.ll_help, R.id.tv_checkDetail,
-            R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
+            R.id.bd_mapView, R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
     public void onViewClicked(View view) {
         if (MyApplication.getCurrentCarBean() == null || MyApplication.getCurrentCarBean().getDin() == null) {
             toastErrorMsg("车辆未绑定盒子");
@@ -377,6 +413,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 mPresenter.getCanRoadHelp();//查看是否允许调用道路救援
                 break;
             case R.id.tv_checkDetail://查询检测详情
+                break;
+            case R.id.bd_mapView://点击地图跳转:
                 break;
             case R.id.tv_insurance://保险信息
                 intent = new Intent(getActivity(), InsuranceActivity.class);

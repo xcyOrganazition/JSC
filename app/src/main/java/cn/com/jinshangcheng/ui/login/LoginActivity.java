@@ -110,6 +110,7 @@ public class LoginActivity extends BaseActivity {
     public void initView() {
         if (!TextUtils.isEmpty(phoneNum)) {
             etPhoneNum.setText(phoneNum);
+            etPhoneNum.setSelection(phoneNum.length());
         }
         etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

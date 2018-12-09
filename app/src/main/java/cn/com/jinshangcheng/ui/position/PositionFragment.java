@@ -43,6 +43,7 @@ import com.orhanobut.logger.Logger;
 import butterknife.BindView;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
+import cn.com.jinshangcheng.utils.MapUtils;
 import cn.com.jinshangcheng.utils.WalkingRouteOverlay;
 
 /**
@@ -131,7 +132,7 @@ public class PositionFragment extends BaseFragment {
     public void setCarPosition(LatLng carPosition) {
         if (carPosition != null) {
             getCarPositionSuccesss = true;
-            this.carPosition = carPosition;
+            this.carPosition = MapUtils.changeMapTerm(carPosition);
             if (getCarPositionSuccesss) {
                 planRoad(curLocation, this.carPosition);
             }

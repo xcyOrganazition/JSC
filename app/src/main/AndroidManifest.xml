@@ -222,7 +222,10 @@
         <activity android:name=".ui.position.LeadRoadActivity" />
         <!-- 解除绑定 -->
         <activity android:name=".ui.mine.UnbindBoxActivity" />
-        <activity android:name=".ui.car.ViolationActivity"></activity>
+        <!--违章查询-->
+        <activity android:name=".ui.car.ViolationActivity" />
+        <!--爱车位置-->
+        <activity android:name=".ui.car.CarLocationActivity" />
     </application>
 
 </manifest>

@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="请输入唯一识别码"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
             android:textSize="@dimen/text_middle" />
     </LinearLayout>
 
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="请输入车机序列号"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
             android:textSize="@dimen/text_middle" />
     </LinearLayout>
 
