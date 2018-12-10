@@ -146,7 +146,7 @@ public class AddCarActivity extends BaseActivity {
             selectCarModel = new CarModelResult.DataEntity();
             selectCarModel.modelName = carBean.getModel();
             selectCarModel.picturePath = carBean.getModelpath();
-            tvCarRegistDate.setText(DateUtils.getYMDTime(carBean.getRegistdate()));
+            tvCarRegistDate.setText(DateUtils.getYMDTime(carBean.getCarregistdate()));
             etTotalMileage.setText(String.valueOf(carBean.getTotalmileage()));
             tvInsuranceDate.setText(DateUtils.getYMDTime(carBean.getInsurancedeadline()));
             switch (carBean.getGasno()) {
@@ -167,7 +167,7 @@ public class AddCarActivity extends BaseActivity {
                     break;
             }
 
-//            etEmergencyPhonenum.setText(carBean.get);
+            etEmergencyPhonenum.setText(carBean.getEmergencyphonenum());
         }
     }
 
@@ -192,7 +192,6 @@ public class AddCarActivity extends BaseActivity {
                             showToast("保存成功");
                             Intent intent = new Intent(AddCarActivity.this, BindBoxActivity.class);
                             intent.putExtra("isFromCarManage", isFromCarManage);
-                            intent.putExtra("carId", baseBean.carid);
                             intent.putExtra("carId", baseBean.carid);
                             setResult(RESULT_CODE);
                             startActivityForResult(intent, 0x1);

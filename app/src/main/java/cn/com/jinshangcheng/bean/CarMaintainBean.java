@@ -88,7 +88,6 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
         private String maintenanceinterval;
         private long lastmaintaintime;
         private long registdate;
-        private long annualtrialdeadline;
 
         public String getMaintainid() {
             return maintainid;
@@ -138,13 +137,6 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
             this.registdate = registdate;
         }
 
-        public long getAnnualtrialdeadline() {
-            return annualtrialdeadline;
-        }
-
-        public void setAnnualtrialdeadline(long annualtrialdeadline) {
-            this.annualtrialdeadline = annualtrialdeadline;
-        }
 
         public String getMileage() {
             return mileage;

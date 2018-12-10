@@ -364,15 +364,14 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             tvMaintenance.setText("");
         }
         //年审数据
-        if (carMaintainBean.getCarregistdate() != 0 && carMaintainBean.getMaintain() != null &&
-                carMaintainBean.getMaintain().getAnnualtrialdeadline() != 0) {
+        if (carMaintainBean.getCarregistdate() != 0 &&  carMaintainBean.getAnnualtrialdeadline() != 0) {
             long remainTime = carMaintainBean.getCarregistdate() - System.currentTimeMillis();
             long sixYear = 6L * 365L * 24L * 60L * 60000L;
             if (remainTime < sixYear) {//小于六年 每隔2年更换年检
-                long nextTime = carMaintainBean.getMaintain().getAnnualtrialdeadline() + 2L * 365L * 24L * 60L * 60000L;
+                long nextTime = carMaintainBean.getAnnualtrialdeadline() + 2L * 365L * 24L * 60L * 60000L;
                 tvAnnual.setText("下次更换年检：" + DateUtils.getYMDTime(nextTime));
             } else {//大于六年 每隔1年年审
-                long nextTime = carMaintainBean.getMaintain().getAnnualtrialdeadline() + 365L * 24L * 60L * 60000L;
+                long nextTime = carMaintainBean.getAnnualtrialdeadline() + 365L * 24L * 60L * 60000L;
                 tvAnnual.setText("下次年审：" + DateUtils.getYMDTime(nextTime));
             }
         } else {

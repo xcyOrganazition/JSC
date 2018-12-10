@@ -14,6 +14,7 @@ import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.Goods;
+import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.bean.IncomeBean;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.MyCountBean;
@@ -294,6 +295,34 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/goods/getGoodsList")
     Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
+
+    /**
+     * 添加商品至购物车
+     *
+     * @param userId
+     * @param goodsid
+     * @param quantity
+     * @return 购物车中所有商品Item
+     */
+    @FormUrlEncoded
+    @POST("/cart/addCart")
+    Observable<List<GoodsItemBean>> addGoodsToCart(@Field("userId") String userId,
+                                                   @Field("goodsid") String goodsid,
+                                                   @Field("quantity") int quantity);
+    /**
+     * 创建订单
+     *
+     * @param userId
+     * @param cartitemids 产品条目id集合， 用,隔开
+     * @param addressid 地址id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/order/createOrder")
+    Observable<List<Goods>> createOrder(@Field("userId") String userId,
+                                        @Field("cartitemids") String cartitemids,
+                                        @Field("addressid") int addressid);
+
     /**
      * 查看我的订单(分页显示)
      *
@@ -654,7 +683,7 @@ public interface NetApi {
     );
 
     /**
-     * 添加车辆
+     * 修改车辆
      *
      * @param userId
      * @param carid             要修改的车辆Id

@@ -17,6 +17,7 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.Goods;
+import cn.com.jinshangcheng.net.NetApi;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
@@ -187,5 +188,9 @@ public class OrderDetailActivity extends BaseActivity {
             address = (Address) data.getSerializableExtra("addressBean");
             setViewVisible();
         }
+    }
+
+    public void createOrder(){
+        NetApi retrofit = RetrofitService.getRetrofit();
     }
 }

@@ -59,6 +59,7 @@ public class CarBean extends BaseBean<CarBean> {
     private String isdel;
     private long registdate;
     private long updatedate;
+    private String emergencyphonenum;
 
     @Override
     public String toString() {
@@ -298,5 +299,13 @@ public class CarBean extends BaseBean<CarBean> {
 
     public void setUpdatedate(long updatedate) {
         this.updatedate = updatedate;
+    }
+
+    public String getEmergencyphonenum() {
+        return emergencyphonenum;
+    }
+
+    public void setEmergencyphonenum(String emergencyphonenum) {
+        this.emergencyphonenum = emergencyphonenum;
     }
 }
