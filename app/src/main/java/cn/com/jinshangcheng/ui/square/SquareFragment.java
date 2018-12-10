@@ -25,7 +25,9 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.GoodsAdapter;
 import cn.com.jinshangcheng.base.BaseFragment;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Goods;
+import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
 import io.reactivex.Observer;
@@ -56,6 +58,7 @@ public class SquareFragment extends BaseFragment {
     private static SquareFragment fragment;
     private List<Goods> goodsList;
     private Map<String, Integer> selectGoodsMap;//选择的商品<GoodsId,GoodsNum>
+    private List<GoodsItemBean> allGoodsItems;
     private GoodsAdapter adapter;
     private TextView tvGoodsNum;
     private double totalPrice;//选择的商品总价格
@@ -88,6 +91,7 @@ public class SquareFragment extends BaseFragment {
     public void initData() {
         selectGoodsMap = new HashMap<>();
         goodsList = new ArrayList<>();
+        allGoodsItems = new ArrayList<>();
         adapter = new GoodsAdapter(goodsList, getContext());
         //条目点击
         adapter.setOnItemViewClickListener(new OnItemViewClickListener() {
@@ -100,7 +104,13 @@ public class SquareFragment extends BaseFragment {
                 switch (view.getId()) {
                     case R.id.tv_addGoods://添加商品
 //                        Logger.w("添加商品" + goodsList.get(position).toString());
-                        addGoods(goodsList.get(position));
+                        for (GoodsItemBean goodsItemBean : allGoodsItems) {
+                            if (goodsItemBean.goodsid.equals(goodsList.get(position).getGoodsid())) {
+                                updateGoodsNum(goodsItemBean, ++goodsItemBean.quantity);
+                                return;
+                            }
+                        }
+                        addGoodsToCart(goodsList.get(position));
                         break;
                     default://条目被点击 查看商品详情:
 //                        Logger.w("条目点击" + goodsList.get(position).toString());
@@ -122,7 +132,6 @@ public class SquareFragment extends BaseFragment {
         }
         selectGoodsMap.put(goodsId, goodsNum);
         refreshTotalPrice();
-
     }
 
     //移除商品
@@ -138,20 +147,15 @@ public class SquareFragment extends BaseFragment {
             selectGoodsMap.remove(goodsId);
         }
         refreshTotalPrice();
-
     }
 
     //刷新总商品价格 和数量
     public void refreshTotalPrice() {
         totalPrice = 0;
         totalNum = 0;
-        for (String goodsId : selectGoodsMap.keySet()) {
-            for (Goods goods : goodsList) {
-                if (goods.getGoodsid().equals(goodsId)) {
-                    totalPrice += goods.getPrice() * selectGoodsMap.get(goodsId);
-                }
-            }
-            totalNum += selectGoodsMap.get(goodsId);
+        for (GoodsItemBean goodsItemBean : allGoodsItems) {
+            totalPrice += goodsItemBean.goods.getPrice() * goodsItemBean.quantity;
+            totalNum += goodsItemBean.quantity;
         }
         tvTotalMoney.setText(String.format("合计：%s 元", totalPrice));
         tvGoodsNum.setText(String.valueOf(totalNum));
@@ -174,21 +178,16 @@ public class SquareFragment extends BaseFragment {
                 return false;
             }
         });
-        refreshTotalPrice();
         getGoodsList();
+        getAllGoodsItem();
     }
 
     public void initShopCartView() {
-        tvEmptyMsg.setVisibility(selectGoodsMap.isEmpty() ? View.VISIBLE : View.GONE);
-        llGoodsList.setVisibility(selectGoodsMap.isEmpty() ? View.GONE : View.VISIBLE);
-
-        for (final String goodsId : selectGoodsMap.keySet()) {
-            Goods curGoods = null;
-            for (Goods goods : goodsList) {
-                if (goods.getGoodsid().equals(goodsId)) {
-                    curGoods = goods;
-                }
-            }
+        tvEmptyMsg.setVisibility(allGoodsItems.isEmpty() ? View.VISIBLE : View.GONE);
+        llGoodsList.setVisibility(allGoodsItems.isEmpty() ? View.GONE : View.VISIBLE);
+        llGoodsList.removeAllViews();
+        for (final GoodsItemBean goodsItemBean : allGoodsItems) {
+            Goods curGoods = goodsItemBean.goods;
             if (curGoods != null) {
                 final View itemView = View.inflate(getHoldingActivity(), R.layout.item_shop_cart, null);
                 TextView tvCurGoodsName = itemView.findViewById(R.id.tv_curGoodsName);
@@ -196,41 +195,47 @@ public class SquareFragment extends BaseFragment {
                 final TextView tvCurGoodsNum = itemView.findViewById(R.id.tv_curGoodsNum);
                 ImageView ivDeleteGoods = itemView.findViewById(R.id.iv_deleteGoods);
                 ImageView ivAddGoods = itemView.findViewById(R.id.iv_addGoods);
-                itemView.setTag(curGoods);
+                itemView.setTag(goodsItemBean);
                 tvCurGoodsName.setText(curGoods.getGoodsname());
-                tvCurGoodsNum.setText(String.valueOf(selectGoodsMap.get(goodsId)));
-                tvCurGoodPrice.setText(String.format("%s元", curGoods.getPrice() * selectGoodsMap.get(goodsId)));
+                tvCurGoodsNum.setText(String.valueOf(goodsItemBean.quantity));
+                tvCurGoodPrice.setText(String.format("%s元", curGoods.getPrice() * goodsItemBean.quantity));
                 ivDeleteGoods.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Goods goods = (Goods) itemView.getTag();
-                        deleteGoods(goods);
-                        if (selectGoodsMap.containsKey(goodsId)) {
-                            tvCurGoodsNum.setText(String.valueOf(selectGoodsMap.get(goodsId)));
-                            tvCurGoodPrice.setText(String.format("%s元", goods.getPrice() * selectGoodsMap.get(goodsId)));
+                        GoodsItemBean clickGoodsItemBean = (GoodsItemBean) itemView.getTag();
+//                        deleteGoods(goods);
+                        int endNumber = clickGoodsItemBean.quantity - 1;
+                        if (endNumber == 0) {
+                            deleteGoodsItem(clickGoodsItemBean.cartitemid);
                         } else {
-                            llGoodsList.removeView(itemView);
-                            tvEmptyMsg.setVisibility(selectGoodsMap.isEmpty() ? View.VISIBLE : View.GONE);
-                            llGoodsList.setVisibility(selectGoodsMap.isEmpty() ? View.GONE : View.VISIBLE);
+                            updateGoodsNum(clickGoodsItemBean, endNumber);
                         }
-
+                        if (clickGoodsItemBean.quantity != 0) {
+                            tvCurGoodsNum.setText(String.valueOf(clickGoodsItemBean.quantity));
+                            tvCurGoodPrice.setText(String.format("%s元", clickGoodsItemBean.goods.getPrice() * clickGoodsItemBean.quantity));
+                        }
+//                        else {
+//                            llGoodsList.removeView(itemView);
+//                            tvEmptyMsg.setVisibility(selectGoodsMap.isEmpty() ? View.VISIBLE : View.GONE);
+//                            llGoodsList.setVisibility(selectGoodsMap.isEmpty() ? View.GONE : View.VISIBLE);
+//                        }
                     }
                 });
                 ivAddGoods.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Goods goods = (Goods) itemView.getTag();
-                        addGoods(goods);
-                        tvCurGoodsNum.setText(String.valueOf(selectGoodsMap.get(goodsId)));
-                        tvCurGoodPrice.setText(String.format("%s元", goods.getPrice() * selectGoodsMap.get(goodsId)));
+                        GoodsItemBean clickGoodsItemBean = (GoodsItemBean) itemView.getTag();
+//                        addGoods(goods);
+                        int endNum = clickGoodsItemBean.quantity + 1;
+                        updateGoodsNum(clickGoodsItemBean, endNum);
+                        tvCurGoodsNum.setText(String.valueOf(clickGoodsItemBean.quantity));
+                        tvCurGoodPrice.setText(String.format("%s元", clickGoodsItemBean.goods.getPrice() * clickGoodsItemBean.quantity));
 
                     }
                 });
                 llGoodsList.addView(itemView);
             }
         }
-
-
     }
 
     //请求商品列表
@@ -264,29 +269,6 @@ public class SquareFragment extends BaseFragment {
 
     }
 
-//    /**
-//     * 请求车型 父列表
-//     */
-//    private void getCarTypeData() {
-//        showLoading();
-//        carTypeList.clear();
-//        CarBrandInfoSearch.getInstance().GetCarTypeResult(carBrandsBean.brandId, new OnResultListener.CarTypeResultListener() {
-//
-//            @Override
-//            public void onCarTypeResult(CarTypeResult carTypeResult, boolean isError, Throwable throwable) {
-//                if (!isError) {
-////                    Logger.w("车型   " + carTypeResult.getData().get(0).getCarTypes());
-//                    dismissLoading();
-//                    for (int i = 0; i < carTypeResult.getData().size(); i++) {
-//                        carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
-//                    }
-//                    selectCarTypeWindow = new SelectCarTypeWindow(getContext(), carBrandsBean, carTypeList);
-////                    selectCarTypeWindow.showAtLocation(root, Gravity.RIGHT, 0, 0);
-//                }
-//            }
-//        });
-//    }
-
 
     @OnClick({R.id.tv_goToPay, R.id.iv_shoppingCart})
     public void onViewClicked(View view) {
@@ -295,13 +277,13 @@ public class SquareFragment extends BaseFragment {
                 if (shopCartView.getVisibility() == View.VISIBLE) {
                     shopCartView.setVisibility(View.GONE);
                 }
-                if (selectGoodsMap.isEmpty()) {
+                if (allGoodsItems.isEmpty()) {
                     Toast.makeText(getContext(), "请添加商品到购物车", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Intent intent = new Intent(getHoldingActivity(), OrderDetailActivity.class);
-                intent.putExtra("selectGoodsMap", (Serializable) selectGoodsMap);
-                intent.putExtra("goodsList", (Serializable) goodsList);
+                intent.putExtra("allGoodsItems", (Serializable) allGoodsItems);
+//                intent.putExtra("goodsList", (Serializable) goodsList);
                 startActivity(intent);
                 break;
             case R.id.iv_shoppingCart://购物车图片:
@@ -314,6 +296,145 @@ public class SquareFragment extends BaseFragment {
                 }
                 break;
         }
+    }
+
+    /**
+     * 购物车添加商品 （首次添加调用）
+     */
+    public void getAllGoodsItem() {
+        RetrofitService.getRetrofit().getAllGoodsItem(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<GoodsItemBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<GoodsItemBean> goodsItemBeans) {
+                        allGoodsItems = goodsItemBeans;
+                        refreshTotalPrice();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    /**
+     * 购物车添加商品 （首次添加调用）
+     *
+     * @param goods
+     */
+    public void addGoodsToCart(Goods goods) {
+        RetrofitService.getRetrofit().addGoodsToCart(MyApplication.getUserId(), goods.getGoodsid(), 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<GoodsItemBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<GoodsItemBean> goodsItemBeans) {
+                        allGoodsItems = goodsItemBeans;
+                        refreshTotalPrice();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    /**
+     * 修改购物车商品数量 （当购物车中有商品时调用）
+     */
+    public void updateGoodsNum(final GoodsItemBean goodsItemBean, final int num) {
+        RetrofitService.getRetrofit().updateGoodsNum(MyApplication.getUserId(), goodsItemBean.cartitemid, num)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if ("0".equals(baseBean.code)) {
+                            for (GoodsItemBean goodsItem : allGoodsItems) {
+                                if (goodsItem.cartitemid.equals(goodsItemBean.cartitemid)) {
+                                    goodsItem.quantity = num;
+                                }
+                            }
+                            initShopCartView();
+                            refreshTotalPrice();
+                        } else {
+                            getHoldingActivity().showToast(baseBean.message);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    /**
+     * 根据id删除购物车单品 (当选择商品数量只有一个的时候调用)
+     *
+     * @param cartitemid
+     */
+    public void deleteGoodsItem(String cartitemid) {
+        RetrofitService.getRetrofit().deleteGoodsItem(MyApplication.getUserId(), cartitemid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<GoodsItemBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<GoodsItemBean> goodsItemBeans) {
+                        allGoodsItems = goodsItemBeans;
+                        initShopCartView();
+                        refreshTotalPrice();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
 }

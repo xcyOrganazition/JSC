@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -16,8 +15,9 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.Address;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Goods;
-import cn.com.jinshangcheng.net.NetApi;
+import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
@@ -55,9 +55,8 @@ public class OrderDetailActivity extends BaseActivity {
 
     public static final int REQUEST_CODE = 0x3;
     public Address address = null;
-    private List<Goods> goodsList;
-    private Map<String, Integer> selectGoodsMap;//选择的商品<GoodsId,GoodsNum>
     private double totalPrice;
+    private List<GoodsItemBean> allGoodsItems;
 
     @Override
     public int setContentViewResource() {
@@ -66,10 +65,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        goodsList = (List<Goods>) getIntent().getSerializableExtra("goodsList");
-        selectGoodsMap = (Map<String, Integer>) getIntent().getSerializableExtra("selectGoodsMap");
-
-
+        allGoodsItems = (List<GoodsItemBean>) getIntent().getSerializableExtra("allGoodsItems");
     }
 
     @Override
@@ -79,13 +75,8 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initGoodsList() {
-        for (final String goodsId : selectGoodsMap.keySet()) {
-            Goods curGoods = null;
-            for (Goods goods : goodsList) {
-                if (goods.getGoodsid().equals(goodsId)) {
-                    curGoods = goods;
-                }
-            }
+        for (GoodsItemBean goodsItemBean : allGoodsItems) {
+            Goods curGoods = goodsItemBean.goods;
             if (curGoods != null) {
                 final View itemView = View.inflate(this, R.layout.item_goods_detail, null);
                 TextView tvCurGoodsName = itemView.findViewById(R.id.tv_curGoodsName);
@@ -93,9 +84,9 @@ public class OrderDetailActivity extends BaseActivity {
                 final TextView tvCurGoodsNum = itemView.findViewById(R.id.tv_curGoodsNum);
                 itemView.setTag(curGoods);
                 tvCurGoodsName.setText(curGoods.getGoodsname());
-                tvCurGoodsNum.setText(String.format("%s件", selectGoodsMap.get(goodsId)));
-                tvCurGoodPrice.setText(String.format("%s元", curGoods.getPrice() * selectGoodsMap.get(goodsId)));
-                totalPrice += curGoods.getPrice() * selectGoodsMap.get(goodsId);
+                tvCurGoodsNum.setText(String.format("%s件", goodsItemBean.quantity));
+                tvCurGoodPrice.setText(String.format("%s元", curGoods.getPrice() * goodsItemBean.quantity));
+                totalPrice += curGoods.getPrice() * goodsItemBean.quantity;
                 llGoodsList.addView(itemView);
             }
         }
@@ -174,8 +165,19 @@ public class OrderDetailActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.bt_confirm:
+                if (checkInput()) {
+                    createOrder(getCartItemIds());
+                }
                 break;
         }
+    }
+
+    private boolean checkInput() {
+        if (null == address) {
+            showToast("请添加地址");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -190,7 +192,44 @@ public class OrderDetailActivity extends BaseActivity {
         }
     }
 
-    public void createOrder(){
-        NetApi retrofit = RetrofitService.getRetrofit();
+    public void createOrder(String cartitemids) {
+        showLoading();
+        RetrofitService.getRetrofit().createOrder(MyApplication.getUserId(), cartitemids, address.getAddressid())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        dismissLoading();
+                        showToast("创建成功");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public String getCartItemIds() {
+        StringBuffer cartItemIds = new StringBuffer("");
+        for (int i = 0; i < allGoodsItems.size(); i++) {
+            cartItemIds.append(allGoodsItems.get(i).cartitemid);
+            if (i != allGoodsItems.size() - 1) {
+                cartItemIds.append(",");
+            }
+        }
+        return cartItemIds.toString();
     }
 }

@@ -1,5 +1,7 @@
 package cn.com.jinshangcheng.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * 商品条目Bean
  * 商品在购物车
@@ -20,6 +22,7 @@ public class GoodsItemBean extends BaseBean {
     public String cartitemid;
     public int quantity;
     public String goodsid;
+    @SerializedName("tGoods")
     public Goods goods;
     public String userid;
     public long cartitemtime;

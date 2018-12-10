@@ -294,7 +294,17 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/goods/getGoodsList")
-    Observable<List<Goods>> getGoodsList(@Field("userId") String userId);
+    Observable<List<Goods>> getGoodsList(@Field("userid") String userId);
+
+    /**
+     * 获取购物车数据
+     *
+     * @param userId
+     * @return 购物车中所有商品Item
+     */
+    @FormUrlEncoded
+    @POST("/cart/getCarts")
+    Observable<List<GoodsItemBean>> getAllGoodsItem(@Field("userid") String userId);
 
     /**
      * 添加商品至购物车
@@ -306,22 +316,49 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/cart/addCart")
-    Observable<List<GoodsItemBean>> addGoodsToCart(@Field("userId") String userId,
+    Observable<List<GoodsItemBean>> addGoodsToCart(@Field("userid") String userId,
                                                    @Field("goodsid") String goodsid,
                                                    @Field("quantity") int quantity);
+
+    /**
+     * 更新购物车数量
+     *
+     * @param userId
+     * @param cartitemid
+     * @param quantity
+     * @return 购物车中所有商品Item
+     */
+    @FormUrlEncoded
+    @POST("/cart/updateQuantity")
+    Observable<BaseBean> updateGoodsNum(@Field("userid") String userId,
+                                        @Field("cartitemid") String cartitemid,
+                                        @Field("quantity") int quantity);
+
+    /**
+     * 根据id删除购物车单品 (当选择商品数量只有一个的时候调用)
+     *
+     * @param userId
+     * @param cartitemid
+     * @return 购物车中所有商品Item
+     */
+    @FormUrlEncoded
+    @POST("/cart/delCartitem")
+    Observable<List<GoodsItemBean>> deleteGoodsItem(@Field("userid") String userId,
+                                                    @Field("cartitemid") String cartitemid);
+
     /**
      * 创建订单
      *
      * @param userId
      * @param cartitemids 产品条目id集合， 用,隔开
-     * @param addressid 地址id
+     * @param addressid   地址id
      * @return
      */
     @FormUrlEncoded
     @POST("/order/createOrder")
-    Observable<List<Goods>> createOrder(@Field("userId") String userId,
-                                        @Field("cartitemids") String cartitemids,
-                                        @Field("addressid") int addressid);
+    Observable<BaseBean> createOrder(@Field("userid") String userId,
+                                     @Field("cartitemids") String cartitemids,
+                                     @Field("addressid") String addressid);
 
     /**
      * 查看我的订单(分页显示)
