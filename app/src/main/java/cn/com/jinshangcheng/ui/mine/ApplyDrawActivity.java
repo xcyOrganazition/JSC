@@ -57,6 +57,7 @@ public class ApplyDrawActivity extends BaseActivity {
     @Override
     public void initView() {
         getMaxMoney();
+        getDefaultCard();
     }
 
 
@@ -169,6 +170,36 @@ public class ApplyDrawActivity extends BaseActivity {
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
                         t.printStackTrace();
+                    }
+                });
+    }
+
+    public void getDefaultCard() {
+        RetrofitService.getRetrofit().getDefaultCard(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BankCardBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BankCardBean bankCardBean) {
+                        if (bankCardBean != null) {
+                            selectedCard = bankCardBean;
+                            refreshCarView();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

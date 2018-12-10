@@ -573,6 +573,16 @@ public interface NetApi {
                                                    @Field("isdefault") int isDefault);
 
     /**
+     * 获取默认银行卡
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/account/getDefaultAccount")
+    Observable<BankCardBean> getDefaultCard(@Field("userid") String userId);
+
+    /**
      * 添加银行卡
      *
      * @param userId
