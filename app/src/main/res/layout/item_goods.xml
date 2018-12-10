@@ -5,23 +5,25 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="@dimen/common_padding">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_goodsImg"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/common_padding"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/iv_goodsName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding"
         android:layout_marginTop="@dimen/padding_top"
         android:text="锦尚程OBD智能车载终端"
         android:textColor="#ff666666"
         android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_goodsImg" />
 
     <TextView
@@ -32,15 +34,16 @@
         android:text="¥1390.00元"
         android:textColor="#ff3aa9f3"
         android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_goodsName"
         app:layout_constraintTop_toBottomOf="@id/iv_goodsName" />
 
     <TextView
         android:id="@+id/tv_addGoods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_top"
         android:drawableLeft="@mipmap/ic_cart"
         android:drawablePadding="5dp"
+        android:padding="@dimen/common_padding"
         android:text="加入购物车"
         android:textColor="#ff3aa9f3"
         android:textSize="13sp"

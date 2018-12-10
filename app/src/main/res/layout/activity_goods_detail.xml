@@ -10,6 +10,95 @@
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerText="产品介绍" />
+        app:centerText="产品详情" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_goodsImg"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginEnd="@dimen/common_padding"
+                android:layout_marginStart="@dimen/common_padding"
+                android:layout_marginTop="@dimen/common_padding" />
+
+
+            <TextView
+                android:id="@+id/iv_goodsNameContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_padding"
+                android:layout_marginStart="@dimen/common_padding"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/common_padding"
+                android:paddingLeft="@dimen/common_padding"
+                android:paddingTop="@dimen/common_padding"
+                android:text="锦尚程OBD智能车载终端"
+                android:textColor="#444"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/iv_goodsDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_padding"
+                android:layout_marginStart="@dimen/common_padding"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/common_padding"
+                android:paddingLeft="@dimen/common_padding"
+                android:text="锦尚程OBD智能车载终端"
+                android:textColor="@color/textDarkGary"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/iv_goodsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_padding"
+            android:layout_marginTop="@dimen/padding_top"
+            android:text="锦尚程OBD智能车载终端"
+            android:textColor="#ff666666"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_goodsMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_top"
+            android:text="¥1390.00元"
+            android:textColor="#ff3aa9f3"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_goodsName"
+            app:layout_constraintTop_toBottomOf="@id/iv_goodsName" />
+
+        <TextView
+            android:id="@+id/tv_addGoods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ic_cart"
+            android:drawablePadding="5dp"
+            android:padding="@dimen/common_padding"
+            android:text="加入购物车"
+            android:textColor="#ff3aa9f3"
+            android:textSize="13sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_goodsName" />
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

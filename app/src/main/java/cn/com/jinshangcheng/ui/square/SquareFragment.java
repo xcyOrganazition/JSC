@@ -63,6 +63,7 @@ public class SquareFragment extends BaseFragment {
     private TextView tvGoodsNum;
     private double totalPrice;//选择的商品总价格
     private int totalNum;//选择的商品数量
+    private static final int REQUEST_CODE = 0x668;//选择的商品数量
 
     public SquareFragment() {
         // Required empty public constructor
@@ -106,7 +107,7 @@ public class SquareFragment extends BaseFragment {
 //                        Logger.w("添加商品" + goodsList.get(position).toString());
                         for (GoodsItemBean goodsItemBean : allGoodsItems) {
                             if (goodsItemBean.goodsid.equals(goodsList.get(position).getGoodsid())) {
-                                updateGoodsNum(goodsItemBean, ++goodsItemBean.quantity);
+                                updateGoodsNum(goodsItemBean, goodsItemBean.quantity + 1);
                                 return;
                             }
                         }
@@ -115,7 +116,9 @@ public class SquareFragment extends BaseFragment {
                     default://条目被点击 查看商品详情:
 //                        Logger.w("条目点击" + goodsList.get(position).toString());
                         Intent intent = new Intent(getHoldingActivity(), GoodsDetailActivity.class);
-                        startActivity(intent);
+                        intent.putExtra("goodsBean", goodsList.get(position));
+                        intent.putExtra("allGoodsItems", (Serializable) allGoodsItems);
+                        startActivityForResult(intent, REQUEST_CODE);
                         break;
                 }
             }
@@ -437,4 +440,15 @@ public class SquareFragment extends BaseFragment {
                 });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == GoodsDetailActivity.RESULT_CODE) {
+            if (data != null) {
+                allGoodsItems = (List<GoodsItemBean>) data.getSerializableExtra("allGoodsItems");
+                initShopCartView();
+                refreshTotalPrice();
+            }
+        }
+    }
 }
