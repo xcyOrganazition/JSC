@@ -31,7 +31,6 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
 import cn.com.jinshangcheng.ui.login.LoginActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
-import cn.com.jinshangcheng.ui.mine.EditMineActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
@@ -197,8 +196,10 @@ public class MainActivity extends BaseActivity {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.navigation_dashboard:
-                                    Intent intent = new Intent(MainActivity.this, EditMineActivity.class);
-                                    startActivity(intent);
+                                    MineFragment mineFragment = (MineFragment) fragments[fragments.length - 1];
+                                    if (mineFragment != null) {
+                                        mineFragment.goToEditMine();
+                                    }
                                     break;
                                 case R.id.navigation_logout:
                                     SharedPreferenceUtils.setStringSP("userId", "");

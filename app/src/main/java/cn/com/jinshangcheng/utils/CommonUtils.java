@@ -5,13 +5,17 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -365,6 +369,41 @@ public class CommonUtils {
         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
         System.out.println(cn.getClassName());
         return cn.getClassName().contains(ActivityName);
+    }
+
+    //获取是否存在NavigationBar
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+
+        }
+        return hasNavigationBar;
+
+    }
+
+    public static int getNavigationBarHeight(Activity mActivity) {
+        if (!checkDeviceHasNavigationBar(mActivity)) {
+            return 0;
+        }
+        Resources resources = mActivity.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        Logger.w("dbw", "Navi height:" + height);
+        return height;
     }
 
 }

@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintVertical_chainStyle="spread"
+    android:orientation="vertical"
     tools:context=".ui.mine.EditAddressActivity">
 
     <cn.com.jinshangcheng.widget.TittleBar
         android:id="@+id/tittleBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/root" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="@dimen/common_padding"
-        app:layout_constraintBottom_toBottomOf="@id/root"
-        app:layout_constraintTop_toBottomOf="@id/tittleBar"
-        app:layout_constraintVertical_weight="1">
+        android:padding="@dimen/common_padding">
 
         <TextView
             style="@style/textMiddle"
@@ -76,8 +73,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_bg"
             android:hint="请选择地址"
-            android:padding="3dp"
-            android:lineSpacingExtra="5dp"/>
+            android:lineSpacingExtra="5dp"
+            android:padding="3dp" />
 
         <TextView
             style="@style/textCommon"
@@ -120,4 +117,4 @@
             android:theme="@style/commonButton" />
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -30,7 +30,9 @@ import cn.com.jinshangcheng.bean.ViolationBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -817,6 +819,38 @@ public interface NetApi {
                                    @Field("carid") String carid,
                                    @Field("din") String din,
                                    @Field("sn") String sn);
+
+    /**
+     * 修改用户信息
+     *
+     * @param userId
+     * @param name
+     * @param phoneNumber
+     * @param province
+     * @param city
+     * @param sex
+     * @param weixinname
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/updateUserInfo")
+    Observable<BaseBean> updateUserInfo(@Field("userid") String userId,
+                                        @Field("name") String name,
+                                        @Field("phoneNumber") String phoneNumber,
+                                        @Field("province") String province,
+                                        @Field("city") String city,
+                                        @Field("sex") int sex,
+                                        @Field("weixinname") String weixinname);
+
+    /**
+     * 修改用头像
+     *
+     * @return
+     */
+
+    @POST("user/uploadAppHeadPic")
+    Observable<BaseBean> uploadHeadImg(
+            @Body RequestBody body);
 
 }
 

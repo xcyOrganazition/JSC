@@ -43,7 +43,8 @@ public class UserBean extends BaseBean {
     public int travelprotect;/*2018-10-29：是否轨迹保护 0 不保护，1 保护 */
     public int userclient;/*用户来源 0 微信公众号  1  Android   2  ios   3 其他*/
     public int userlevel;
-
+    public int sex; //0男 1女
+    public String apppic; //app头像地址
 
     @Override
     public String toString() {

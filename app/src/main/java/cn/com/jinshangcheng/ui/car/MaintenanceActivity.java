@@ -56,11 +56,11 @@ public class MaintenanceActivity extends BaseActivity {
     @Override
     public void initView() {
         if (null != maintainBean) {
-            etTotalMile.setText(maintainBean.getMileage());//行驶总里程
-            etNearMile.setText(maintainBean.getLastmaintainmileage());//最近保养历程
-            etIntervalMile.setText(maintainBean.getMaintenanceinterval());//保养间隔
+            etTotalMile.setText(String.valueOf(maintainBean.getMileage()));//行驶总里程
+            etNearMile.setText(String.valueOf(maintainBean.getLastmaintainmileage()));//最近保养历程
+            etIntervalMile.setText(String.valueOf(maintainBean.getMaintenanceinterval()));//保养间隔
             tvNearTime.setText(DateUtils.getYMDTime(maintainBean.getLastmaintaintime()));//最近保养时间
-            etTotalMile.setSelection(maintainBean.getMileage().length());
+            etTotalMile.setSelection(String.valueOf(maintainBean.getMileage()).length());
         }
     }
 

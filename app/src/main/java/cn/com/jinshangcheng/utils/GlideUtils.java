@@ -52,6 +52,16 @@ public class GlideUtils {
                 .into(imageView);
     }
 
+    public static void loadHeadImage(Context context, String url, ImageView imageView, boolean needAddHost) {
+        if (needAddHost) {
+            url = RetrofitService.HOST + "/" + url;
+        }
+        Glide.with(context.getApplicationContext())
+                .load(url)
+                .apply(optionsCenter)
+                .into(imageView);
+    }
+
     public static void loadCircleImage(final Context context, String url, final ImageView imageView) {
         Glide.with(context)
                 .load(url)

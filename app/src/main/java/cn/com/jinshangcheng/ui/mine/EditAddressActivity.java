@@ -1,10 +1,12 @@
 package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -30,7 +32,7 @@ public class EditAddressActivity extends BaseActivity {
     @BindView(R.id.tittleBar)
     TittleBar tittleBar;
     @BindView(R.id.root)
-    ConstraintLayout root;
+    LinearLayout root;
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.et_phone)
@@ -84,7 +86,6 @@ public class EditAddressActivity extends BaseActivity {
      */
     private void initBottonDialog() {
         //初始化选择位置dialog
-        String addressName = "";
         popupWindow = new CityWheelSelectPopupWindow(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,20 +105,16 @@ public class EditAddressActivity extends BaseActivity {
     }
 
     public boolean checkInputAndConfirm() {
-//        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
-//            return false;
-//        } else if (TextUtils.isEmpty(etPhone.getText().toString()) || !CommonUtils.isMobilePhone(etPhone.getText().toString())) {
-//            return false;
-//        } else if (TextUtils.isEmpty(tvAddress.getText().toString().trim())) {
-//            return false;
-//        } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
-//            return false;
-//        }
-        if (isNewAddress) {//新增地址
-            addAddress();
-        } else {
-            updateAddress();
+        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+            return false;
+        } else if (TextUtils.isEmpty(etPhone.getText().toString()) || !CommonUtils.isMobilePhone(etPhone.getText().toString())) {
+            return false;
+        } else if (TextUtils.isEmpty(tvAddress.getText().toString().trim())) {
+            return false;
+        } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
+            return false;
         }
+
         return true;
     }
 
@@ -200,11 +197,18 @@ public class EditAddressActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.bt_newAddress:
-                checkInputAndConfirm();
-
+                if (checkInputAndConfirm()) {
+                    if (isNewAddress) {//新增地址
+                        addAddress();
+                    } else {
+                        updateAddress();
+                    }
+                }
                 break;
             case R.id.tv_address://选择地址弹窗:
-                popupWindow.showPopupWindow(root);
+                CommonUtils.hideSoftKeyboard(EditAddressActivity.this);
+                int navigationBarHeight = CommonUtils.getNavigationBarHeight(EditAddressActivity.this);
+                popupWindow.showAtLocation(root, Gravity.BOTTOM, 0, navigationBarHeight);
                 break;
         }
 

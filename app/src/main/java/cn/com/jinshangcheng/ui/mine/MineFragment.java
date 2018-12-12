@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
@@ -70,7 +68,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        getUserInfo();
+        refreshUserData();
     }
 
 
@@ -133,7 +131,7 @@ public class MineFragment extends BaseFragment {
 //        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
         tvPhone.setText(String.format("%s%s", getResources().getString(R.string.phoneNum), userBean.phonenumber));
         tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), getRankText(userBean.userlevel)));
-        GlideUtils.loadImage(getHoldingActivity(), userBean.weixinpic, ivHeadImg);
+        GlideUtils.loadHeadImage(getHoldingActivity(), userBean.apppic, ivHeadImg, true);
     }
 
     //会员等级
@@ -196,11 +194,17 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    public void goToEditMine() {
+        Intent intent = new Intent(getActivity(), EditMineActivity.class);
+        startActivityForResult(intent, 0x110);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == CarManageActivity.RESULT_CODE) {
-            Logger.e("MineFargment");
+        if (resultCode == EditMineActivity.RESULT_CODE) {
+//            Logger.e("MineFragment收到了EditMineActivity");
+            getUserInfo();
         }
     }
 }

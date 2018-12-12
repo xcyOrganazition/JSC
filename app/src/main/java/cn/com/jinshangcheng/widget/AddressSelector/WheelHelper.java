@@ -150,8 +150,14 @@ public class WheelHelper {
         }
         mViewDistrict.setViewAdapter(new ArrayWheelAdapter<String>(activity, areas));
         mViewDistrict.setCurrentItem(0);
-        mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[0];
-        mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
+        try {
+            mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[0];
+            mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            mCurrentDistrictName = "";
+        }
+
+
     }
 
     /**
