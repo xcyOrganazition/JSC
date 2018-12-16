@@ -21,6 +21,7 @@ import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
+import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -151,7 +152,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_changeAddress, R.id.tv_newAddress, R.id.bt_confirm})
+    @OnClick({R.id.tv_changeAddress, R.id.tv_newAddress, R.id.bt_confirm, R.id.tv_offLinePay})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -168,6 +169,10 @@ public class OrderDetailActivity extends BaseActivity {
                 if (checkInput()) {
                     createOrder(getCartItemIds());
                 }
+                break;
+            case R.id.tv_offLinePay:
+                Intent intent1 = new Intent(getApplicationContext(), MyOrderActivity.class);
+                startActivity(intent1);
                 break;
         }
     }

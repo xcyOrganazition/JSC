@@ -106,15 +106,18 @@ public class EditAddressActivity extends BaseActivity {
 
     public boolean checkInputAndConfirm() {
         if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+            showToast("请填写收货人姓名");
             return false;
         } else if (TextUtils.isEmpty(etPhone.getText().toString()) || !CommonUtils.isMobilePhone(etPhone.getText().toString())) {
+            showToast("电话输入有误");
             return false;
         } else if (TextUtils.isEmpty(tvAddress.getText().toString().trim())) {
+            showToast("请选择收获地址");
             return false;
         } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
+            showToast("请填写详细地址");
             return false;
         }
-
         return true;
     }
 

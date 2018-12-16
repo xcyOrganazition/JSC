@@ -98,6 +98,7 @@ public class CarReportActivity extends BaseActivity {
     private LocusAdapter adapter;
     private List<TravelBean> travelList;
     private String currentDate;
+    private String dayDateCache;//日视图的时间保存
     private int dateType;
     private int page = 1;
     private final int PAGE_SIZE = 5;
@@ -113,6 +114,7 @@ public class CarReportActivity extends BaseActivity {
         dateType = DAY;
         page = 1;
         currentDate = DateUtils.getYMDTime(System.currentTimeMillis());
+        dayDateCache = currentDate;
         travelList = new ArrayList<>();
         adapter = new LocusAdapter(travelList, this);
         adapter.setOnItemViewClickListener(new OnItemViewClickListener() {
@@ -372,9 +374,9 @@ public class CarReportActivity extends BaseActivity {
     public void refreshReportView(ReportBean reportBean) {
         tvTotal.setText(NumberUtils.formatDouble(reportBean.fuelcost));//用车费用
         tvMileNum.setText(String.valueOf(NumberUtils.formatDouble(reportBean.duration / 60D)));//用车时间
-        tvMile.setText(NumberUtils.formatDouble(reportBean.mile));//行驶里程
+        tvMile.setText(NumberUtils.formatDouble(reportBean.mileage));//行驶里程
         tvOil.setText(NumberUtils.formatDouble(reportBean.fuel));//燃烧油量
-        tvAveFuelNum.setText(NumberUtils.getOilAvg(reportBean.fuel, reportBean.mile));//油耗
+        tvAveFuelNum.setText(NumberUtils.formatDouble(reportBean.averagefuel));//油耗
         tvDccelerateTimes.setText(String.format("急刹车次数：%s次", reportBean.dcceleratetimes));
         tvAccelerateTimes.setText(String.format("急加速次数：%s次", reportBean.acceleratetimes));
         tvSharpTurnTimes.setText(String.format("急转弯次数：%s次", reportBean.sharpturntimes));
@@ -385,7 +387,7 @@ public class CarReportActivity extends BaseActivity {
 
     //重置
     public void resetReportView() {
-        tvTotal.setText("0");//用车费用
+        tvTotal.setText("暂无");//用车费用
         tvMileNum.setText("暂无");//用车时间
         tvMile.setText("暂无");//行驶里程
         tvOil.setText("暂无");//燃烧油量
@@ -454,10 +456,12 @@ public class CarReportActivity extends BaseActivity {
         SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
         try {
             if (dateType == DAY) {
-                calendar.setTime(sdfMonth.parse(currentDate));
-                currentDate = sdfDay.format(calendar.getTime());
+                currentDate = dayDateCache;//去除日视图的时间缓存
+//                calendar.setTime(sdfMonth.parse(currentDate));
+//                currentDate = sdfDay.format(calendar.getTime());
 
             } else if (dateType == MONTH) {
+                dayDateCache = currentDate;//保存日视图时间
                 calendar.setTime(sdfDay.parse(currentDate));
                 currentDate = sdfMonth.format(calendar.getTime());
             }

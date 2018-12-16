@@ -83,7 +83,7 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
 
         private String maintainid;
         private String carid;
-        private long mileage;//总里程
+        private String mileage;//总里程
         private long lastmaintainmileage;
         private long maintenanceinterval;
         private long lastmaintaintime;
@@ -138,11 +138,11 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
         }
 
 
-        public long getMileage() {
+        public String getMileage() {
             return mileage;
         }
 
-        public void setMileage(long mileage) {
+        public void setMileage(String mileage) {
             this.mileage = mileage;
         }
     }

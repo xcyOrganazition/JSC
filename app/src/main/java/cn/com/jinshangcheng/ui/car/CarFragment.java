@@ -207,6 +207,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
          */
         public void onMapClick(LatLng point) {
             if (carPosition == null) {
+                getHoldingActivity().showToast("该车辆未绑定盒子");
                 return;
             }
             Intent intent = new Intent(getActivity(), CarLocationActivity.class);
@@ -360,8 +361,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
-           long remian = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
-
+            long remian = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
+//            remian = remian-(this.boxmile-this.info.maintain.mileage);
             tvMaintenance.setText(DateUtils.getYMDTime(carMaintainBean.getMaintain().getLastmaintaintime()));
         } else {//没有保养数据
             tvMaintenance.setText("");
