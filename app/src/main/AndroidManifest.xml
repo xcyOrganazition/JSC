@@ -222,10 +222,14 @@
         <activity android:name=".ui.position.LeadRoadActivity" />
         <!-- 解除绑定 -->
         <activity android:name=".ui.mine.UnbindBoxActivity" />
-        <!--违章查询-->
+        <!-- 违章查询 -->
         <activity android:name=".ui.car.ViolationActivity" />
-        <!--爱车位置-->
+        <!-- 爱车位置 -->
         <activity android:name=".ui.car.CarLocationActivity" />
+        <!--支付验证-->
+        <activity
+            android:name=".ui.square.CheckPaymentActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>

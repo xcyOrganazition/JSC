@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.square.CheckPaymentActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="支付验证" />
+
+    <EditText
+        android:id="@+id/et_verificationCode"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_padding"
+        android:hint="请输入支付验证码" />
+
+
+    <TextView
+        android:id="@+id/tv_howTo"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/common_padding"
+        android:layout_width="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/textBlue"
+        android:text="如何获取验证码?"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_checkNow"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            style="@style/commonButton"
+            android:text="立即验证"
+            android:layout_margin="30dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/checkLatter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            style="@style/commonButton"
+            android:text="稍后验证"
+            android:layout_margin="30dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

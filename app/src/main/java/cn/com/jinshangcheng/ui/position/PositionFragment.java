@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.position;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -41,6 +42,7 @@ import com.baidu.mapapi.search.route.WalkingRouteResult;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.utils.MapUtils;
@@ -85,6 +87,18 @@ public class PositionFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_position, null, false);
     }
 
+    @OnClick(R.id.bt_goNavigation)
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bt_goNavigation:
+                Intent intent = new Intent(getActivity(), LeadRoadActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.bt_login:
+
+                break;
+        }
+    }
     @Override
     public void initData() {
 

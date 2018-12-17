@@ -171,7 +171,7 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_offLinePay:
-                Intent intent1 = new Intent(getApplicationContext(), MyOrderActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(), CheckPaymentActivity.class);
                 startActivity(intent1);
                 break;
         }
