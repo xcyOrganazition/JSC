@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DateUtils {
     public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");// 设置日期格式
@@ -410,8 +411,9 @@ public class DateUtils {
      */
 
     public static String getMMddHMTime(long time) {
-        String result = "";
+        String result ;
         Date date = new Date(time);
+        sdf4.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         result = sdf4.format(date);
         return result;
 
@@ -449,6 +451,7 @@ public class DateUtils {
 
     public static String getYMDTime(long time) {
         Date date = new Date(time);
+        df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         String result = df.format(date);
         if (time == 0) {
             result = "";

@@ -67,7 +67,7 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
         this.onItemViewClickListener = onItemViewClickListener;
     }
 
-    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tv_locusName)
         TextView tvLocusName;
         @BindView(R.id.tv_time)
@@ -120,14 +120,14 @@ public class LocusAdapter extends SwipeMenuAdapter<LocusAdapter.Holder> {
             String startTime = DateUtils.getMMddHMTime(bean.startTime);
             String stopTime = DateUtils.getMMddHMTime(bean.stopTime);
             tvTime.setText(startTime + " - " + stopTime);
-            MapUtils.getAddress(new LatLng(bean.startLatitude, bean.startLongitude), startAddressListener);
-            MapUtils.getAddress(new LatLng(bean.stopLatitude, bean.stopLongitude), endAddressListener);
+            MapUtils.getAddress(MapUtils.changeMapTerm(new LatLng(bean.startLatitude, bean.startLongitude)), startAddressListener);
+            MapUtils.getAddress(MapUtils.changeMapTerm(new LatLng(bean.stopLatitude, bean.stopLongitude)), endAddressListener);
         }
 
         @Override
         public void onClick(View v) {
             if (null != onItemViewClickListener) {
-                onItemViewClickListener.onViewClick(getAdapterPosition(),v);
+                onItemViewClickListener.onViewClick(getAdapterPosition(), v);
             }
         }
     }

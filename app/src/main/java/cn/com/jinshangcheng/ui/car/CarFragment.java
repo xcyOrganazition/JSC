@@ -233,7 +233,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             return;
         }
         if (MyApplication.getCurrentCarBean().getMileage() != null) {
-            Double metter = Double.parseDouble(MyApplication.getCurrentCarBean().getMileage()) / 1000;
+            Double metter = Double.parseDouble(MyApplication.getCurrentCarBean().getMileage()) ;
             tvMileNum.setText(NumberUtils.formatDouble(metter));//总里程
         }
         String fuelAvg = NumberUtils.getOilAvg(MyApplication.getCurrentCarBean().getFuel(), MyApplication.getCurrentCarBean().getMileage());
