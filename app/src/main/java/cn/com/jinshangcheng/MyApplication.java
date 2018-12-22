@@ -109,7 +109,6 @@ public class MyApplication extends Application {
     }
 
     public static String getCarId() {
-//        return "8D1481D618B8450C9B7C17323B2F49BD";
         return carId;
     }
 
@@ -118,9 +117,9 @@ public class MyApplication extends Application {
     }
 
     public static String getUserId() {
-        return userId;
+//        return userId;
         //22 王辉 ，39 明明  23 韩贺 1毛总
-//        return "22";
+        return "39";
     }
 
     public static void setUserId(String userId) {

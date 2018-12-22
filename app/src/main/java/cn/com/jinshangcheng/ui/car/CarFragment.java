@@ -233,7 +233,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
             return;
         }
         if (MyApplication.getCurrentCarBean().getMileage() != null) {
-            Double metter = Double.parseDouble(MyApplication.getCurrentCarBean().getMileage()) ;
+            Double metter = Double.parseDouble(MyApplication.getCurrentCarBean().getMileage());
             tvMileNum.setText(NumberUtils.formatDouble(metter));//总里程
         }
         String fuelAvg = NumberUtils.getOilAvg(MyApplication.getCurrentCarBean().getFuel(), MyApplication.getCurrentCarBean().getMileage());
@@ -385,6 +385,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     @Override
     public void intentToSaveActivity() {
+        //跳转到道路救援
         Intent intent = new Intent(getActivity(), RoadHelpActivity.class);
         startActivity(intent);
     }

@@ -15,4 +15,7 @@ public class ConstParams {
     private static String allCityText = "京 津 沪 渝 冀 豫 云 辽 黑 湘 皖 鲁 新 苏 浙 赣 鄂 桂 甘 晋 蒙 陕 吉 闽 贵 粤 青 藏 川 宁 琼 使 领";
     public static String[] cityArray = allCityText.split(" ");
 
+
+    //道路救援URL
+    public static String readSaveUrl = "http://www.banyar.cn/Weixin/Order/Publish/insurance_id/713/lat/0.006/lng/0.0065.html";
 }
