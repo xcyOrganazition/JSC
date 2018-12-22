@@ -97,13 +97,13 @@ public class AnnualActivity extends BaseActivity {
 
                 break;
             case R.id.bt_confirm:
-                if (TextUtils.isEmpty(time)) {
+                if (TextUtils.isEmpty(tvTime.getText().toString())) {
                     showToast("请选择时间");
                 }
-                if (TextUtils.isEmpty(registTime)) {
+                if (TextUtils.isEmpty(tvRegistTime.getText().toString())) {
                     showToast("请选择时间");
                 } else {
-                    confirmInsurance(time, registTime);
+                    confirmInsurance(tvTime.getText().toString(), tvRegistTime.getText().toString());
                 }
                 break;
         }

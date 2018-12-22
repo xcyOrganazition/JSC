@@ -46,6 +46,8 @@ public interface CarContract {
 
         void loadCarMaintainInfo(Observer observer);
 
+        void getRealTimeCheckReport(Observer observer);
+
         void loadCanRoadHelp(Observer observer);
 
     }

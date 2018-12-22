@@ -225,8 +225,8 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/car/getRealTimeCheckReport")
-    Observable<BaseBean<ReportBean>> getRealTimeCheckReport(@Field("carid") String carid,
-                                                            @Field("userid") String userId);
+    Observable<BaseBean<CheckDataBean>> getRealTimeCheckReport(@Field("userid") String userId,
+                                                               @Field("carid") String carid);
 
     /**
      * 获取用车报告 月报告

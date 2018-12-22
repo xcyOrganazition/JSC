@@ -21,6 +21,8 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
     private MaintainBean maintain;
     private long carregistdate;
     private long annualtrialdeadline;
+    private double boxmile;//实时检测接口中的mileage数据 用来计算保养数据
+
 
     public long getInsurancedeadline() {
         return insurancedeadline;
@@ -68,6 +70,14 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
 
     public void setAnnualtrialdeadline(long annualtrialdeadline) {
         this.annualtrialdeadline = annualtrialdeadline;
+    }
+
+    public double getBoxmile() {
+        return boxmile;
+    }
+
+    public void setBoxmile(double boxmile) {
+        this.boxmile = boxmile;
     }
 
     public class MaintainBean implements Serializable {

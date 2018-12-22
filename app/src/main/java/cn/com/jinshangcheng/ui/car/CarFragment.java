@@ -361,25 +361,32 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
-            long remian = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
-//            remian = remian-(this.boxmile-this.info.maintain.mileage);
-            tvMaintenance.setText(DateUtils.getYMDTime(carMaintainBean.getMaintain().getLastmaintaintime()));
+            double remian = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
+            remian -= (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
+            if (remian < 500 && remian > 0) {
+                tvMaintenance.setTextColor(getResources().getColor(R.color.textOrange));
+                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remian)));
+            } else if (remian < 0) {
+                tvMaintenance.setTextColor(getResources().getColor(R.color.text_red));
+                tvMaintenance.setText("请及时保养车辆，更新保养信息");
+            } else {
+                tvMaintenance.setTextColor(getResources().getColor(R.color.textGary));
+                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remian)));
+            }
         } else {//没有保养数据
             tvMaintenance.setText("");
         }
         //年审数据
-        if (carMaintainBean.getCarregistdate() != 0 && carMaintainBean.getAnnualtrialdeadline() != 0) {
-            long remainTime = carMaintainBean.getCarregistdate() - System.currentTimeMillis();
-            long sixYear = 6L * 365L * 24L * 60L * 60000L;
-            if (remainTime < sixYear) {//小于六年 每隔2年更换年检
-                long nextTime = carMaintainBean.getAnnualtrialdeadline() + 2L * 365L * 24L * 60L * 60000L;
-                tvAnnual.setText("下次更换年检：" + DateUtils.getYMDTime(nextTime));
-            } else {//大于六年 每隔1年年审
-                long nextTime = carMaintainBean.getAnnualtrialdeadline() + 365L * 24L * 60L * 60000L;
-                tvAnnual.setText("下次年审：" + DateUtils.getYMDTime(nextTime));
-            }
-        } else {
+        long remainTime = carMaintainBean.getCarregistdate() - System.currentTimeMillis();
+        long sixYear = 6L * 365L * 24L * 60L * 60000L;
+        if (carMaintainBean.getCarregistdate() == 0) {
             tvAnnual.setText("");
+        } else if (remainTime < sixYear) {//小于六年 每隔2年更换年检
+            long nextTime = carMaintainBean.getAnnualtrialdeadline() + 2L * 365L * 24L * 60L * 60000L;
+            tvAnnual.setText("下次更换年检：" + DateUtils.getYMDTime(nextTime));
+        } else {//大于六年 每隔1年年审
+            long nextTime = carMaintainBean.getAnnualtrialdeadline() + 365L * 24L * 60L * 60000L;
+            tvAnnual.setText("下次年审：" + DateUtils.getYMDTime(nextTime));
         }
     }
 
