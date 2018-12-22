@@ -226,9 +226,13 @@
         <activity android:name=".ui.car.ViolationActivity" />
         <!-- 爱车位置 -->
         <activity android:name=".ui.car.CarLocationActivity" />
-        <!--支付验证-->
+        <!-- 支付验证 -->
         <activity
             android:name=".ui.square.CheckPaymentActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <!--修改手机号-->
+        <activity
+            android:name=".ui.mine.ChangePhoneActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 

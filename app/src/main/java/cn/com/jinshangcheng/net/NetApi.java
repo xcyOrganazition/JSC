@@ -217,6 +217,18 @@ public interface NetApi {
                                                       @Field("startTime") String time);
 
     /**
+     * 获取实时检测信息 用于计算保养信息（其实只有mileage字段有用 -_-||  ）
+     *
+     * @param carid
+     * @param userId
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getRealTimeCheckReport")
+    Observable<BaseBean<ReportBean>> getRealTimeCheckReport(@Field("carid") String carid,
+                                                            @Field("userid") String userId);
+
+    /**
      * 获取用车报告 月报告
      *
      * @param carid
@@ -841,6 +853,18 @@ public interface NetApi {
                                         @Field("city") String city,
                                         @Field("sex") int sex,
                                         @Field("weixinname") String weixinname);
+
+    /**
+     * 修改用户手机号
+     *
+     * @param userId
+     * @param phoneNumber
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/user/updateUserInfo")
+    Observable<BaseBean> updateUserPhone(@Field("userid") String userId,
+                                         @Field("phoneNumber") String phoneNumber);
 
     /**
      * 修改用头像

@@ -76,6 +76,7 @@ public class EditMineActivity extends BaseActivity {
     private CityWheelSelectPopupWindow popupWindow;
     private UserBean userBean;
     public static final int RESULT_CODE = 0x6868;
+    public static final int REQUEST_CODE = 0x891;
 
     @Override
     public int setContentViewResource() {
@@ -95,6 +96,7 @@ public class EditMineActivity extends BaseActivity {
     public void initView() {
         GlideUtils.loadHeadImage(getApplicationContext(), userBean.apppic, ivHeadImg, true);
         etName.setText(userBean.name);
+        etName.setSelection(userBean.name.length());
         etNickName.setText(userBean.weixinname);
         etPhone.setText(userBean.phonenumber);
         tvCity.setText(city);
@@ -150,7 +152,8 @@ public class EditMineActivity extends BaseActivity {
                 PictureSelectorUtils.getPictures(EditMineActivity.this, 1, true, false);
                 break;
             case R.id.tv_changePhone:
-
+                Intent intent = new Intent(EditMineActivity.this, ChangePhoneActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.tv_city:
                 CommonUtils.hideSoftKeyboard(EditMineActivity.this);
@@ -162,10 +165,10 @@ public class EditMineActivity extends BaseActivity {
                     showToast("请输入姓名");
                     return;
                 }
-                if (TextUtils.isEmpty(etPhone.getText().toString())) {
-                    showToast("请输入手机号");
-                    return;
-                }
+//                if (TextUtils.isEmpty(etPhone.getText().toString())) {
+//                    showToast("请输入手机号");
+//                    return;
+//                }
                 if (TextUtils.isEmpty(selectImgPath)) {
                     upLoadInfo();//只需要保存用户信息
                 } else {
@@ -196,6 +199,12 @@ public class EditMineActivity extends BaseActivity {
                 Logger.w("imagePath" + selectImgPath);
                 GlideUtils.loadHeadImage(getApplicationContext(), selectImgPath, ivHeadImg, false);
             }
+        }
+        //修改手机号
+        if (requestCode == REQUEST_CODE && ChangePhoneActivity.RESULT_CODE == resultCode) {
+            String newPhone = data.getStringExtra("newPhone");
+            etPhone.setText(newPhone);
+            setResult(RESULT_CODE);
         }
     }
 
