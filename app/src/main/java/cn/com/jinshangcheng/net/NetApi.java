@@ -862,9 +862,9 @@ public interface NetApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("/user/updateUserInfo")
+    @POST("user/updateUserInfo")
     Observable<BaseBean> updateUserPhone(@Field("userid") String userId,
-                                         @Field("phoneNumber") String phoneNumber);
+                                         @Field("phonenumber") String phoneNumber);
 
     /**
      * 修改用头像

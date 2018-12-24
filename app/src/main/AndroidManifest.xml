@@ -230,10 +230,11 @@
         <activity
             android:name=".ui.square.CheckPaymentActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!--修改手机号-->
+        <!-- 修改手机号 -->
         <activity
             android:name=".ui.mine.ChangePhoneActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.car.CarCheckActivity"></activity>
     </application>
 
 </manifest>

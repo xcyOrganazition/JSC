@@ -410,7 +410,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
                 String carId = MyApplication.getCarId();
-                intent = new Intent(getActivity(), CarDetectionActivity.class);
+                intent = new Intent(getActivity(), CarCheckActivity.class);
+//                intent = new Intent(getActivity(), CarDetectionActivity.class);
                 intent.putExtra("OPENCARID", carId);
                 break;
             case R.id.ll_report://用车报告
@@ -424,6 +425,8 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 mPresenter.getCanRoadHelp();//查看是否允许调用道路救援
                 break;
             case R.id.tv_checkDetail://查询检测详情
+                intent = new Intent(getActivity(), CarDetectionActivity.class);
+                intent.putExtra("OPENCARID", MyApplication.getCarId());
                 break;
             case R.id.bd_mapView://点击地图跳转:
                 break;

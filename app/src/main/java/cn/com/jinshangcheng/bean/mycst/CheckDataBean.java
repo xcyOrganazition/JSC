@@ -15,7 +15,7 @@ public class CheckDataBean implements Parcelable {
     public int rpm;
     public double residualfuel;
     public double perresidualfue;
-    public double malfunctionnum;
+    public int malfunctionnum;
     public double onflowct;
     public double coolantct;
     public double environmentct;
@@ -112,7 +112,7 @@ public class CheckDataBean implements Parcelable {
         this.rpm = in.readInt();
         this.residualfuel = in.readDouble();
         this.perresidualfue = in.readDouble();
-        this.malfunctionnum = in.readDouble();
+        this.malfunctionnum = in.readInt();
         this.onflowct = in.readDouble();
         this.coolantct = in.readDouble();
         this.environmentct = in.readDouble();

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="一键检测" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/common_padding"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_carLicense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/car_license_bg"
+            android:paddingBottom="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="2dp"
+            android:text="京A 12342"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_carBrand"
+            style="@style/textMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="奔驰汽车"
+            app:layout_constraintBottom_toTopOf="@+id/tv_carType"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
+            app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
+
+        <TextView
+            android:id="@+id/tv_carType"
+            style="@style/textSmallest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="奔驰S800系列"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
+            app:layout_constraintTop_toBottomOf="@+id/tv_carBrand" />
+
+        <ImageView
+            android:id="@+id/iv_carImg"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/car_default"
+            app:layout_constraintBottom_toTopOf="@+id/tv_tip"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_tip"
+            style="@style/textSmallest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="左右滑动切换车辆"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_carImg"
+            app:layout_constraintTop_toBottomOf="@+id/iv_carImg" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@color/backLightGreen">
+
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/iv_licheng"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_resultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="21dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/padding_top"
+        android:text="检测结果仅供参考,如发现车辆情况异常,请到4S店检查维修"
+        android:textSize="11sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="检测报告" />
+
+        <TextView
+            android:id="@+id/tv_checkDetail"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="查看详情"
+            android:textColor="@color/textBlue" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="保养状态" />
+
+        <TextView
+            android:id="@+id/tv_maintenance"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="车险状态" />
+
+        <TextView
+            android:id="@+id/tv_insurance"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="年审状态" />
+
+        <TextView
+            android:id="@+id/tv_annual"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="汽车蓄电池" />
+
+        <TextView
+            android:id="@+id/tv_battery"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_top">
+
+        <TextView
+            style="@style/textSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="车辆故障" />
+
+        <TextView
+            android:id="@+id/tv_malfunction"
+            style="@style/textSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="" />
+
+    </LinearLayout>
+</LinearLayout>
