@@ -684,11 +684,13 @@ public interface NetApi {
      * 设置轨迹保护
      *
      * @param userId
+     * @param travelprotect 密码
      * @return
      */
     @FormUrlEncoded
     @POST("/travel/protectAllMyTravel")
-    Observable<BaseBean> startProtect(@Field("userid") String userId);
+    Observable<BaseBean> startProtect(@Field("userid") String userId,
+                                      @Field("travelprotect") String travelprotect);
 
     /**
      * 关闭轨迹保护

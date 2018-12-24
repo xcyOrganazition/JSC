@@ -43,8 +43,8 @@ public class PrivacyActivity extends BaseActivity {
     @Override
     public void initData() {
         //是否轨迹保护 0 不保护，1 保护
-//        isProtect = 1 == MyApplication.getUserBean().travelprotect;//根据后台存储的状态判断是否开启保护
-        isProtect = !"".equals(SharedPreferenceUtils.getStringSP(SP_KEY));//根据本地是否有密码判断保护状态
+        isProtect = 1 == MyApplication.getUserBean().travelprotect;//根据后台存储的状态判断是否开启保护
+//        isProtect = !"".equals(SharedPreferenceUtils.getStringSP(SP_KEY));//根据本地是否有密码判断保护状态
 
 
     }
@@ -80,7 +80,7 @@ public class PrivacyActivity extends BaseActivity {
      * 开启轨迹保护
      */
     public void lockLocal(final String pwd) {
-        RetrofitService.getRetrofit().startProtect(MyApplication.getUserId())
+        RetrofitService.getRetrofit().startProtect(MyApplication.getUserId(), pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseBean>() {

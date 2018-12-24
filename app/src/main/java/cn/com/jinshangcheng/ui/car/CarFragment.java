@@ -361,17 +361,17 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
-            double remian = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
-            remian -= (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
-            if (remian < 500 && remian > 0) {
+            double remain = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
+            remain = remain - (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
+            if (remain < 500 && remain > 0) {
                 tvMaintenance.setTextColor(getResources().getColor(R.color.textOrange));
-                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remian)));
-            } else if (remian < 0) {
+                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remain)));
+            } else if (remain < 0) {
                 tvMaintenance.setTextColor(getResources().getColor(R.color.text_red));
                 tvMaintenance.setText("请及时保养车辆，更新保养信息");
             } else {
                 tvMaintenance.setTextColor(getResources().getColor(R.color.textGary));
-                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remian)));
+                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remain)));
             }
         } else {//没有保养数据
             tvMaintenance.setText("");
@@ -413,6 +413,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 intent = new Intent(getActivity(), CarCheckActivity.class);
 //                intent = new Intent(getActivity(), CarDetectionActivity.class);
                 intent.putExtra("OPENCARID", carId);
+                intent.putExtra("carMaintainBean", carMaintainBean);
                 break;
             case R.id.ll_report://用车报告
                 intent = new Intent(getActivity(), CarReportActivity.class);
