@@ -7,6 +7,7 @@ import cn.com.jinshangcheng.base.IBaseView;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observer;
 
 /**
@@ -24,6 +25,8 @@ public interface CarContract {
 
         void intentToSaveActivity();
 
+        void refreshLastCheckData(CheckDataBean checkDataBean);
+
 
     }
 
@@ -32,6 +35,8 @@ public interface CarContract {
         void getCarList();
 
         void getCarPosition(String carId);
+
+        void getCheckReportLast(String carId);
 
         void getCarMaintainInfo();
 
@@ -46,7 +51,7 @@ public interface CarContract {
 
         void loadCarMaintainInfo(Observer observer);
 
-        void getRealTimeCheckReport(Observer observer);
+        void getCheckReportLast(Observer observer);
 
         void loadCanRoadHelp(Observer observer);
 

@@ -130,6 +130,16 @@ public interface NetApi {
     Observable<BaseBean<CheckDataBean>> getCheckReport(@Field("carid") String carid, @Field("userid") String userId);
 
     /**
+     * 一键检测历史数据查询
+     *
+     * @param carid 车辆Id
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/getCheckReportLast")
+    Observable<BaseBean<CheckDataBean>> getCheckReportLast(@Field("carid") String carid, @Field("userid") String userId);
+
+    /**
      * 道路救援验证接口 是否允许打开道路救援
      *
      * @param platenumber
@@ -371,11 +381,11 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/order/createOrder")
     Observable<BaseBean<OrderBean>> createOrder(@Field("userid") String userId,
-                                                @Field("cartitemids") String cartitemids,
+                                                @Field("tCartitems") String cartitemids,
                                                 @Field("addressid") String addressid);
 
     /**
-     * 创建订单
+     * 创建线下订单
      *
      * @param userId
      * @param cartitemids 产品条目id集合， 用,隔开
@@ -385,8 +395,22 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/order/createOrderForOffLine")
     Observable<BaseBean<OrderBean>> createOffLineOrder(@Field("userid") String userId,
-                                                       @Field("cartitemids") String cartitemids,
+                                                       @Field("tCartitems") String cartitemids,
                                                        @Field("addressid") String addressid);
+
+    /**
+     * 通过支付码完成支付
+     *
+     * @param userId
+     * @param orderid
+     * @param payCode 验证码
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/order/payByPayCode")
+    Observable<BaseBean> payByPayCode(@Field("userid") String userId,
+                                      @Field("orderid") String orderid,
+                                      @Field("payCode") String payCode);
 
     /**
      * 获取支付宝加签的订单信息字符串

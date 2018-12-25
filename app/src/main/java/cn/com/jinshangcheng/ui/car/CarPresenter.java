@@ -10,6 +10,7 @@ import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
+import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import cn.com.jinshangcheng.ui.MainActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import io.reactivex.Observer;
@@ -96,6 +97,36 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
 
             }
         });
+    }
+
+    @Override
+    public void getCheckReportLast(String carId) {
+        model.getCheckReportLast(new Observer<BaseBean<CheckDataBean>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(BaseBean<CheckDataBean> checkDataBeanBaseBean) {
+                if (checkDataBeanBaseBean.code.equals("0")) {
+                    carView.refreshLastCheckData(checkDataBeanBaseBean.data);
+                } else {
+                    carView.toastErrorMsg("请求失败 请重试");
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                carView.toastErrorMsg("未检测到数据项,请稍后再试");
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
     }
 
     @Override

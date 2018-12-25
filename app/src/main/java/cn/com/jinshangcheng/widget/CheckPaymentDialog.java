@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.bean.OrderBean;
+import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.utils.DensityUtil;
 
@@ -28,6 +30,7 @@ public class CheckPaymentDialog extends DialogFragment {
     EditText etVerificationCode;
 
     Unbinder unbinder;
+    private OrderBean orderBean;
 
     @Nullable
     @Override
@@ -37,7 +40,7 @@ public class CheckPaymentDialog extends DialogFragment {
         //去掉dialog默认的padding
         window.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = DensityUtil.dip2px(getActivity(),300);
+        lp.width = DensityUtil.dip2px(getActivity(), 300);
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         //设置dialog的位置在底部
         lp.gravity = Gravity.CENTER;
@@ -47,6 +50,10 @@ public class CheckPaymentDialog extends DialogFragment {
         window.setBackgroundDrawable(new ColorDrawable());
         unbinder = ButterKnife.bind(this, contentView);
         return contentView;
+    }
+
+    public void setOrderBean(OrderBean orderBean) {
+        this.orderBean = orderBean;
     }
 
     @Override
@@ -60,6 +67,12 @@ public class CheckPaymentDialog extends DialogFragment {
         CommonUtils.hideSoftKeyboard(getActivity());
         if (TextUtils.isEmpty(etVerificationCode.getText().toString())) {
             Toast.makeText(getActivity(), "请输入验证码", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        MyOrderActivity activity = (MyOrderActivity) getActivity();
+        activity.payByPayCode(etVerificationCode.getText().toString());
     }
+
+
 }

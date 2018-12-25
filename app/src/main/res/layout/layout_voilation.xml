@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding_top"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_padding"
+            android:src="@mipmap/ic_handed" />
+
+        <TextView
+            android:id="@+id/tv_handle"
+            style="@style/textMoreSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="已解决" />
+
+        <TextView
+            android:id="@+id/tv_point"
+            style="@style/textMoreSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="扣分:" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            style="@style/textMoreSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="罚款:" />
+
+    </LinearLayout>
+
+    <View style="@style/divider" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding"
+        android:text="驾驶机动车超过规定时速10%以下的"
+        android:textColor="#ff555555"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:text="违章时间：09:00:56-11:00:00"
+        android:textColor="#ff888888"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_top"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginTop="@dimen/padding_top"
+        android:text="违章地点：北京市"
+        android:textColor="#ff888888"
+        android:textSize="13sp" />
+
+</LinearLayout>

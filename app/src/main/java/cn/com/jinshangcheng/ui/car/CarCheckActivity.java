@@ -28,6 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
+//一键检测
 public class CarCheckActivity extends BaseActivity {
 
 
@@ -64,6 +65,7 @@ public class CarCheckActivity extends BaseActivity {
     private CheckDataBean checkData;//检测数据
     private CarMaintainBean carMaintainBean;//检测数据
     private int littleProblemNumber;//小问题数量
+    private CheckDataBean lastCheckData;//上次的检测数据
 
     @Override
     public int setContentViewResource() {
@@ -75,9 +77,9 @@ public class CarCheckActivity extends BaseActivity {
         littleProblemNumber = 0;
         mOpenCarId = getIntent().getStringExtra("OPENCARID");
         carMaintainBean = (CarMaintainBean) getIntent().getSerializableExtra("carMaintainBean");
+        lastCheckData = getIntent().getParcelableExtra("lastCheckData");
         if (null == mOpenCarId) {
-            showToast("未获取到车辆Id");
-            return;
+//            showToast("未获取到车辆Id");
         }
     }
 
@@ -163,7 +165,16 @@ public class CarCheckActivity extends BaseActivity {
 
     //数据请求操作
     private void requestData() {
-
+        if (lastCheckData != null) {
+            checkData = lastCheckData;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    refreshCheckData();
+                }
+            });
+            return;
+        }
         RetrofitService.getRetrofit().getCheckReport(mOpenCarId, MyApplication.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -196,7 +207,7 @@ public class CarCheckActivity extends BaseActivity {
     }
 
     public void refreshCheckData() {
-        refreshMaintainData(this.carMaintainBean);
+        refreshMaintainData();
         setBgColor();//设置背景颜色
         setCenterTest();//设置背景颜色
 
@@ -209,8 +220,7 @@ public class CarCheckActivity extends BaseActivity {
     }
 
     //刷新保养保险年审信息
-    public void refreshMaintainData(CarMaintainBean maintainBean) {
-        this.carMaintainBean = maintainBean;
+    public void refreshMaintainData() {
         if (carMaintainBean == null) {
             littleProblemNumber++;
             tvInsurance.setText("请完善信息");

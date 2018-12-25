@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -15,11 +16,14 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.MyOrderAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.OrderBean;
 import cn.com.jinshangcheng.config.ConstParams;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.ArrayUtils;
+import cn.com.jinshangcheng.widget.CheckPaymentDialog;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -35,7 +39,8 @@ public class MyOrderActivity extends BaseActivity {
     MyOrderAdapter adapter;
     List<OrderBean> orderList;
     public int page = 1;
-
+    OrderBean selectOrderBean;
+    private CheckPaymentDialog dialog;
 
     @Override
     public int setContentViewResource() {
@@ -47,6 +52,15 @@ public class MyOrderActivity extends BaseActivity {
         orderList = new ArrayList<>();
 
         adapter = new MyOrderAdapter(orderList, this);
+        adapter.setOnItemViewClickListener(new OnItemViewClickListener() {
+            @Override
+            public void onViewClick(int position, View view) {
+                selectOrderBean = orderList.get(position);
+                dialog = new CheckPaymentDialog();
+                dialog.show(getFragmentManager(), "");
+
+            }
+        });
 
     }
 
@@ -99,7 +113,7 @@ public class MyOrderActivity extends BaseActivity {
                             orderList.addAll(orderBeanBaseListBean.getBeanList());
                             adapter.refresData(orderList);
                         }
-                        if (page == 1&& !ArrayUtils.hasContent(orderBeanBaseListBean.getBeanList())) {
+                        if (page == 1 && !ArrayUtils.hasContent(orderBeanBaseListBean.getBeanList())) {
                             showToast("暂无订单");
                         }
                     }
@@ -114,6 +128,38 @@ public class MyOrderActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
 
+                    }
+                });
+    }
+
+    public void payByPayCode(String code) {
+        showLoading();
+        RetrofitService.getRetrofit().payByPayCode(MyApplication.getUserId(), selectOrderBean.getOrderid(), code)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        dismissLoading();
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getOrderList();
                     }
                 });
     }

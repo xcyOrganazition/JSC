@@ -1,6 +1,6 @@
 package cn.com.jinshangcheng.ui.car;
 
-import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.adapter.ViolationAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.ViolationBean;
@@ -82,7 +82,9 @@ public class ViolationActivity extends BaseActivity {
         } else {
             //有违章数据
             tvViolationNum.setText(violationDetailList.size());
-
+            ViolationAdapter adapter = new ViolationAdapter(violationDetailList, ViolationActivity.this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(ViolationActivity.this));
+            recyclerView.setAdapter(adapter);
         }
 
     }
@@ -123,10 +125,5 @@ public class ViolationActivity extends BaseActivity {
                 });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

@@ -42,7 +42,7 @@ import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
-import cn.com.jinshangcheng.extra.explain.activity.CarDetectionActivity;
+import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
@@ -98,6 +98,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     private CarMaintainBean carMaintainBean;//车辆三审信息
     private ViewPager.OnPageChangeListener pageChangedListener;
     private LatLng carPosition;
+    private CheckDataBean lastCheckData;//上次检测数据
 
     public CarFragment() {
         // Required empty public constructor
@@ -239,6 +240,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         String fuelAvg = NumberUtils.getOilAvg(MyApplication.getCurrentCarBean().getFuel(), MyApplication.getCurrentCarBean().getMileage());
         tvFuelNum.setText(fuelAvg);//油耗
         mPresenter.getCarPosition(MyApplication.getCarId());//位置
+        mPresenter.getCheckReportLast(MyApplication.getCarId());//位置
         mPresenter.getCarMaintainInfo();//年审、保险、保养
     }
 
@@ -397,6 +399,14 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         startActivity(intent);
     }
 
+    @Override
+    public void refreshLastCheckData(CheckDataBean checkDataBean) {
+        if (checkDataBean != null) {
+            lastCheckData = checkDataBean;
+            tvCheckTime.setText(String.format("检测时间：%s", DateUtils.getYMDTime(checkDataBean.checkdate)));
+        }
+    }
+
 
     @OnClick({R.id.ll_check, R.id.ll_report, R.id.ll_violation, R.id.ll_help, R.id.tv_checkDetail,
             R.id.bd_mapView, R.id.tv_insurance, R.id.tv_maintenance, R.id.tv_annual, R.id.iv_shareLocation})
@@ -407,9 +417,10 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         }
 
         Intent intent = null;
+        String carId = MyApplication.getCarId();
         switch (view.getId()) {
             case R.id.ll_check://一键检测:
-                String carId = MyApplication.getCarId();
+
                 intent = new Intent(getActivity(), CarCheckActivity.class);
 //                intent = new Intent(getActivity(), CarDetectionActivity.class);
                 intent.putExtra("OPENCARID", carId);
@@ -426,8 +437,12 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
                 mPresenter.getCanRoadHelp();//查看是否允许调用道路救援
                 break;
             case R.id.tv_checkDetail://查询检测详情
-                intent = new Intent(getActivity(), CarDetectionActivity.class);
-                intent.putExtra("OPENCARID", MyApplication.getCarId());
+//                intent = new Intent(getActivity(), CarDetectionActivity.class);
+                intent = new Intent(getActivity(), CarCheckActivity.class);
+
+                intent.putExtra("lastCheckData", lastCheckData);
+                intent.putExtra("carMaintainBean", carMaintainBean);
+                intent.putExtra("OPENCARID", carId);
                 break;
             case R.id.bd_mapView://点击地图跳转:
                 break;

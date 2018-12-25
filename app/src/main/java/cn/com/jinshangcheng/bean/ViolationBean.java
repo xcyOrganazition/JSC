@@ -81,7 +81,7 @@ public class ViolationBean extends BaseBean {
         private String codeX;
         private String fen;
         private String money;
-        private String handled;
+        private String handled;//1处理  0未处理
         private String archiveno;
         private String wzcity;
 

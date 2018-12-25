@@ -11,7 +11,7 @@
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerText="关于我们" />
+        app:centerText="关于" />
 
     <ImageView
         android:id="@+id/ic_logo"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/common_padding"
-        android:text="当前版本：V1.0.0"
+        android:text="当前版本：v 1.0.0"
         android:textColor="#ff666666"
         android:textSize="14sp" />
 
@@ -61,11 +61,12 @@
             android:layout_marginLeft="@dimen/common_padding"
             android:layout_weight="1"
             android:text="检查新版本" />
+
         <ImageView
             android:id="@+id/iv_redPoint"
-            android:src="@mipmap/ic_red_point"
             android:layout_width="5dp"
-            android:layout_height="5dp" />
+            android:layout_height="5dp"
+            android:src="@mipmap/ic_red_point" />
 
     </LinearLayout>
 

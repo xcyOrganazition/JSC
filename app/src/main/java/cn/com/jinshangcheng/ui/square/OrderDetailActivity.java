@@ -168,9 +168,12 @@ public class OrderDetailActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.bt_confirm:
-                if (checkInput()) {
-                    createOrder(getCartItemIds());
-                }
+//                getALiOrderInfo();
+                intent = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
+                startActivity(intent);
+//                if (checkInput()) {
+//                    createOrder(getCartItemIds());
+//                }
                 break;
             case R.id.tv_offLinePay:
                 if (checkInput()) {
@@ -224,7 +227,7 @@ public class OrderDetailActivity extends BaseActivity {
                         e.printStackTrace();
                     }
 
-                    @ Override
+                    @Override
                     public void onComplete() {
                     }
                 });
@@ -244,8 +247,9 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseBean<OrderBean> baseBean) {
                         dismissLoading();
-                        showToast("创建                  成功");
+                        showToast("创建成功");
                         Intent intent1 = new Intent(getApplicationContext(), CheckPaymentActivity.class);
+                        intent1.putExtra("orderBean", baseBean.data);
                         startActivity(intent1);
                     }
 
@@ -259,6 +263,35 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onComplete() {
                     }
                 });
+    }
+
+
+    public void getALiOrderInfo() {
+        RetrofitService.getRetrofit().getALiOrderInfo("测试订单", "101", "16.6", "我是描述数据")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
     }
 
     public String getCartItemIds() {

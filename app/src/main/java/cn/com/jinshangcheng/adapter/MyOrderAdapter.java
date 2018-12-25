@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,13 +17,14 @@ import butterknife.ButterKnife;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.OrderBean;
+import cn.com.jinshangcheng.listener.OnItemViewClickListener;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
 import cn.com.jinshangcheng.utils.NumberUtils;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> {
 
-
+    private OnItemViewClickListener onItemViewClickListener;
     private List<OrderBean> list;
     private Context context;
 
@@ -53,7 +55,11 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
         return list.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder {
+    public void setOnItemViewClickListener(OnItemViewClickListener onItemViewClickListener) {
+        this.onItemViewClickListener = onItemViewClickListener;
+    }
+
+    class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.tv_orderNumber)
         TextView tvOrderNumber;
         @BindView(R.id.tv_orderDate)
@@ -62,6 +68,12 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
         LinearLayout llGoodsList;
         @BindView(R.id.tv_total)
         TextView tvTotal;
+        @BindView(R.id.tv_address)
+        TextView tvAddress;
+        @BindView(R.id.tv_orderType)
+        TextView tvOrderType;
+        @BindView(R.id.bt_checkPay)
+        Button btCheckPay;
 
         public Holder(View itemView) {
             super(itemView);
@@ -70,8 +82,21 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
 
         public void setData(OrderBean bean, int position) {
             tvOrderNumber.setText(bean.getOrderid());
-            tvOrderDate.setText(DateUtils.getYMDTime(bean.getOrdertime()));
             tvTotal.setText(String.format("总计：%s元", NumberUtils.formatDouble(bean.getTotal())));
+            tvAddress.setText(String.format("收货人信息：%s", bean.getAddress()));
+            tvOrderDate.setText(String.format("日期：%s", DateUtils.getMMddHMTime(bean.getOrdertime())));
+            /* 0.线上购买 1.线下购买 2.赠送*/
+            if (0 == bean.getOrdertype()) {
+                tvOrderType.setText("线上购买");
+                btCheckPay.setVisibility(View.INVISIBLE);
+            } else if (1 == bean.getOrdertype()) {
+                tvOrderType.setText("线下购买");
+                btCheckPay.setVisibility(View.VISIBLE);
+                btCheckPay.setOnClickListener(this);
+            } else if (2 == bean.getOrdertype()) {
+                tvOrderType.setText("赠送");
+                btCheckPay.setVisibility(View.INVISIBLE);
+            }
             llGoodsList.removeAllViews();
             if (ArrayUtils.hasContent(bean.getOrderitems())) {
                 for (Goods curGoods : bean.getOrderitems()) {
@@ -84,6 +109,13 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
                     tvCurGoodPrice.setText(String.format("%s元", curGoods.getPrice()));
                     llGoodsList.addView(itemView);
                 }
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemViewClickListener != null) {
+                onItemViewClickListener.onViewClick(getAdapterPosition(), v);
             }
         }
     }

@@ -62,11 +62,11 @@ public class CarModel implements CarContract.IModel {
      * @param observer
      */
     @Override
-    public void getRealTimeCheckReport(Observer observer) {
-//        RetrofitService.getRetrofit().getRealTimeCheckReport(MyApplication.getUserId(), MyApplication.getCarId())
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(observer);
+    public void getCheckReportLast(Observer observer) {
+        RetrofitService.getRetrofit().getCheckReportLast(MyApplication.getCarId(), MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
     }
 
     @Override
