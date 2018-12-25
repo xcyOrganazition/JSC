@@ -3,6 +3,7 @@ package cn.com.jinshangcheng.ui.car;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -274,6 +275,13 @@ public class CarCheckActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_checkDetail:
+                if (checkData == null) {
+                    showToast("暂无检测数据");
+                    return;
+                }
+                Intent intent = new Intent(CarCheckActivity.this, CheckDetailActivity.class);
+                intent.putExtra("checkedBean", checkData);
+                startActivity(intent);
                 break;
             case R.id.tv_malfunction:
                 if (checkData != null && checkData.malfunctionnum != 0) {

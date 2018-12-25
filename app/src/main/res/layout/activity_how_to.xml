@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.square.HowToActivity">
+
+    <cn.com.jinshangcheng.widget.TittleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerText="如何获取验证码" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_padding"
+            android:orientation="vertical"
+            android:paddingBottom="50dp">
+
+            <TextView
+                style="@style/textMiddle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_top"
+                android:text="支付验证码的获取方法：在网上下单，然后选择【点击此处进行线下支付】" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/step_first" />
+
+            <TextView
+                style="@style/textMiddle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_top"
+                android:layout_marginTop="@dimen/padding_top"
+                android:text="线下支付成功后（支付时备注手机号码，该手机号为注册平台时使用的手机号），等平台后台确认后，会将支付验证码发送到你的手机上。以下是两种验证方法:
+1.点击线下支付后会提示你输入支付验证码：如果你在现场直接支付，可以在该页面停留片刻，获取验证码后直接验证。" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/step_two" />
+
+            <TextView
+                style="@style/textMiddle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_top"
+                android:layout_marginTop="@dimen/padding_top"
+                android:text="2.在我的订单里找到对应订单，然后点击支付验证，输入对应的支付验证码即可完成验证。" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

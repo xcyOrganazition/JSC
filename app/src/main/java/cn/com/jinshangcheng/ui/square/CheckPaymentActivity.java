@@ -36,12 +36,16 @@ public class CheckPaymentActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_checkNow, R.id.checkLatter})
+    @OnClick({R.id.bt_checkNow, R.id.checkLatter, R.id.tv_howTo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_howTo:
+                Intent intent1 = new Intent(CheckPaymentActivity.this, HowToActivity.class);
+                startActivity(intent1);
+                break;
             case R.id.bt_checkNow:
                 CheckPaymentDialog dialog = new CheckPaymentDialog();
-                dialog.show(getFragmentManager(),"");
+                dialog.show(getFragmentManager(), "");
                 break;
             case R.id.checkLatter:
                 Intent intent = new Intent(CheckPaymentActivity.this, MyOrderActivity.class);

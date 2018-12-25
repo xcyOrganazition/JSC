@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.ui.mine.PrivacyActivity;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
@@ -87,7 +88,12 @@ public class GestureDialog extends DialogFragment {
      */
     private void getPwdAndInitCurMode() {
 
-        truePwd = SharedPreferenceUtils.getStringSP(SP_KEY);
+        if (!"0".equals(MyApplication.getUserBean().travelprotect)) {//已保护状态
+            truePwd = MyApplication.getUserBean().travelprotect;
+        } else {//未保护状态 无密码
+            truePwd = "";
+        }
+
         if (truePwd.equals("")) {//没有密码 则录入密码
             curMode = FIRST_INPUT;
             tvTip.setText("请开始绘制");

@@ -3,6 +3,7 @@ package cn.com.jinshangcheng.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
         public void setData(MyCustomerBean bean, int position) {
             tvCustNum.setText(String.valueOf(bean.teamnum));
             tvPhone.setText(bean.phonenumber);
-            tvName.setText(bean.name);
+            tvName.setText(TextUtils.isEmpty(bean.name) ? "暂无" : bean.name);
         }
     }
 }

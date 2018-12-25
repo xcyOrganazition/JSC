@@ -11,6 +11,15 @@ public class NumberUtils {
         return s;
     }
 
+    public static String formatCheckData(double d) {
+        if (d == -9999) {
+            return "-";
+        }
+        DecimalFormat df = new DecimalFormat("#");
+        String s = df.format(d);
+        return s;
+    }
+
     public static String formatDouble(long d) {
         DecimalFormat df = new DecimalFormat("#.##");
         String s = df.format(d);

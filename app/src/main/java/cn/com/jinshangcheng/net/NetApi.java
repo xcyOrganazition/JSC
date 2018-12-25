@@ -370,9 +370,39 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/order/createOrder")
-    Observable<BaseBean> createOrder(@Field("userid") String userId,
-                                     @Field("cartitemids") String cartitemids,
-                                     @Field("addressid") String addressid);
+    Observable<BaseBean<OrderBean>> createOrder(@Field("userid") String userId,
+                                                @Field("cartitemids") String cartitemids,
+                                                @Field("addressid") String addressid);
+
+    /**
+     * 创建订单
+     *
+     * @param userId
+     * @param cartitemids 产品条目id集合， 用,隔开
+     * @param addressid   地址id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/order/createOrderForOffLine")
+    Observable<BaseBean<OrderBean>> createOffLineOrder(@Field("userid") String userId,
+                                                       @Field("cartitemids") String cartitemids,
+                                                       @Field("addressid") String addressid);
+
+    /**
+     * 获取支付宝加签的订单信息字符串
+     *
+     * @param subject      订单名称
+     * @param out_trade_no 订单号
+     * @param total_amount 付款金额
+     * @param body         描述
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/pay/alipay")
+    Observable<BaseBean> getALiOrderInfo(@Field("subject") String subject,
+                                         @Field("out_trade_no") String out_trade_no,
+                                         @Field("total_amount") String total_amount,
+                                         @Field("body") String body);
 
     /**
      * 查看我的订单(分页显示)

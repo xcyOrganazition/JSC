@@ -233,8 +233,14 @@
         <activity
             android:name=".ui.mine.ChangePhoneActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <!--一键检测-->
         <activity android:name=".ui.car.CarCheckActivity" />
-        <activity android:name=".ui.car.CheckDetailActivity"></activity>
+        <!--一键检测详情-->
+        <activity android:name=".ui.car.CheckDetailActivity" />
+        <!--选择支付方式-->
+        <activity android:name=".ui.square.SelectPayTypeActivity" />
+        <!--如何获取验证码-->
+        <activity android:name=".ui.square.HowToActivity"></activity>
     </application>
 
 </manifest>

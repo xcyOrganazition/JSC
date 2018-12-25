@@ -206,7 +206,9 @@ public class CarManageActivity extends BaseActivity {
 
                     @Override
                     public void onComplete() {
-                        refreshLayout.finishRefresh();
+                        if (refreshLayout != null) {
+                            refreshLayout.finishRefresh();
+                        }
                     }
                 });
     }

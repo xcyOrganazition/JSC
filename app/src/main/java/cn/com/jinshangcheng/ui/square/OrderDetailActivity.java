@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,10 +20,10 @@ import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.GoodsItemBean;
+import cn.com.jinshangcheng.bean.OrderBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
-import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -171,8 +173,10 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_offLinePay:
-                Intent intent1 = new Intent(getApplicationContext(), CheckPaymentActivity.class);
-                startActivity(intent1);
+                if (checkInput()) {
+                    createOffLineOrder(getCartItemIds());
+                }
+
                 break;
         }
     }
@@ -202,14 +206,14 @@ public class OrderDetailActivity extends BaseActivity {
         RetrofitService.getRetrofit().createOrder(MyApplication.getUserId(), cartitemids, address.getAddressid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean>() {
+                .subscribe(new Observer<BaseBean<OrderBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(BaseBean baseBean) {
+                    public void onNext(BaseBean<OrderBean> baseBean) {
                         dismissLoading();
                         showToast("创建成功");
                     }
@@ -220,9 +224,39 @@ public class OrderDetailActivity extends BaseActivity {
                         e.printStackTrace();
                     }
 
+                    @ Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    public void createOffLineOrder(String cartitemids) {
+        showLoading();
+        RetrofitService.getRetrofit().createOffLineOrder(MyApplication.getUserId(), cartitemids, address.getAddressid())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<OrderBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<OrderBean> baseBean) {
+                        dismissLoading();
+                        showToast("创建                  成功");
+                        Intent intent1 = new Intent(getApplicationContext(), CheckPaymentActivity.class);
+                        startActivity(intent1);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                        e.printStackTrace();
+                    }
+
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }
@@ -235,6 +269,7 @@ public class OrderDetailActivity extends BaseActivity {
                 cartItemIds.append(",");
             }
         }
+        Logger.w("cartItemIds = " + cartItemIds.toString());
         return cartItemIds.toString();
     }
 }
