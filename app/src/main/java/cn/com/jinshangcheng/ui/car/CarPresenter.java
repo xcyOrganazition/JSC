@@ -112,7 +112,7 @@ public class CarPresenter extends BasePresenterImpl implements CarContract.IPres
                 if (checkDataBeanBaseBean.code.equals("0")) {
                     carView.refreshLastCheckData(checkDataBeanBaseBean.data);
                 } else {
-                    carView.toastErrorMsg("请求失败 请重试");
+//                    carView.toastErrorMsg("请求失败 请重试");
                 }
             }
 

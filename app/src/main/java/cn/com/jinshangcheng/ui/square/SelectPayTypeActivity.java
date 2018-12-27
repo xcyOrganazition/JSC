@@ -23,10 +23,6 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.PayResult;
 import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
-import cn.com.jinshangcheng.utils.OrderInfoUtil2_0;
-
-import static cn.com.jinshangcheng.config.ConstParams.APPID;
-import static cn.com.jinshangcheng.config.ConstParams.RSA2_PRIVATE;
 
 public class SelectPayTypeActivity extends BaseActivity {
 
@@ -40,6 +36,7 @@ public class SelectPayTypeActivity extends BaseActivity {
     CheckBox cbWechatPay;
 
     protected static final int SDK_PAY_FLAG = 66;
+    private String orderInfo;
 
 
     @Override
@@ -53,6 +50,8 @@ public class SelectPayTypeActivity extends BaseActivity {
         if (ConstParams.DEBUG) {
             EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         }
+        orderInfo = getIntent().getStringExtra("key");
+
     }
 
     @Override
@@ -121,13 +120,13 @@ public class SelectPayTypeActivity extends BaseActivity {
          *
          * orderInfo 的获取必须来自服务端；
          */
-        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
-        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
+//        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
+//        String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
-        String privateKey = RSA2_PRIVATE;
-        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
-        final String orderInfo = orderParam + "&" + sign;
+//        String privateKey = RSA2_PRIVATE;
+//        String sign = OrderInfoUtil2_0.getSign(params, privateKey, rsa2);
+//        final String orderInfo = orderParam + "&" + sign;
         Logger.w("orderInfo =" + orderInfo);
         final Runnable payRunnable = new Runnable() {
 
@@ -135,7 +134,6 @@ public class SelectPayTypeActivity extends BaseActivity {
             public void run() {
                 PayTask alipay = new PayTask(SelectPayTypeActivity.this);
                 Map<String, String> result = alipay.payV2(orderInfo, true);
-
 
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;

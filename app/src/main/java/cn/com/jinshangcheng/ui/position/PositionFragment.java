@@ -99,6 +99,7 @@ public class PositionFragment extends BaseFragment {
                 break;
         }
     }
+
     @Override
     public void initData() {
 
@@ -161,7 +162,7 @@ public class PositionFragment extends BaseFragment {
     public void drawLocationPoint() {
         if (curLocation != null) {
             BitmapDescriptor bitmap = BitmapDescriptorFactory
-                    .fromResource(R.mipmap.main_position_select);//构建MarkerOption，用于在地图上添加Marker
+                    .fromResource(R.mipmap.people_point);//构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
                     .position(curLocation)
                     .icon(bitmap);
@@ -388,13 +389,13 @@ public class PositionFragment extends BaseFragment {
         @Override
         public BitmapDescriptor getStartMarker() {
             //起始点Marker
-            return BitmapDescriptorFactory.fromResource(R.mipmap.main_position_select);
+            return BitmapDescriptorFactory.fromResource(R.mipmap.people_point);
         }
 
         @Override
         public BitmapDescriptor getTerminalMarker() {
             //结束点Marker
-            return BitmapDescriptorFactory.fromResource(R.mipmap.main_position_select);
+            return BitmapDescriptorFactory.fromResource(R.mipmap.car_point);
         }
     }
 }

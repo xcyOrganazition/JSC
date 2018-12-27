@@ -423,10 +423,10 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/pay/alipay")
-    Observable<BaseBean> getALiOrderInfo(@Field("subject") String subject,
-                                         @Field("out_trade_no") String out_trade_no,
-                                         @Field("total_amount") String total_amount,
-                                         @Field("body") String body);
+    Observable<BaseBean<String>> getALiOrderInfo(@Field("subject") String subject,
+                                                 @Field("out_trade_no") String out_trade_no,
+                                                 @Field("total_amount") String total_amount,
+                                                 @Field("body") String body);
 
     /**
      * 查看我的订单(分页显示)

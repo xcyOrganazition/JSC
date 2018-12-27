@@ -64,16 +64,16 @@ public class WalkingRouteOverlay extends OverlayManager {
                 }
 
                 // 最后路段绘制出口点
-                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine
-                        .getAllStep().size() - 1) && step.getExit() != null) {
-                    overlayList.add((new MarkerOptions())
-                            .position(step.getExit().getLocation())
-                            .anchor(0.5f, 0.5f)
-                            .zIndex(10)
-                            .icon(BitmapDescriptorFactory
-                                    .fromAssetWithDpi("Icon_line_node.png")));
-
-                }
+//                if (mRouteLine.getAllStep().indexOf(step) == (mRouteLine
+//                        .getAllStep().size() - 1) && step.getExit() != null) {
+//                    overlayList.add((new MarkerOptions())
+//                            .position(step.getExit().getLocation())
+//                            .anchor(0.5f, 0.5f)
+//                            .zIndex(10)
+//                            .icon(BitmapDescriptorFactory
+//                                    .fromAssetWithDpi("Icon_line_node.png")));
+//
+//                }
             }
         }
         // starting

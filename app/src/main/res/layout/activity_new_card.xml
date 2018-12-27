@@ -55,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_bg"
+            android:digits="1234567890"
             android:hint="请输入银行卡号"
             android:inputType="phone"
             android:maxLines="1"

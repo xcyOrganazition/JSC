@@ -58,11 +58,14 @@ public class NewCardActivity extends BaseActivity {
 
     @OnClick(R.id.bt_newAddress)
     public void onViewClicked() {
-        if (TextUtils.isEmpty(etCardNum.getText().toString().trim())) {
+        if (TextUtils.isEmpty(etName.getText().toString().trim())) {
             showToast("姓名不能为空");
             return;
-        } else if (TextUtils.isEmpty(etName.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(etCardNum.getText().toString().trim())) {
             showToast("银行卡号不能为空");
+            return;
+        } else if (TextUtils.isDigitsOnly(etCardNum.getText().toString().trim())) {
+            showToast("银行卡号输入有误");
             return;
         } else if (TextUtils.isEmpty(etBank.getText().toString().trim())) {
             showToast("开户行不能为空");

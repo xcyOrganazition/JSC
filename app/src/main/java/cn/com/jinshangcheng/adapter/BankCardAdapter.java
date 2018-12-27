@@ -72,6 +72,8 @@ public class BankCardAdapter extends SwipeMenuAdapter<BankCardAdapter.DefaultVie
         TextView tvCardNum;
         @BindView(R.id.tv_bankAddress)
         TextView tvBankAddress;
+        @BindView(R.id.tv_default)
+        TextView tvDefault;
 
 
         public DefaultViewHolder(View itemView) {
@@ -84,6 +86,9 @@ public class BankCardAdapter extends SwipeMenuAdapter<BankCardAdapter.DefaultVie
             tvBankAddress.setText(String.format("开户行：%s", bean.accountbank));
             tvBankName.setText(bean.accountuser);
             tvCardNum.setText(bean.accountnum);
+            tvDefault.setVisibility(bean.isdefault == 0 ? View.VISIBLE : View.GONE);//0默认 1非默认 每次添加地址如果是唯一的一个，设为默认
+
+
         }
 
         @Override

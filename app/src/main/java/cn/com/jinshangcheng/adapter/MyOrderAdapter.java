@@ -81,7 +81,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
         }
 
         public void setData(OrderBean bean, int position) {
-            tvOrderNumber.setText(bean.getOrderid());
+            tvOrderNumber.setText(String.format("订单号：%s", bean.getOrderid()));
             tvTotal.setText(String.format("总计：%s元", NumberUtils.formatDouble(bean.getTotal())));
             tvAddress.setText(String.format("收货人信息：%s", bean.getAddress()));
             tvOrderDate.setText(String.format("日期：%s", DateUtils.getMMddHMTime(bean.getOrdertime())));
@@ -91,8 +91,12 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
                 btCheckPay.setVisibility(View.INVISIBLE);
             } else if (1 == bean.getOrdertype()) {
                 tvOrderType.setText("线下购买");
-                btCheckPay.setVisibility(View.VISIBLE);
-                btCheckPay.setOnClickListener(this);
+                if (0 == bean.getStatus()) {
+                    btCheckPay.setVisibility(View.VISIBLE);
+                    btCheckPay.setOnClickListener(this);
+                } else {
+                    btCheckPay.setVisibility(View.INVISIBLE);
+                }
             } else if (2 == bean.getOrdertype()) {
                 tvOrderType.setText("赠送");
                 btCheckPay.setVisibility(View.INVISIBLE);

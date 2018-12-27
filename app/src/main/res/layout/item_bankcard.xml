@@ -34,14 +34,31 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_bankName" />
 
     <TextView
+        android:id="@+id/tv_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:background="@drawable/btn_background"
+        android:padding="3dp"
+        android:text="默认"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_bankAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_cardNum" />
+
+
+    <TextView
         android:id="@+id/tv_bankAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="@dimen/padding_top"
         android:text="开户行：北京昌平区西二旗支行"
         android:textColor="#ff666666"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tv_default"
         app:layout_constraintTop_toBottomOf="@id/tv_cardNum" />
 
 </android.support.constraint.ConstraintLayout>

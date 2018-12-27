@@ -168,12 +168,10 @@ public class OrderDetailActivity extends BaseActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
             case R.id.bt_confirm:
-//                getALiOrderInfo();
-                intent = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
-                startActivity(intent);
-//                if (checkInput()) {
-//                    createOrder(getCartItemIds());
-//                }
+
+                if (checkInput()) {
+                    createOrder(getCartItemIds());
+                }
                 break;
             case R.id.tv_offLinePay:
                 if (checkInput()) {
@@ -219,6 +217,16 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onNext(BaseBean<OrderBean> baseBean) {
                         dismissLoading();
                         showToast("创建成功");
+                        OrderBean orderBean = baseBean.data;
+                        String orderName = orderBean.getOrderitems().get(0).getGoodsname();
+                        String orderId = orderBean.getOrderid();
+                        String totalMoney = String.valueOf(orderBean.getTotal());
+                        String describe = "";
+
+                        if (orderBean.getOrderitems().size() > 1) {
+                            orderName += "deng";
+                        }
+                        getALiOrderInfo(orderName, orderId, totalMoney, describe);
                     }
 
                     @Override
@@ -266,18 +274,26 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    public void getALiOrderInfo() {
-        RetrofitService.getRetrofit().getALiOrderInfo("测试订单", "101", "16.6", "我是描述数据")
+    public void getALiOrderInfo(String subject,
+                                String out_trade_no,
+                                String total_amount,
+                                String body) {
+        RetrofitService.getRetrofit().getALiOrderInfo("测试订单", "102", "16.1", "我是描述数据")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean>() {
+                .subscribe(new Observer<BaseBean<String>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(BaseBean baseBean) {
+                    public void onNext(BaseBean<String> baseBean) {
+                        String key = baseBean.data;
+                        Logger.w("秘钥" + key);
+                        Intent intent = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
+                        intent.putExtra("key", key);
+                        startActivity(intent);
 
                     }
 

@@ -68,7 +68,7 @@ public class WithDrawAdapter extends RecyclerView.Adapter<WithDrawAdapter.Holder
 //            builder.setSpan(span, (test.lastIndexOf("，") + 1), test.lastIndexOf("。"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 //            ivText.setText(builder);
 
-            String time = DateUtils.getYMDTime(bean.getUpdatetime());
+            String time = DateUtils.getYMDTime(bean.getRegisttime());
             double money = Math.abs(bean.getDealbalance());
             String type = "";
             switch (bean.getDealtype()) {// 0直推奖 1级差奖 2.已申请提现 3.已打款 4已退款
