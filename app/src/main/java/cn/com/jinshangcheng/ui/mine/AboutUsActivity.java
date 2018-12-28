@@ -1,5 +1,7 @@
 package cn.com.jinshangcheng.ui.mine;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +10,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.widget.UpDateDialog;
 
 public class AboutUsActivity extends BaseActivity {
 
@@ -36,6 +39,16 @@ public class AboutUsActivity extends BaseActivity {
 
     @OnClick(R.id.ll_checkNewVersion)
     public void onViewClicked() {
-        showToast("已经是最新版本");
+        UpDateDialog upDateDialog = new UpDateDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("updateContent", "修复了某某功能。优化了某某功能。");
+        bundle.putBoolean("forceUpdate", true);
+        upDateDialog.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        upDateDialog.show(getFragmentManager(), "updateDialog");
+
+
+//        showToast("已经是最新版本");
     }
 }

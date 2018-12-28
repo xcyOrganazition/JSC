@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
@@ -89,8 +87,13 @@ public class EditAddressActivity extends BaseActivity {
         popupWindow = new CityWheelSelectPopupWindow(this, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvAddress.setText(popupWindow.address);
-                Logger.w("Address" + popupWindow.address);
+
+//                Logger.w("Address" + popupWindow.address);
+                String[] array = popupWindow.address.split(" ");
+                if (array.length > 2) {
+
+                    tvAddress.setText(array[0] + " " + array[1]);
+                }
                 popupWindow.dismiss();
             }
         });

@@ -58,7 +58,7 @@ public class SquareFragment extends BaseFragment {
     private static SquareFragment fragment;
     private List<Goods> goodsList;
     private Map<String, Integer> selectGoodsMap;//选择的商品<GoodsId,GoodsNum>
-    private List<GoodsItemBean> allGoodsItems;
+    public static List<GoodsItemBean> allGoodsItems;
     private GoodsAdapter adapter;
     private TextView tvGoodsNum;
     private double totalPrice;//选择的商品总价格
@@ -269,7 +269,6 @@ public class SquareFragment extends BaseFragment {
 
                     }
                 });
-
     }
 
 
@@ -450,5 +449,11 @@ public class SquareFragment extends BaseFragment {
                 refreshTotalPrice();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshTotalPrice();
     }
 }

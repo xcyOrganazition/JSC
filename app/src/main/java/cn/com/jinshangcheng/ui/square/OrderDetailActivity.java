@@ -22,8 +22,10 @@ import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.bean.OrderBean;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.net.RetrofitServiceForWeiPay;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
+import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -204,27 +206,27 @@ public class OrderDetailActivity extends BaseActivity {
 
     public void createOrder(String cartitemids) {
         showLoading();
-        RetrofitService.getRetrofit().createOrder(MyApplication.getUserId(), cartitemids, address.getAddressid())
+        RetrofitServiceForWeiPay.getRetrofit().createOrder(MyApplication.getUserId(), cartitemids, address.getAddressid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<OrderBean>>() {
+                .subscribe(new Observer<OrderBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(BaseBean<OrderBean> baseBean) {
+                    public void onNext(OrderBean baseBean) {
                         dismissLoading();
                         showToast("创建成功");
-                        OrderBean orderBean = baseBean.data;
+                        OrderBean orderBean = baseBean;
                         String orderName = orderBean.getOrderitems().get(0).getGoodsname();
                         String orderId = orderBean.getOrderid();
                         String totalMoney = String.valueOf(orderBean.getTotal());
                         String describe = "";
 
                         if (orderBean.getOrderitems().size() > 1) {
-                            orderName += "deng";
+                            orderName += "等";
                         }
                         getALiOrderInfo(orderName, orderId, totalMoney, describe);
                     }
@@ -255,7 +257,7 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseBean<OrderBean> baseBean) {
                         dismissLoading();
-                        showToast("创建成功");
+                        SquareFragment.allGoodsItems.clear();//清空购物车
                         Intent intent1 = new Intent(getApplicationContext(), CheckPaymentActivity.class);
                         intent1.putExtra("orderBean", baseBean.data);
                         startActivity(intent1);
@@ -273,12 +275,11 @@ public class OrderDetailActivity extends BaseActivity {
                 });
     }
 
-
-    public void getALiOrderInfo(String subject,
+    public void getALiOrderInfo(final String subject,
                                 String out_trade_no,
-                                String total_amount,
+                                final String total_amount,
                                 String body) {
-        RetrofitService.getRetrofit().getALiOrderInfo("测试订单", "102", "16.1", "我是描述数据")
+        RetrofitService.getRetrofit().getALiOrderInfo(subject, out_trade_no, total_amount, body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseBean<String>>() {
@@ -290,10 +291,15 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(BaseBean<String> baseBean) {
                         String key = baseBean.data;
-                        Logger.w("秘钥" + key);
+//                        Logger.w("秘钥" + key);
                         Intent intent = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
                         intent.putExtra("key", key);
-                        startActivity(intent);
+                        intent.putExtra("des", subject);
+                        intent.putExtra("total", total_amount);
+                        SquareFragment.allGoodsItems.clear();//清空购物车
+                        Intent intent2 = new Intent(getApplicationContext(), MyOrderActivity.class);
+                        startActivities(new Intent[]{intent2, intent});
+                        finish();
 
                     }
 

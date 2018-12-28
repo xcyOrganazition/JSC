@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_padding"
-        android:hint="请输入验证码" />
+        android:hint="请输入验证码"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -1,11 +1,9 @@
 package cn.com.jinshangcheng.ui.square;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.PayResult;
 import cn.com.jinshangcheng.config.ConstParams;
-import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 
 public class SelectPayTypeActivity extends BaseActivity {
 
@@ -37,6 +34,8 @@ public class SelectPayTypeActivity extends BaseActivity {
 
     protected static final int SDK_PAY_FLAG = 66;
     private String orderInfo;
+    private String total;
+    private String des;
 
 
     @Override
@@ -51,11 +50,15 @@ public class SelectPayTypeActivity extends BaseActivity {
             EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         }
         orderInfo = getIntent().getStringExtra("key");
+        des = getIntent().getStringExtra("des");
+        total = getIntent().getStringExtra("total");
 
     }
 
     @Override
     public void initView() {
+        tvDes.setText(des);
+        tvPrice.setText(String.format("¥ %s", total));
         cbAliPay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -93,12 +96,9 @@ public class SelectPayTypeActivity extends BaseActivity {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Logger.w("payResult" + payResult.toString());
                         showToast("支付成功");
-                        Intent intent = new Intent(SelectPayTypeActivity.this, MyOrderActivity.class);
-                        startActivity(intent);
                         finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Log.e("支付失败", "payResult");
                         Logger.w("支付失败" + payResult.toString());
                     }
                     break;

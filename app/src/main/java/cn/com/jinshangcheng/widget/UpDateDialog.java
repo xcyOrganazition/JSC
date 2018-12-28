@@ -1,42 +1,38 @@
 package cn.com.jinshangcheng.widget;
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.com.jinshangcheng.R;
-import cn.com.jinshangcheng.bean.OrderBean;
-import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import cn.com.jinshangcheng.utils.DensityUtil;
 
-public class CheckPaymentDialog extends DialogFragment {
-
-    @BindView(R.id.et_verificationCode)
-    EditText etVerificationCode;
-
-    Unbinder unbinder;
-    private OrderBean orderBean;
+public class UpDateDialog extends DialogFragment {
+    @BindView(R.id.tv_content)
+    TextView tvContent;
+    @BindView(R.id.btn_cancel)
+    Button btnCancel;
+    @BindView(R.id.bt_upDate)
+    Button btUpDate;
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View contentView = inflater.inflate(R.layout.dialog_checkpayment, null);
+        View contentView = inflater.inflate(R.layout.dialog_update, null);
         Window window = this.getDialog().getWindow();
         //去掉dialog默认的padding
         window.getDecorView().setPadding(0, 0, 0, 0);
@@ -50,11 +46,12 @@ public class CheckPaymentDialog extends DialogFragment {
         window.setAttributes(lp);
         window.setBackgroundDrawable(new ColorDrawable());
         unbinder = ButterKnife.bind(this, contentView);
-        return contentView;
-    }
+        Bundle bundle = getArguments();
+        tvContent.setText(bundle.getString("updateContent"));
+        btnCancel.setVisibility(bundle.getBoolean("forceUpdate", false) ? View.GONE : View.VISIBLE);
 
-    public void setOrderBean(OrderBean orderBean) {
-        this.orderBean = orderBean;
+
+        return contentView;
     }
 
     @Override
@@ -63,19 +60,13 @@ public class CheckPaymentDialog extends DialogFragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bt_confirm)
-    public void onViewClicked() {
-
-        InputMethodManager mInputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mInputMethodManager.hideSoftInputFromWindow(etVerificationCode.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-        if (TextUtils.isEmpty(etVerificationCode.getText().toString())) {
-            Toast.makeText(getActivity(), "请输入验证码", Toast.LENGTH_SHORT).show();
-            return;
+    @OnClick({R.id.btn_cancel, R.id.bt_upDate})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_cancel:
+                break;
+            case R.id.bt_upDate:
+                break;
         }
-
-        MyOrderActivity activity = (MyOrderActivity) getActivity();
-        activity.payByPayCode(etVerificationCode.getText().toString());
     }
-
-
 }

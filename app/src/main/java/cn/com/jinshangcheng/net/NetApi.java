@@ -379,10 +379,10 @@ public interface NetApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("/order/createOrder")
-    Observable<BaseBean<OrderBean>> createOrder(@Field("userid") String userId,
-                                                @Field("tCartitems") String cartitemids,
-                                                @Field("addressid") String addressid);
+    @POST("/appOrder/createOrder")
+    Observable<OrderBean> createOrder(@Field("userid") String userId,
+                                      @Field("tCartitems") String cartitemids,
+                                      @Field("addressid") String addressid);
 
     /**
      * 创建线下订单

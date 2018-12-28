@@ -133,7 +133,6 @@ public class MyOrderActivity extends BaseActivity {
     }
 
     public void payByPayCode(String code) {
-        showLoading();
         RetrofitService.getRetrofit().payByPayCode(MyApplication.getUserId(), selectOrderBean.getOrderid(), code)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -145,11 +144,12 @@ public class MyOrderActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseBean baseBean) {
-                        dismissLoading();
-                        if (dialog != null) {
-                            dialog.dismiss();
+                        showToast(baseBean.message);
+                        if ("0".equals(baseBean.code)) {
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
                         }
-
                     }
 
                     @Override
