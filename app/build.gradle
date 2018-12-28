@@ -91,6 +91,8 @@ dependencies {
     //环信
 //    implementation 'com.hyphenate:hyphenate-sdk-lite:3.5.0'
     implementation files('src/main/jniLibs/hyphenatechat_3.5.2.jar')
-    implementation(name: 'onsdk_all', ext: 'aar')
-    implementation(name: 'NaviTts', ext: 'aar')
+//    implementation(name: 'onsdk_all', ext: 'aar')
+//    implementation(name: 'NaviTts', ext: 'aar')
+    compile project(':onsdk_all')
+    compile(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }
