@@ -16,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitService {
 
-    public static final String HOST = "http://jiekou.jinshangcheng.com.cn:8080";
-//    public static final String HOST = "http://jiekou.jinshangcheng.com.cn";
+    //    public static final String HOST = "http://jiekou.jinshangcheng.com.cn:8080";//测试环境
+    public static final String HOST = "http://weixin.jinshangcheng.com.cn";//正式环境
 
     private static final String BASE_URL = HOST + "";
 

@@ -25,7 +25,6 @@ import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.net.RetrofitServiceForWeiPay;
 import cn.com.jinshangcheng.ui.mine.AddressManageActivity;
 import cn.com.jinshangcheng.ui.mine.EditAddressActivity;
-import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -218,17 +217,12 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onNext(OrderBean baseBean) {
                         dismissLoading();
-                        showToast("创建成功");
+                        showToast("订单创建成功");
                         OrderBean orderBean = baseBean;
-                        String orderName = orderBean.getOrderitems().get(0).getGoodsname();
-                        String orderId = orderBean.getOrderid();
-                        String totalMoney = String.valueOf(orderBean.getTotal());
-                        String describe = "";
-
-                        if (orderBean.getOrderitems().size() > 1) {
-                            orderName += "等";
-                        }
-                        getALiOrderInfo(orderName, orderId, totalMoney, describe);
+                        SquareFragment.allGoodsItems.clear();//清空购物车
+                        Intent intent1 = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
+                        intent1.putExtra("orderBean", orderBean);
+                        startActivity(intent1);
                     }
 
                     @Override
@@ -275,46 +269,7 @@ public class OrderDetailActivity extends BaseActivity {
                 });
     }
 
-    public void getALiOrderInfo(final String subject,
-                                String out_trade_no,
-                                final String total_amount,
-                                String body) {
-        RetrofitService.getRetrofit().getALiOrderInfo(subject, out_trade_no, total_amount, body)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<String>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(BaseBean<String> baseBean) {
-                        String key = baseBean.data;
-//                        Logger.w("秘钥" + key);
-                        Intent intent = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
-                        intent.putExtra("key", key);
-                        intent.putExtra("des", subject);
-                        intent.putExtra("total", total_amount);
-                        SquareFragment.allGoodsItems.clear();//清空购物车
-                        Intent intent2 = new Intent(getApplicationContext(), MyOrderActivity.class);
-                        startActivities(new Intent[]{intent2, intent});
-                        finish();
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoading();
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                });
-
-    }
 
     public String getCartItemIds() {
         StringBuffer cartItemIds = new StringBuffer("");

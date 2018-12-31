@@ -27,6 +27,7 @@ import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.ViolationBean;
+import cn.com.jinshangcheng.bean.WXPayBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
@@ -413,6 +414,17 @@ public interface NetApi {
                                       @Field("payCode") String payCode);
 
     /**
+     * 微信支付信息
+     *
+     * @param orderid 订单id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/appOrder/appprepay")
+    Observable<WXPayBean> getWXPayInfo(
+                                    @Field("orderid") String orderid);
+
+    /**
      * 获取支付宝加签的订单信息字符串
      *
      * @param subject      订单名称
@@ -423,7 +435,7 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/pay/alipay")
-    Observable<BaseBean<String>> getALiOrderInfo(@Field("subject") String subject,
+    Observable<BaseBean<String>> getALiPayInfo(@Field("subject") String subject,
                                                  @Field("out_trade_no") String out_trade_no,
                                                  @Field("total_amount") String total_amount,
                                                  @Field("body") String body);
