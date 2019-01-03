@@ -64,9 +64,6 @@ public class NewCardActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(etCardNum.getText().toString().trim())) {
             showToast("银行卡号不能为空");
             return;
-        } else if (TextUtils.isDigitsOnly(etCardNum.getText().toString().trim())) {
-            showToast("银行卡号输入有误");
-            return;
         } else if (TextUtils.isEmpty(etBank.getText().toString().trim())) {
             showToast("开户行不能为空");
             return;

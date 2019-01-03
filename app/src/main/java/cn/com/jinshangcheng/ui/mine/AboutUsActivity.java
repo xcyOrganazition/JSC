@@ -8,9 +8,17 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.VersionBean;
+import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.widget.UpDateDialog;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class AboutUsActivity extends BaseActivity {
 
@@ -34,7 +42,7 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     public void initView() {
         ivRedPoint.setVisibility(View.INVISIBLE);
-
+        checkNewVersion();
     }
 
     @OnClick(R.id.ll_checkNewVersion)
@@ -51,4 +59,35 @@ public class AboutUsActivity extends BaseActivity {
 
 //        showToast("已经是最新版本");
     }
+
+    private void checkNewVersion() {
+        RetrofitService.getRetrofit().checkNewVersion(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<VersionBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<VersionBean> baseBean) {
+                        if ("0".equals(baseBean.code)) {
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
 }

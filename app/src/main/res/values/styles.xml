@@ -13,7 +13,7 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@mipmap/ic_login_bg</item>
+        <item name="android:windowBackground">@mipmap/splash_bg</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

@@ -107,14 +107,16 @@ public class MyOrderActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseListBean<OrderBean> orderBeanBaseListBean) {
-                        refreshLayout.finishRefresh();
-                        refreshLayout.finishLoadMore();
-                        if (orderBeanBaseListBean.getBeanList() != null) {
-                            orderList.addAll(orderBeanBaseListBean.getBeanList());
-                            adapter.refresData(orderList);
-                        }
-                        if (page == 1 && !ArrayUtils.hasContent(orderBeanBaseListBean.getBeanList())) {
-                            showToast("暂无订单");
+                        if (refreshLayout != null) {
+                            refreshLayout.finishRefresh();
+                            refreshLayout.finishLoadMore();
+                            if (orderBeanBaseListBean.getBeanList() != null) {
+                                orderList.addAll(orderBeanBaseListBean.getBeanList());
+                                adapter.refresData(orderList);
+                            }
+                            if (page == 1 && !ArrayUtils.hasContent(orderBeanBaseListBean.getBeanList())) {
+                                showToast("暂无订单");
+                            }
                         }
                     }
 

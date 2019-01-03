@@ -4,6 +4,7 @@ package cn.com.jinshangcheng.ui.position;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -39,7 +41,11 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteLine;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
+import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
+import com.baidu.navisdk.adapter.IBaiduNaviManager;
 import com.orhanobut.logger.Logger;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,6 +53,8 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.utils.MapUtils;
 import cn.com.jinshangcheng.utils.WalkingRouteOverlay;
+
+import static cn.com.jinshangcheng.config.ConstParams.APP_FOLDER_NAME;
 
 /**
  * 位置模块
@@ -57,13 +65,23 @@ public class PositionFragment extends BaseFragment {
     MapView mapView;
     @BindView(R.id.switch_Traffic)
     Switch switchTraffic;
+    @BindView(R.id.et_destination)
+    EditText etDestination;
     private LocationClient locationClient;
 
     public boolean getLoactionSuccesss = false;
     public boolean getCarPositionSuccesss = false;
 
+    private static final String[] authBaseArr = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    private static final int authBaseRequestCode = 1;
+
     public LatLng carPosition;
     public LatLng curLocation;
+    private String mSDCardPath;
+    private boolean hasInitSuccess;
 
 
     public PositionFragment() {
@@ -87,21 +105,23 @@ public class PositionFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_position, null, false);
     }
 
-    @OnClick(R.id.bt_goNavigation)
+    @OnClick(R.id.bt_goLeadRoad)
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.bt_goNavigation:
+            case R.id.bt_goLeadRoad:
                 Intent intent = new Intent(getActivity(), LeadRoadActivity.class);
+                intent.putExtra("destination", etDestination.getText().toString());
                 startActivity(intent);
                 break;
-            case R.id.bt_login:
 
-                break;
         }
     }
 
     @Override
     public void initData() {
+        if (initDirs()) {
+//            initNavi();
+        }
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         locationClient = new LocationClient(getActivity().getApplicationContext());
@@ -141,7 +161,86 @@ public class PositionFragment extends BaseFragment {
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         locationOption.setOpenAutoNotifyMode(10000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         locationClient.setLocOption(locationOption);
+        locationClient.start();
+    }
 
+    private boolean initDirs() {
+        mSDCardPath = getSdcardDir();
+        if (mSDCardPath == null) {
+            return false;
+        }
+        File f = new File(mSDCardPath, APP_FOLDER_NAME);
+        if (!f.exists()) {
+            try {
+                f.mkdir();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasBasePhoneAuth() {
+        PackageManager pm = getContext().getPackageManager();
+        for (String auth : authBaseArr) {
+            if (pm.checkPermission(auth, getContext().getPackageName()) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private void initNavi() {
+        // 申请权限
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            if (!hasBasePhoneAuth()) {
+                this.requestPermissions(authBaseArr, authBaseRequestCode);
+                return;
+            }
+        }
+
+        BaiduNaviManagerFactory.getBaiduNaviManager().init(getActivity(),
+                mSDCardPath, APP_FOLDER_NAME, new IBaiduNaviManager.INaviInitListener() {
+
+                    @Override
+                    public void onAuthResult(int status, String msg) {
+                        String result;
+                        if (0 == status) {
+                            result = "key校验成功!";
+                        } else {
+                            result = "key校验失败, " + msg;
+                        }
+                        Logger.w("百度地图权限" + result);
+                    }
+
+                    @Override
+                    public void initStart() {
+                        Logger.w("百度导航引擎初始化开始");
+                    }
+
+                    @Override
+                    public void initSuccess() {
+                        Logger.w("百度导航引擎初始化成功");
+                        hasInitSuccess = true;
+                        // 初始化tts
+//                        initTTS();
+                    }
+
+                    @Override
+                    public void initFailed() {
+                        Logger.w("百度导航引擎初始化失败");
+                    }
+                });
+
+    }
+
+    private String getSdcardDir() {
+        if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            return Environment.getExternalStorageDirectory().toString();
+        }
+        return null;
     }
 
     public void setCarPosition(LatLng carPosition) {
@@ -218,6 +317,7 @@ public class PositionFragment extends BaseFragment {
             //开启定位权限,200是标识码
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         } else {
+            Logger.w("开始定位");
             locationClient.start();//开始定位
         }
     }
@@ -282,7 +382,7 @@ public class PositionFragment extends BaseFragment {
             //获取经度信息
             double longitude = location.getLongitude();
 
-//            Logger.w("经度" + longitude);
+            Logger.w("定位的经度" + longitude + "定位的纬度" + latitude);
 //            Logger.w("纬度" + latitude);
             //获取定位精度，默认值为0.0f
             float radius = location.getRadius();
@@ -372,10 +472,6 @@ public class PositionFragment extends BaseFragment {
 
             }
         });
-        PlanNode stMassNode = PlanNode.withCityNameAndPlaceName("北京", "西二旗地铁站");
-        PlanNode enMassNode = PlanNode.withCityNameAndPlaceName("北京", "百度科技园");
-//        mSearch.walkingSearch((new WalkingRoutePlanOption())
-//                .from(stMassNode).to(enMassNode));
         mSearch.walkingSearch((new WalkingRoutePlanOption())
                 .from(PlanNode.withLocation(start)).to(PlanNode.withLocation(end)));
     }

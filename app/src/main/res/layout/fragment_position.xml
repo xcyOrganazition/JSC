@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.position.PositionFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -15,14 +15,36 @@
     <Switch
         android:id="@+id/switch_Traffic"
         android:layout_width="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/common_padding"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toBottomOf="@+id/ll" />
 
-    <Button
-        android:id="@+id/bt_goNavigation"
-        android:layout_width="wrap_content"
-        android:text="测试导航"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_padding"
+        android:background="@color/backGroundGary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_destination"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/common_padding"
+            android:layout_weight="1"
+            android:hint="目的地"
+            android:text="北国商城" />
+
+        <Button
+            android:id="@+id/bt_goLeadRoad"
+            style="@style/commonButton"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="导航" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
