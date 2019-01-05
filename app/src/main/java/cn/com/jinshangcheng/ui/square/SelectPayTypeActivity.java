@@ -28,6 +28,7 @@ import cn.com.jinshangcheng.bean.PayResult;
 import cn.com.jinshangcheng.bean.WXPayBean;
 import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
+import cn.com.jinshangcheng.net.RetrofitServiceForWeiPay;
 import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -68,12 +69,11 @@ public class SelectPayTypeActivity extends BaseActivity {
 
 
         orderBean = (OrderBean) getIntent().getSerializableExtra("orderBean");
-//        orderInfo = getIntent().getStringExtra("key");
-//        orderName = orderBean.getOrderitems().get(0).getGoodsname();
-//        total = String.valueOf(orderBean.getTotal());
+        orderName = orderBean.getOrderitems().get(0).getGoodsname();
+        total = String.valueOf(orderBean.getTotal());
 
-        orderName = "测试订单";
-        total = "0.01 ";
+//        orderName = "测试订单";
+//        total = "0.01 ";
 
 
         String describe = "";
@@ -113,6 +113,7 @@ public class SelectPayTypeActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
+                    dismissLoading();
                     @SuppressWarnings("unchecked")
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -228,7 +229,7 @@ public class SelectPayTypeActivity extends BaseActivity {
     //获取微信支付加密数据
     private void getWXPayData() {
 
-        RetrofitService.getRetrofit().getWXPayInfo(orderBean.getOrderid())
+        RetrofitServiceForWeiPay.getRetrofit().getWXPayInfo(orderBean.getOrderid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<WXPayBean>() {

@@ -26,6 +26,7 @@ import cn.com.jinshangcheng.bean.StealthBean;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
 import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.bean.VersionBean;
 import cn.com.jinshangcheng.bean.ViolationBean;
 import cn.com.jinshangcheng.bean.WXPayBean;
 import cn.com.jinshangcheng.bean.WithdrawBean;
@@ -422,7 +423,7 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/appOrder/appprepay")
     Observable<WXPayBean> getWXPayInfo(
-                                    @Field("orderid") String orderid);
+            @Field("orderid") String orderid);
 
     /**
      * 获取支付宝加签的订单信息字符串
@@ -436,9 +437,9 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/pay/alipay")
     Observable<BaseBean<String>> getALiPayInfo(@Field("subject") String subject,
-                                                 @Field("out_trade_no") String out_trade_no,
-                                                 @Field("total_amount") String total_amount,
-                                                 @Field("body") String body);
+                                               @Field("out_trade_no") String out_trade_no,
+                                               @Field("total_amount") String total_amount,
+                                               @Field("body") String body);
 
     /**
      * 查看我的订单(分页显示)
@@ -913,7 +914,7 @@ public interface NetApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/updateUserInfo")
+    @POST("/user/updateUserInfo")
     Observable<BaseBean> updateUserInfo(@Field("userid") String userId,
                                         @Field("name") String name,
                                         @Field("phoneNumber") String phoneNumber,
@@ -930,7 +931,7 @@ public interface NetApi {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/updateUserInfo")
+    @POST("/user/updateUserInfo")
     Observable<BaseBean> updateUserPhone(@Field("userid") String userId,
                                          @Field("phonenumber") String phoneNumber);
 
@@ -940,9 +941,22 @@ public interface NetApi {
      * @return
      */
 
-    @POST("user/uploadAppHeadPic")
+    @POST("/user/uploadAppHeadPic")
     Observable<BaseBean> uploadHeadImg(
             @Body RequestBody body);
+
+    /**
+     * 检查新版本
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/version/queryVersion")
+    Observable<BaseBean<VersionBean>> checkNewVersion(@Field("userid") String userId);
+
+    String downloadApkUrl = RetrofitService.HOST + "/version/download";
+
 
 }
 

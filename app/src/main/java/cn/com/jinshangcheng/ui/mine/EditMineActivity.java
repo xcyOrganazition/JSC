@@ -71,6 +71,7 @@ public class EditMineActivity extends BaseActivity {
 
     private String selectImgPath = "";//选择的图片路径
     private int sex;//0男  1女
+    private String cityFullName = "";//省+市
     private String city = "";//市
     private String province = "";//省
     private CityWheelSelectPopupWindow popupWindow;
@@ -87,7 +88,9 @@ public class EditMineActivity extends BaseActivity {
     public void initData() {
         userBean = MyApplication.getUserBean();
         if (!TextUtils.isEmpty(userBean.province) && !TextUtils.isEmpty(userBean.city)) {
-            city = userBean.province + " " + userBean.city;
+            cityFullName = userBean.province + " " + userBean.city;
+            city = userBean.city;
+            province = userBean.province;
         }
         sex = userBean.sex;
     }
@@ -96,10 +99,12 @@ public class EditMineActivity extends BaseActivity {
     public void initView() {
         GlideUtils.loadHeadImage(getApplicationContext(), userBean.apppic, ivHeadImg, true);
         etName.setText(userBean.name);
-        etName.setSelection(userBean.name.length());
+        if (!TextUtils.isEmpty(userBean.name)) {
+            etName.setSelection(userBean.name.length());
+        }
         etNickName.setText(userBean.weixinname);
         etPhone.setText(userBean.phonenumber);
-        tvCity.setText(city);
+        tvCity.setText(cityFullName);
         rbFemale.setChecked(userBean.sex == 1);
         rbMale.setChecked(userBean.sex == 0);
 

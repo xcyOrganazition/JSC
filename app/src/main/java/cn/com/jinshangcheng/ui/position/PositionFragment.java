@@ -161,7 +161,6 @@ public class PositionFragment extends BaseFragment {
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         locationOption.setOpenAutoNotifyMode(10000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         locationClient.setLocOption(locationOption);
-        locationClient.start();
     }
 
     private boolean initDirs() {
@@ -309,6 +308,7 @@ public class PositionFragment extends BaseFragment {
                 mapView.getMap().setTrafficEnabled(isChecked);
             }
         });
+        locationClient.start();
     }
 
     public void checkLoactionPermission() {
@@ -345,6 +345,7 @@ public class PositionFragment extends BaseFragment {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         if (mapView != null) {
+            mapView.getMap().clear();
             mapView.onDestroy();
         }
     }

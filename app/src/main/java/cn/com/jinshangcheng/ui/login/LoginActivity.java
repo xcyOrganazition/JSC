@@ -135,12 +135,12 @@ public class LoginActivity extends BaseActivity {
 
         View focusView = null;
 
-//        if (TextUtils.isEmpty(phoneNum)) {
-//            etPhoneNum.setError("请输入手机号");
-//            focusView = etPhoneNum;
-//            return;
-//
-//        }
+        if (TextUtils.isEmpty(phoneNum)) {
+            etPhoneNum.setError("请输入手机号");
+            focusView = etPhoneNum;
+            return;
+
+        }
 //        if (TextUtils.isEmpty(password)) {
 //            etPassword.setError("请输入验证码");
 //            etPassword.requestFocus();

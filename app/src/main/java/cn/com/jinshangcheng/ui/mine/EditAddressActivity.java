@@ -144,7 +144,7 @@ public class EditAddressActivity extends BaseActivity {
                     public void onNext(BaseBean<Address> bean) {
                         showToast(bean.message);
                         Intent intent = new Intent();
-                        intent.putExtra("addressBean", bean);
+                        intent.putExtra("addressBean", bean.data);
                         setResult(RESULT_CODE, intent);
                         finish();
                     }

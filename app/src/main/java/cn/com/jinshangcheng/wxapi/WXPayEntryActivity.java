@@ -14,8 +14,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.config.ConstParams;
+import cn.com.jinshangcheng.ui.mine.MyOrderActivity;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -25,7 +25,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_us);
         api = WXAPIFactory.createWXAPI(this, ConstParams.WX_APP_ID);
         api.handleIntent(getIntent(), this);
     }
@@ -52,14 +51,16 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         Log.e("onPayFinish", " errCode = " + resp.errCode);
         Log.e("onPayFinish", " type = " + resp.getType());
 
-
-        Toast.makeText(this, "baseresp.getType = " + resp.getType(), Toast.LENGTH_SHORT).show();
-
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK://支付成功
-
+                Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(WXPayEntryActivity.this, MyOrderActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
+                Toast.makeText(this, "支付取消", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 break;
@@ -69,7 +70,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
 
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 
 }

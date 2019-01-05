@@ -78,9 +78,8 @@ public class AboutUsActivity extends BaseActivity {
 
                     @Override
                     public void onNext(BaseBean<VersionBean> baseBean) {
-                        if ("0".equals(baseBean.code)) {
+                        if ("0".equals(baseBean.code) && null != baseBean.data) {
                             String newVersionString = baseBean.data.appversion;
-
                             checkNeedUpdate(newVersionString.split("\\."));
                         }
 

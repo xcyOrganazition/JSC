@@ -15,7 +15,7 @@ public class NumberUtils {
         if (d == -9999) {
             return "-";
         }
-        DecimalFormat df = new DecimalFormat("#");
+        DecimalFormat df = new DecimalFormat("#.#");
         String s = df.format(d);
         return s;
     }

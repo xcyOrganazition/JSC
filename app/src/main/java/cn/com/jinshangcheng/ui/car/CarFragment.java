@@ -43,6 +43,7 @@ import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
 import cn.com.jinshangcheng.bean.PositionBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
+import cn.com.jinshangcheng.ui.MainActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.DateUtils;
@@ -90,7 +91,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
     private static CarFragment carFragment;
     private static int REQUEST_CODE = 0x11;
     public static int RESULT_CODE = 0x12;
-    private List<CarBean> carList = new ArrayList<>();
+    private List<CarBean> carList;
 
     public CarPresenter mPresenter;
     private CarListPagerAdapter adapter;
@@ -125,8 +126,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
 
     @Override
     public void initData() {
-
-
+        carList = new ArrayList<>();
     }
 
     @Override
@@ -286,6 +286,9 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         } else {//无车辆数据
             tvEmptyView.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).setCarPosition(null);
+            }
         }
     }
 
@@ -491,6 +494,7 @@ public class CarFragment extends BaseFragment implements CarContract.IView {
         if (bdMapView != null) {
             bdMapView.onDestroy();
         }
+
         if (mSearch != null) {
             mSearch.destroy();
         }

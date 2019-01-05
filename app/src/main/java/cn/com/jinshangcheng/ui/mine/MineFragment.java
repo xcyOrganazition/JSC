@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alipay.sdk.app.EnvUtils;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.jinshangcheng.MyApplication;
@@ -133,7 +131,11 @@ public class MineFragment extends BaseFragment {
 //        tvWxName.setText(String.format("%s%s", getResources().getString(R.string.wxName), userBean.weixinname));
         tvPhone.setText(String.format("%s%s", getResources().getString(R.string.phoneNum), userBean.phonenumber));
         tvLevel.setText(String.format("%s%s", getResources().getString(R.string.level), getRankText(userBean.userlevel)));
-        GlideUtils.loadHeadImage(getHoldingActivity(), userBean.apppic, ivHeadImg, true);
+        String imgUrl = userBean.apppic;
+        if (!TextUtils.isEmpty(imgUrl) && imgUrl.contains("\\")) {
+            imgUrl = imgUrl.replace("\\", "/");
+        }
+        GlideUtils.loadHeadImage(getHoldingActivity(), imgUrl, ivHeadImg, true);
     }
 
     //会员等级
@@ -197,8 +199,6 @@ public class MineFragment extends BaseFragment {
             getActivity().startActivity(intent);
         }
     }
-
-
 
 
     public void goToEditMine() {
