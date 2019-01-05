@@ -135,7 +135,6 @@
         <activity android:name=".extra.explain.activity.HistoricaltrackActivity" />
         <activity android:name=".extra.explain.activity.TrackDetailActivity" />
         <activity android:name=".extra.explain.activity.CarConditionDetailActivity" />
-        <activity android:name=".extra.explain.activity.CarDetectionActivity" />
         <activity android:name=".extra.explain.activity.CarExceptionActivity" />
         <activity
             android:name=".extra.explain.activity.ReportActivity"
@@ -218,7 +217,6 @@
         <activity android:name=".ui.car.RoadHelpActivity" />
         <!-- 隐身 -->
         <activity android:name=".ui.mine.StealthManageActivity" />
-        <activity android:name=".ui.position.LeadRoadActivity" />
         <!-- 解除绑定 -->
         <activity android:name=".ui.mine.UnbindBoxActivity" />
         <!-- 违章查询 -->

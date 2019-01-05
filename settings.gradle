@@ -1,1 +1,1 @@
-include ':app',':cstonlibray'
+include ':app',':cstonlibray', ':onsdk_all'

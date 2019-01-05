@@ -2,9 +2,7 @@ package cn.com.jinshangcheng.ui.position;
 
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,11 +39,7 @@ import com.baidu.mapapi.search.route.TransitRouteResult;
 import com.baidu.mapapi.search.route.WalkingRouteLine;
 import com.baidu.mapapi.search.route.WalkingRoutePlanOption;
 import com.baidu.mapapi.search.route.WalkingRouteResult;
-import com.baidu.navisdk.adapter.BaiduNaviManagerFactory;
-import com.baidu.navisdk.adapter.IBaiduNaviManager;
 import com.orhanobut.logger.Logger;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,8 +47,6 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.utils.MapUtils;
 import cn.com.jinshangcheng.utils.WalkingRouteOverlay;
-
-import static cn.com.jinshangcheng.config.ConstParams.APP_FOLDER_NAME;
 
 /**
  * 位置模块
@@ -109,9 +101,9 @@ public class PositionFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_goLeadRoad:
-                Intent intent = new Intent(getActivity(), LeadRoadActivity.class);
-                intent.putExtra("destination", etDestination.getText().toString());
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), LeadRoadActivity.class);
+//                intent.putExtra("destination", etDestination.getText().toString());
+//                startActivity(intent);
                 break;
 
         }
@@ -119,9 +111,6 @@ public class PositionFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        if (initDirs()) {
-//            initNavi();
-        }
 
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         locationClient = new LocationClient(getActivity().getApplicationContext());
@@ -161,85 +150,6 @@ public class PositionFragment extends BaseFragment {
         //设置打开自动回调位置模式，该开关打开后，期间只要定位SDK检测到位置变化就会主动回调给开发者
         locationOption.setOpenAutoNotifyMode(10000, 1, LocationClientOption.LOC_SENSITIVITY_HIGHT);
         locationClient.setLocOption(locationOption);
-    }
-
-    private boolean initDirs() {
-        mSDCardPath = getSdcardDir();
-        if (mSDCardPath == null) {
-            return false;
-        }
-        File f = new File(mSDCardPath, APP_FOLDER_NAME);
-        if (!f.exists()) {
-            try {
-                f.mkdir();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean hasBasePhoneAuth() {
-        PackageManager pm = getContext().getPackageManager();
-        for (String auth : authBaseArr) {
-            if (pm.checkPermission(auth, getContext().getPackageName()) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    private void initNavi() {
-        // 申请权限
-        if (android.os.Build.VERSION.SDK_INT >= 23) {
-            if (!hasBasePhoneAuth()) {
-                this.requestPermissions(authBaseArr, authBaseRequestCode);
-                return;
-            }
-        }
-
-        BaiduNaviManagerFactory.getBaiduNaviManager().init(getActivity(),
-                mSDCardPath, APP_FOLDER_NAME, new IBaiduNaviManager.INaviInitListener() {
-
-                    @Override
-                    public void onAuthResult(int status, String msg) {
-                        String result;
-                        if (0 == status) {
-                            result = "key校验成功!";
-                        } else {
-                            result = "key校验失败, " + msg;
-                        }
-                        Logger.w("百度地图权限" + result);
-                    }
-
-                    @Override
-                    public void initStart() {
-                        Logger.w("百度导航引擎初始化开始");
-                    }
-
-                    @Override
-                    public void initSuccess() {
-                        Logger.w("百度导航引擎初始化成功");
-                        hasInitSuccess = true;
-                        // 初始化tts
-//                        initTTS();
-                    }
-
-                    @Override
-                    public void initFailed() {
-                        Logger.w("百度导航引擎初始化失败");
-                    }
-                });
-
-    }
-
-    private String getSdcardDir() {
-        if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
-            return Environment.getExternalStorageDirectory().toString();
-        }
-        return null;
     }
 
     public void setCarPosition(LatLng carPosition) {
