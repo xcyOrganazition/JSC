@@ -11,9 +11,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
 
+import com.amap.api.navi.AmapNaviPage;
+import com.amap.api.navi.AmapNaviParams;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -57,8 +58,6 @@ public class PositionFragment extends BaseFragment {
     MapView mapView;
     @BindView(R.id.switch_Traffic)
     Switch switchTraffic;
-    @BindView(R.id.et_destination)
-    EditText etDestination;
     private LocationClient locationClient;
 
     public boolean getLoactionSuccesss = false;
@@ -97,15 +96,19 @@ public class PositionFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_position, null, false);
     }
 
-    @OnClick(R.id.bt_goLeadRoad)
+    @OnClick({R.id.tv_destination, R.id.bt_goLeadRoad})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_goLeadRoad:
-//                Intent intent = new Intent(getActivity(), LeadRoadActivity.class);
-//                intent.putExtra("destination", etDestination.getText().toString());
-//                startActivity(intent);
+//                com.amap.api.maps.model.LatLng p2 = new com.amap.api.maps.model.LatLng(39.917337, 116.397056);//故宫博物院
+//                AmapNaviPage.getInstance().showRouteActivity(getActivity().getApplicationContext(),
+//                        new AmapNaviParams(null, null, new Poi("故宫博物院", p2, ""),
+//                                AmapNaviType.DRIVER), null);
+                AmapNaviPage.getInstance().showRouteActivity(context, new AmapNaviParams(null), null);
                 break;
-
+            case R.id.tv_destination:
+                AmapNaviPage.getInstance().showRouteActivity(context, new AmapNaviParams(null), null);
+                break;
         }
     }
 

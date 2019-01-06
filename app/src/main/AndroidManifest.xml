@@ -70,6 +70,15 @@
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1120181128010801#a123" />
+        <!-- 高德地图配置 -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="a5dd9e8b7d5d12447f569dea00d5aa5d" />
+
+        <activity
+            android:name="com.amap.api.navi.AmapRouteActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+
         <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
@@ -231,13 +240,13 @@
         <activity
             android:name=".ui.mine.ChangePhoneActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!--一键检测-->
+        <!-- 一键检测 -->
         <activity android:name=".ui.car.CarCheckActivity" />
-        <!--一键检测详情-->
+        <!-- 一键检测详情 -->
         <activity android:name=".ui.car.CheckDetailActivity" />
-        <!--选择支付方式-->
+        <!-- 选择支付方式 -->
         <activity android:name=".ui.square.SelectPayTypeActivity" />
-        <!--如何获取验证码-->
+        <!-- 如何获取验证码 -->
         <activity android:name=".ui.square.HowToActivity" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
@@ -252,17 +261,19 @@
             </intent-filter>
         </receiver>
 
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="com.jsc.fileprovider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/filepath" />-->
-        <!--</provider>-->
+        <service android:name="com.amap.api.location.APSService" />
 
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="com.jsc.fileprovider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/filepath" /> -->
+        <!-- </provider> -->
 
+        <activity android:name=".ui.position.NavigationActivity"></activity>
     </application>
 
 </manifest>

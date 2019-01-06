@@ -2,7 +2,7 @@ package cn.com.jinshangcheng.config;
 
 public class ConstParams {
 
-    public static final boolean DEBUG = true;//是否debug模式
+    public static final boolean DEBUG = false;//是否debug模式
 
     //网络请求相关
     public static final long WRITE_TIMEOUT = 60;//写超时

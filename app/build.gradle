@@ -93,7 +93,9 @@ dependencies {
     implementation files('src/main/jniLibs/hyphenatechat_3.5.2.jar')
     //    implementation(name: 'onsdk_all', ext: 'aar')
     //    implementation(name: 'NaviTts', ext: 'aar')
-//    compile project(':onsdk_all')
+    //    compile project(':onsdk_all')
     compile(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    //    compile(name: 'AMap3DMap_6.6.0_AMapNavi_6.4.0_AMapLocation_4.3.0_20181221', ext: 'aar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
+    implementation files('src/main/jniLibs/AMap3DMap_6.6.0_AMapNavi_6.5.0_AMapSearch_6.5.0_AMapLocation_4.4.0_20181221.jar')
 }
