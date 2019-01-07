@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -23,9 +24,13 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.orhanobut.logger.Logger;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import butterknife.BindView;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
@@ -34,6 +39,7 @@ import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
+import cn.com.jinshangcheng.utils.MediaUtils;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 import cn.com.jinshangcheng.widget.TittleBar;
 
@@ -95,7 +101,9 @@ public class MainActivity extends BaseActivity {
 
         initTabItem();
         tittleBar.hideNavigation();//隐藏返回键
-        loginHX("appTest", "123456");//登陆环信
+        if (!TextUtils.isEmpty(MyApplication.getUserBean().accid)) {
+            loginHX(MyApplication.getUserId(), MyApplication.getUserBean().accid);//登陆环信
+        }
     }
 
     public void loginHX(String userName, String password) {
@@ -129,10 +137,11 @@ public class MainActivity extends BaseActivity {
                 for (EMMessage message : messages) {
                     Logger.w("发送人：" + message.getFrom());
                     int startIndex = message.getBody().toString().indexOf("\"");
-                    String jsonString = message.getBody().toString().substring(startIndex);
-                    Logger.w("json内容：" + jsonString);
+                    String body = message.getBody().toString().substring(startIndex);
+                    String jsonString = body.substring(1, body.length() - 1);
+                    Logger.w(jsonString);
 
-
+                    formatJsonAndPlaySound(jsonString);
                 }
             }
 
@@ -162,6 +171,20 @@ public class MainActivity extends BaseActivity {
             }
         };
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
+    }
+
+    private void formatJsonAndPlaySound(String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            int code = jsonObject.getInt("code");
+            if (1 == code) {
+                MediaUtils.playMusic(getApplication(), R.raw.car_start);
+            } else if (0 == code) {
+                MediaUtils.playMusic(getApplication(), R.raw.car_stop);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
