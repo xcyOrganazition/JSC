@@ -43,6 +43,11 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <!--打包之前需要修改的
+        1.版本号版本id
+        2.两个RetrofitService
+        3.Config中的debug改
+        4.环信Key-->
 
     <application
         android:name=".MyApplication"
@@ -66,10 +71,14 @@
             android:value="uAcUkjBkRBNQAhAaZ6dEtwH5t1pp9QjW" />
 
         <!-- 环信SDK配置 -->
-        <!-- 设置环信应用的AppKey -->
+        <!-- 测试环境环信应用的AppKey -->
+        <!--<meta-data-->
+        <!--android:name="EASEMOB_APPKEY"-->
+        <!--android:value="1120181128010801#a123" />-->
+        <!-- 正式环境环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1120181128010801#a123" />
+            android:value="1101181029089437#supercar" />
         <!-- 高德地图配置 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"

@@ -98,13 +98,15 @@ public class BindBoxActivity extends BaseActivity {
                         dismissLoading();
                         showToast(baseBean.message);
                         if ("0".equals(baseBean.code)) {
-                            if (isFromCarManage) {
-                                setResult(AddCarActivity.RESULT_CODE);
-                                finish();
-                            } else {
+                            setResult(AddCarActivity.RESULT_CODE);
+                            finish();
+//                            if (isFromCarManage) {
+//                                setResult(AddCarActivity.RESULT_CODE);
+//                                finish();
+//                            } else {
 //                                Intent intent = new Intent(BindBoxActivity.this, MainActivity.class);
 //                                startActivity(intent);
-                            }
+//                            }
                         }
                     }
 

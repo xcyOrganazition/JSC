@@ -97,7 +97,11 @@ public class EditMineActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        GlideUtils.loadHeadImage(getApplicationContext(), userBean.apppic, ivHeadImg, true);
+        String imgUrl = userBean.apppic;
+        if (!TextUtils.isEmpty(imgUrl) && imgUrl.contains("\\")) {
+            imgUrl = imgUrl.replace("\\", "/");
+        }
+        GlideUtils.loadHeadImage(getApplicationContext(), imgUrl, ivHeadImg, true);
         etName.setText(userBean.name);
         if (!TextUtils.isEmpty(userBean.name)) {
             etName.setSelection(userBean.name.length());

@@ -74,18 +74,18 @@ public class CheckDetailActivity extends BaseActivity {
         perresidualfue.setText(TextUtils.isEmpty(checkData.perresidualfue) ? "" : checkData.perresidualfue);
         rpm.setText(String.valueOf(checkData.rpm));
         speed.setText(String.valueOf(checkData.speed));
-        onflowct.setText(String.valueOf(checkData.onflowct));
-        coolantct.setText(String.valueOf(checkData.coolantct));
-        environmentct.setText(String.valueOf(checkData.environmentct));
-        airpressure.setText(String.valueOf(checkData.airpressure));
-        fuelpressure.setText(String.valueOf(checkData.fuelpressure));
-        airflow.setText(String.valueOf(checkData.airflow));
-        tvp.setText(String.valueOf(checkData.tvp));
-        pedalposition.setText(String.valueOf(checkData.pedalposition));
-        engineRuntime.setText(String.valueOf(checkData.engineruntime));
-        enginePayload.setText(String.valueOf(checkData.enginepayload));
-        lfueltrim.setText(String.valueOf(checkData.lfueltrim));
-        ciaa.setText(String.valueOf(checkData.ciaa));
+        onflowct.setText(formatData(checkData.onflowct));
+        coolantct.setText(formatData(checkData.coolantct));
+        environmentct.setText(formatData(checkData.environmentct));
+        airpressure.setText(formatData(checkData.airpressure));
+        fuelpressure.setText(formatData(checkData.fuelpressure));
+        airflow.setText(formatData(checkData.airflow));
+        tvp.setText(formatData(checkData.tvp));
+        pedalposition.setText(formatData(checkData.pedalposition));
+        engineRuntime.setText(formatData(checkData.engineruntime));
+        enginePayload.setText(formatData(checkData.enginepayload));
+        lfueltrim.setText(formatData(checkData.lfueltrim));
+        ciaa.setText(formatData(checkData.ciaa));
 
 
 //        batteryvoltage.setText(NumberUtils.formatCheckData(checkData.batteryvoltage));
@@ -106,6 +106,23 @@ public class CheckDetailActivity extends BaseActivity {
 //        enginePayload.setText(NumberUtils.formatCheckData(checkData.enginepayload));
 //        lfueltrim.setText(NumberUtils.formatCheckData(checkData.lfueltrim));
 //        ciaa.setText(NumberUtils.formatCheckData(checkData.ciaa));
+
+    }
+
+    private String formatData(String data) {
+        if (TextUtils.isEmpty(data)) {
+            return "-";
+        }
+        try {
+            Double b = Double.parseDouble(data);
+            if (b == -9999) {
+                return "0";
+            } else {
+                return data;
+            }
+        } catch (Exception e) {
+            return "-";
+        }
 
     }
 

@@ -16,6 +16,7 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.Address;
 import cn.com.jinshangcheng.bean.BaseBean;
+import cn.com.jinshangcheng.bean.FuckingBaseBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.CommonUtils;
 import cn.com.jinshangcheng.widget.CityWheelSelectPopupWindow;
@@ -133,7 +134,7 @@ public class EditAddressActivity extends BaseActivity {
                 cbDefaultAddress.isChecked() ? 0 : 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<Address>>() {
+                .subscribe(new Observer<FuckingBaseBean<Address>>() {
 
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -141,10 +142,10 @@ public class EditAddressActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BaseBean<Address> bean) {
+                    public void onNext(FuckingBaseBean<Address> bean) {
                         showToast(bean.message);
                         Intent intent = new Intent();
-                        intent.putExtra("addressBean", bean.data);
+                        intent.putExtra("addressBean", bean.address);
                         setResult(RESULT_CODE, intent);
                         finish();
                     }

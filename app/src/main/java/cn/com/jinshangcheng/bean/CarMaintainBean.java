@@ -17,7 +17,7 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
 
     private long insurancedeadline;
     private String cartype;
-    private int totalmileage;
+    private String totalmileage;
     private MaintainBean maintain;
     private long carregistdate;
     private long annualtrialdeadline;
@@ -40,11 +40,11 @@ public class CarMaintainBean extends BaseBean<CarMaintainBean> {
         this.cartype = cartype;
     }
 
-    public int getTotalmileage() {
+    public String getTotalmileage() {
         return totalmileage;
     }
 
-    public void setTotalmileage(int totalmileage) {
+    public void setTotalmileage(String totalmileage) {
         this.totalmileage = totalmileage;
     }
 

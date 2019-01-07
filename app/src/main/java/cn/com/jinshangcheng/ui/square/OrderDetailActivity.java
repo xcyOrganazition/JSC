@@ -223,6 +223,7 @@ public class OrderDetailActivity extends BaseActivity {
                         Intent intent1 = new Intent(getApplicationContext(), SelectPayTypeActivity.class);
                         intent1.putExtra("orderBean", orderBean);
                         startActivity(intent1);
+                        finish();
                     }
 
                     @Override
@@ -268,7 +269,6 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                 });
     }
-
 
 
     public String getCartItemIds() {

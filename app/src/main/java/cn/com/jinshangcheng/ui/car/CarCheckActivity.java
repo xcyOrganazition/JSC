@@ -248,7 +248,7 @@ public class CarCheckActivity extends BaseActivity {
         //保养数据
         if (null != carMaintainBean.getMaintain()) {//保养信息
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
-            double remain = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - carMaintainBean.getTotalmileage();
+            double remain = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - Double.parseDouble(carMaintainBean.getTotalmileage());
             remain = remain - (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
             if (remain < 500 && remain > 0) {
                 littleProblemNumber++;

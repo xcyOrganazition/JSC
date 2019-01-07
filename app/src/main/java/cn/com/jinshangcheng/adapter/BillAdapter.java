@@ -91,16 +91,13 @@ public class BillAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         @BindView(R.id.iv_text)
         TextView ivText;
 
-
         public Holder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-
         }
 
         public void setData(WithdrawBean bean, int position) {
-            String time = DateUtils.getYMDTime(bean.getUpdatetime());
+            String time = DateUtils.getYMDTime(bean.getRegisttime());
             double money = Math.abs(bean.getDealbalance());
             String type = "";
             switch (bean.getDealtype()) {// 0直推奖 1级差奖 2.已申请提现 3.已打款 4已退款

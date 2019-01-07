@@ -13,6 +13,7 @@ import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.BaseListBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.CarMaintainBean;
+import cn.com.jinshangcheng.bean.FuckingBaseBean;
 import cn.com.jinshangcheng.bean.Goods;
 import cn.com.jinshangcheng.bean.GoodsItemBean;
 import cn.com.jinshangcheng.bean.IncomeBean;
@@ -494,12 +495,12 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/address/addAddress")
-    Observable<BaseBean<Address>> addAddress(@Field("userid") String userId,
-                                             @Field("receiver") String receiver,
-                                             @Field("phonenumber") String phonenumber,
-                                             @Field("city") String city,
-                                             @Field("detailaddress") String detailaddress,
-                                             @Field("isdefault") int isdefault);
+    Observable<FuckingBaseBean<Address>> addAddress(@Field("userid") String userId,
+                                                    @Field("receiver") String receiver,
+                                                    @Field("phonenumber") String phonenumber,
+                                                    @Field("city") String city,
+                                                    @Field("detailaddress") String detailaddress,
+                                                    @Field("isdefault") int isdefault);
 
     /**
      * 修改地址
