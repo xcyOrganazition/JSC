@@ -139,18 +139,17 @@ public class LoginActivity extends BaseActivity {
             etPhoneNum.setError("请输入手机号");
             focusView = etPhoneNum;
             return;
-
         }
-//        if (TextUtils.isEmpty(password)) {
-//            etPassword.setError("请输入验证码");
-//            etPassword.requestFocus();
-//            return;
-//        }
-//        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
-//            etPassword.setError("验证码不正确");
-//            focusView = etPassword;
-//            return;
-//        }
+        if (TextUtils.isEmpty(password)) {
+            etPassword.setError("请输入验证码");
+            etPassword.requestFocus();
+            return;
+        }
+        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
+            etPassword.setError("验证码不正确");
+            focusView = etPassword;
+            return;
+        }
         doLogin(phoneNum);
     }
 

@@ -1,8 +1,10 @@
 package cn.com.jinshangcheng.ui.car;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class MaintenanceActivity extends BaseActivity {
     TextView tvNearTime;
     private String time = "";
     private CarMaintainBean.MaintainBean maintainBean;
+    private CarMaintainBean carMaintainBean;
 
 
     @Override
@@ -47,7 +50,7 @@ public class MaintenanceActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        CarMaintainBean carMaintainBean = (CarMaintainBean) getIntent().getSerializableExtra("maintainBean");
+        carMaintainBean = (CarMaintainBean) getIntent().getSerializableExtra("maintainBean");
         if (carMaintainBean != null && null != carMaintainBean.getMaintain()) {
             maintainBean = carMaintainBean.getMaintain();
         }
@@ -55,12 +58,14 @@ public class MaintenanceActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        if (carMaintainBean != null && carMaintainBean.getTotalmileage() != null) {
+            etTotalMile.setText(String.valueOf(carMaintainBean.getTotalmileage()));//行驶总里程
+            etTotalMile.setSelection(String.valueOf(carMaintainBean.getTotalmileage()).length());
+        }
         if (null != maintainBean) {
-            etTotalMile.setText(String.valueOf(maintainBean.getMileage()));//行驶总里程
             etNearMile.setText(String.valueOf(maintainBean.getLastmaintainmileage()));//最近保养历程
             etIntervalMile.setText(String.valueOf(maintainBean.getMaintenanceinterval()));//保养间隔
             tvNearTime.setText(DateUtils.getYMDTime(maintainBean.getLastmaintaintime()));//最近保养时间
-            etTotalMile.setSelection(String.valueOf(maintainBean.getMileage()).length());
         }
     }
 
@@ -108,8 +113,13 @@ public class MaintenanceActivity extends BaseActivity {
         confirmMaintain();
     }
 
-    //提交保险时间
+    //提交保养时间
     public void confirmMaintain() {
+
+        InputMethodManager mInputMethodManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(etIntervalMile.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        mInputMethodManager.hideSoftInputFromWindow(etNearMile.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        mInputMethodManager.hideSoftInputFromWindow(etTotalMile.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
         showLoading();
         RetrofitService.getRetrofit().confirmMaintain(

@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onError(int code, String message) {
-                Logger.e("登录聊天服务器失败");
+                Logger.e("聊天服务器失败  code = " + code + "   message  = " + message);
             }
         });
 
@@ -299,6 +299,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //退出环信
+        EMClient.getInstance().logout(true);
         //移除环信消息监听
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
     }
