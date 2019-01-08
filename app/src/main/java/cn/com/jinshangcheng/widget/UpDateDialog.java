@@ -1,5 +1,6 @@
 package cn.com.jinshangcheng.widget;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
@@ -195,6 +196,7 @@ public class UpDateDialog extends DialogFragment {
     /**
      * 接收消息
      */
+    @SuppressLint("HandlerLeak")
     private Handler mUpdateProgressHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -210,8 +212,6 @@ public class UpDateDialog extends DialogFragment {
                     installAPK();
             }
         }
-
-        ;
     };
 
 

@@ -43,12 +43,14 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <!--打包之前需要修改的
+
+    <!--
+    打包之前需要修改的
         1.版本号版本id
         2.两个RetrofitService
         3.Config中的debug改
-        4.环信Key-->
-
+        4.环信Key
+    -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -72,9 +74,9 @@
 
         <!-- 环信SDK配置 -->
         <!-- 测试环境环信应用的AppKey -->
-        <!--<meta-data-->
-        <!--android:name="EASEMOB_APPKEY"-->
-        <!--android:value="1120181128010801#a123" />-->
+        <!-- <meta-data -->
+        <!-- android:name="EASEMOB_APPKEY" -->
+        <!-- android:value="1120181128010801#a123" /> -->
         <!-- 正式环境环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -257,6 +259,11 @@
         <activity android:name=".ui.square.SelectPayTypeActivity" />
         <!-- 如何获取验证码 -->
         <activity android:name=".ui.square.HowToActivity" />
+        <!--服务协议-->
+        <activity android:name=".ui.login.AgreementActivity" />
+        <!--车辆故障-->
+        <activity android:name=".ui.car.TroubleDetailActivity" />
+
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -281,8 +288,7 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/filepath" /> -->
         <!-- </provider> -->
-
-        <activity android:name=".ui.position.NavigationActivity"></activity>
+        
     </application>
 
 </manifest>

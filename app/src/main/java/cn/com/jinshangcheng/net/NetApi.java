@@ -26,6 +26,7 @@ import cn.com.jinshangcheng.bean.ReportBean;
 import cn.com.jinshangcheng.bean.StealthBean;
 import cn.com.jinshangcheng.bean.TravelBean;
 import cn.com.jinshangcheng.bean.TravelPointBean;
+import cn.com.jinshangcheng.bean.TroubleBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.VersionBean;
 import cn.com.jinshangcheng.bean.ViolationBean;
@@ -131,6 +132,18 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/car/getCheckReport")
     Observable<BaseBean<CheckDataBean>> getCheckReport(@Field("carid") String carid, @Field("userid") String userId);
+
+    /**
+     * 获取车的保养保险年审信息
+     *
+     * @param userid
+     * @param carid
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/car/queryCarTrouble")
+    Observable<BaseBean<List<TroubleBean>>> getCarTroubleInfo(@Field("userid") String userid,
+                                                              @Field("carid") String carid);
 
     /**
      * 一键检测历史数据查询

@@ -1,5 +1,6 @@
 package cn.com.jinshangcheng.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -63,6 +65,8 @@ public class LoginActivity extends BaseActivity {
     CheckBox cbAccept;
     @BindView(R.id.bt_login)
     Button btLogin;
+    @BindView(R.id.tv_agreement)
+    TextView tvAgreement;
     private long finishTime;
     private long coldDown = 120000;//120s 冷却时间
     private String countDownHint;//倒计时显示文字
@@ -126,7 +130,10 @@ public class LoginActivity extends BaseActivity {
 
     //验证输入是否正确
     private void attemptLogin() {
-        CommonUtils.hideSoftKeyboard(this);
+        InputMethodManager mInputMethodManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(etPhoneNum.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        mInputMethodManager.hideSoftInputFromWindow(etPassword.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+
         etPhoneNum.setError(null);
         etPassword.setError(null);
 
@@ -150,6 +157,11 @@ public class LoginActivity extends BaseActivity {
             focusView = etPassword;
             return;
         }
+        if (!cbAccept.isChecked()) {
+            showToast("请阅读并同意服务协议");
+            return;
+        }
+
         doLogin(phoneNum);
     }
 
@@ -306,7 +318,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_code, R.id.bt_login})
+    @OnClick({R.id.bt_code, R.id.bt_login, R.id.tv_agreement})
     public void onViewClicked(View view) {
         CommonUtils.hideSoftKeyboard(LoginActivity.this);
 
@@ -316,6 +328,10 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.bt_login://登陆
                 attemptLogin();
+                break;
+            case R.id.tv_agreement://查看协议
+                Intent intent = new Intent(LoginActivity.this, AgreementActivity.class);
+                startActivity(intent);
                 break;
         }
     }

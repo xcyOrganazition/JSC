@@ -1,15 +1,13 @@
-package cn.com.jinshangcheng.ui.position;
-
+package cn.com.jinshangcheng.ui.login;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 
-public class NavigationActivity extends BaseActivity {
-
+public class AgreementActivity extends BaseActivity {
 
     @Override
     public int setContentViewResource() {
-        return R.layout.activity_navigation;
+        return R.layout.activity_agreement;
     }
 
     @Override

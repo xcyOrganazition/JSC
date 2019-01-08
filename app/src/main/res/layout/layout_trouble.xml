@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_bg_gary_outline"
+    android:orientation="vertical"
+    android:padding="@dimen/common_padding">
+
+    <TextView
+        android:id="@+id/tv_dtcName"
+        style="@style/textMiddle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/common_padding"
+        android:text="故障名称" />
+
+    <TextView
+        android:id="@+id/tv_dtc"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_top"
+        android:text="故障码" />
+
+    <TextView
+        android:id="@+id/tv_causeAnalysis"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_top" />
+
+    <TextView
+        android:id="@+id/tv_consequences"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_top" />
+
+    <TextView
+        android:id="@+id/tv_suggestion"
+        style="@style/textSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

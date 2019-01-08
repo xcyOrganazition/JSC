@@ -283,19 +283,21 @@ public class CarCheckActivity extends BaseActivity {
 
     @OnClick({R.id.tv_checkDetail, R.id.tv_malfunction})
     public void onViewClicked(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.tv_checkDetail:
                 if (checkData == null) {
                     showToast("暂无检测数据");
                     return;
                 }
-                Intent intent = new Intent(CarCheckActivity.this, CheckDetailActivity.class);
+                intent = new Intent(CarCheckActivity.this, CheckDetailActivity.class);
                 intent.putExtra("checkedBean", checkData);
                 startActivity(intent);
                 break;
-            case R.id.tv_malfunction:
+            case R.id.tv_malfunction://故障详情
                 if (checkData != null && checkData.malfunctionnum != 0) {
-
+                    intent = new Intent(CarCheckActivity.this, TroubleDetailActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }
