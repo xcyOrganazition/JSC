@@ -51,7 +51,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 登陆
+ * 登录
  */
 public class LoginActivity extends BaseActivity {
 
