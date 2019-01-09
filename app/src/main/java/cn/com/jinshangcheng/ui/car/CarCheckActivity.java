@@ -66,6 +66,8 @@ public class CarCheckActivity extends BaseActivity {
     private CarMaintainBean carMaintainBean;//检测数据
     private int littleProblemNumber;//小问题数量
     private CheckDataBean lastCheckData;//上次的检测数据
+    private Thread delayThread;
+    private boolean activityIsAlive = true;
 
     @Override
     public int setContentViewResource() {
@@ -81,6 +83,21 @@ public class CarCheckActivity extends BaseActivity {
         if (null == mOpenCarId) {
 //            showToast("未获取到车辆Id");
         }
+
+        delayThread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    Thread.sleep(1500);//休眠1.5秒
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (activityIsAlive) {
+                    requestData();
+                }
+            }
+        };
     }
 
     @Override
@@ -91,18 +108,7 @@ public class CarCheckActivity extends BaseActivity {
 //        rotationAnim.setRepeatCount(ValueAnimator.INFINITE);//无限循环
         rotationAnim.start();
 
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    Thread.sleep(1500);//休眠2秒
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                requestData();
-            }
-        }.start();
+        delayThread.start();
     }
 
     private void initCarView() {
@@ -301,6 +307,12 @@ public class CarCheckActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        activityIsAlive = false;
     }
 
     public int getBgColor() {
