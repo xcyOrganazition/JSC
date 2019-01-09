@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -101,9 +100,9 @@ public class MainActivity extends BaseActivity {
 
         initTabItem();
         tittleBar.hideNavigation();//隐藏返回键
-        if (!TextUtils.isEmpty(MyApplication.getUserBean().accid)) {
-            loginHX(MyApplication.getUserId(), MyApplication.getUserBean().accid);//登陆环信
-        }
+//        if (!TextUtils.isEmpty(MyApplication.getUserBean().accid)) {
+        loginHX(MyApplication.getUserId(), "123");//登陆环信
+//        }
     }
 
     public void loginHX(String userName, String password) {
