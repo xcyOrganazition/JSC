@@ -1,5 +1,6 @@
 package cn.com.jinshangcheng.ui.car;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -401,10 +403,10 @@ public class CarReportActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_previousDay, R.id.iv_nextDay})
+    @OnClick({R.id.iv_previousDay, R.id.iv_nextDay, R.id.tv_date})
     public void onViewClicked(View view) {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
+        final SimpleDateFormat sdfDay = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyy-MM");
         page = 1;//重置分页数据
         switch (view.getId()) {
@@ -421,6 +423,8 @@ public class CarReportActivity extends BaseActivity {
                         currentDate = sdfMonth.format(calendar.getTime());
                         getMonthTravelList();
                     }
+                    tvDate.setText(currentDate);
+                    getDateReport();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -438,13 +442,34 @@ public class CarReportActivity extends BaseActivity {
                         currentDate = sdfMonth.format(calendar.getTime());
                         getMonthTravelList();
                     }
+                    tvDate.setText(currentDate);
+                    getDateReport();
                 } catch (ParseException e1) {
                     e1.printStackTrace();
                 }
                 break;
+            case R.id.tv_date://点击时间弹出时间选择框
+                try {
+                    calendar.setTime(sdfDay.parse(currentDate));
+                    if (dateType == DAY) {
+                        new DatePickerDialog(CarReportActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                Calendar calendar1 = Calendar.getInstance();
+                                calendar1.set(year, month, dayOfMonth);
+                                currentDate = sdfDay.format(calendar1.getTime());
+                                tvDate.setText(currentDate);
+                                getDayTravelList();
+                                getDateReport();
+                            }
+                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
-        tvDate.setText(currentDate);
-        getDateReport();
+
     }
 
     /**
@@ -493,5 +518,6 @@ public class CarReportActivity extends BaseActivity {
         }
 
     }
+
 
 }
