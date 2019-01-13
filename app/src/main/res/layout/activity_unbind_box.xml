@@ -10,7 +10,7 @@
     <cn.com.jinshangcheng.widget.TittleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backVisible="false"
+        app:backVisible="true"
         app:centerText="解绑盒子" />
 
     <TextView
