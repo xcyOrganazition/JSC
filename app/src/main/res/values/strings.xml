@@ -94,7 +94,7 @@
     <string name="prompt_password">请输入短信验证码</string>
     <string name="login_hint">请输入手机号</string>
     <string name="countDownHint">%ss后重新获取</string>
-    <string name="acceptLicense">《尚锦城软件服务协议》</string>
+    <string name="acceptLicense">《锦尚城软件服务协议》</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

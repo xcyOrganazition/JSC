@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/padding_top"
-            android:text="锦尚程车辆盒子APP"
+            android:text="锦尚程"
             android:textColor="@color/white"
             android:textSize="14sp" />
 
