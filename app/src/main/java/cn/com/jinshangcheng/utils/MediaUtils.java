@@ -4,11 +4,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class MediaUtils {
-    private static MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer = new MediaPlayer();
 
     public static void playMusic(Context context, int mediaResId) {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
+        if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
             mediaPlayer.reset();
             mediaPlayer = MediaPlayer.create(context, mediaResId);
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -20,11 +19,11 @@ public class MediaUtils {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                    }
+//                    if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+//                        mediaPlayer.reset();
+//                        mediaPlayer.release();
+//                        mediaPlayer = null;
+//                    }
                 }
             });
         }
