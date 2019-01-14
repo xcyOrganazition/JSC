@@ -151,7 +151,7 @@ public class UpDateDialog extends DialogFragment {
                     if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                         String sdPath = Environment.getExternalStorageDirectory() + "/";
 //                      文件保存路径
-                        mSavePath = sdPath + "download";
+                        mSavePath = sdPath + "Download";
 
                         File dir = new File(mSavePath);
                         if (!dir.exists()) {
@@ -207,7 +207,7 @@ public class UpDateDialog extends DialogFragment {
                     break;
                 case 2:
                     // 隐藏当前下载对话框
-                    mDownloadDialog.dismiss();
+                    dismiss();
                     // 安装 APK 文件
                     installAPK();
             }
