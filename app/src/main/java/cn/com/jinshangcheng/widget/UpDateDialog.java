@@ -54,6 +54,7 @@ public class UpDateDialog extends DialogFragment {
     private boolean mIsCancel;
     private int mProgress;
     private String fileName = "锦尚程.apk";
+    private Activity activity;
 
     @Nullable
     @Override
@@ -88,6 +89,7 @@ public class UpDateDialog extends DialogFragment {
                 return false;
             }
         });
+        activity = getActivity();
         return contentView;
     }
 
@@ -135,7 +137,6 @@ public class UpDateDialog extends DialogFragment {
 
         mDownloadDialog = builder.create();
         mDownloadDialog.show();
-
         // 下载文件
         downloadAPK(url);
     }
@@ -210,6 +211,7 @@ public class UpDateDialog extends DialogFragment {
                     dismiss();
                     // 安装 APK 文件
                     installAPK();
+                    break;
             }
         }
     };
@@ -219,17 +221,19 @@ public class UpDateDialog extends DialogFragment {
      * 下载到本地后执行安装
      */
     protected void installAPK() {
+//        String sdPath = Environment.getExternalStorageDirectory() + "/";
+//        mSavePath = sdPath + "Download";
         File apkFile = new File(mSavePath + "/" + fileName);
         if (!apkFile.exists()) {
             return;
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
-//      安装完成后，启动app（源码中少了这句话）
+//      安装完成后，启动app
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri uri = Uri.parse("file://" + apkFile.toString());
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
-        getActivity().startActivity(intent);
+        if (activity != null) {
+            activity.startActivity(intent);
+        }
     }
-
-
 }

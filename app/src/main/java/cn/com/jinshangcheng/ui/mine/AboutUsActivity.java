@@ -1,6 +1,5 @@
 package cn.com.jinshangcheng.ui.mine;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -45,7 +44,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        tvVersion.setText(String.format("当前版本：v %s", getVerName()));
+        tvVersion.setText(String.format("当前版本：v %s", VersionUtils.getVerName(this)));
         ivRedPoint.setVisibility(View.INVISIBLE);
         checkNewVersion();
     }
@@ -98,7 +97,7 @@ public class AboutUsActivity extends BaseActivity {
     }
 
     private void checkNeedUpdate(String[] newVersionStrs) {
-        String appVersion = getVerName();
+        String appVersion = VersionUtils.getVerName(getApplicationContext());
         String[] curVersionStrs = appVersion.split("\\.");
         if (Integer.parseInt(newVersionStrs[0]) > Integer.parseInt(curVersionStrs[0])) {
             forceUpdate = true;
@@ -113,25 +112,6 @@ public class AboutUsActivity extends BaseActivity {
             forceUpdate = false;
             needUpdate = false;
         }
-        forceUpdate = true;
-        needUpdate = true;
+        ivRedPoint.setVisibility(needUpdate ? View.VISIBLE : View.INVISIBLE);
     }
-
-
-    /**
-     * 获取版本号名称
-     *
-     * @return
-     */
-    public String getVerName() {
-        String verName = "";
-        try {
-            verName = this.getPackageManager().
-                    getPackageInfo(this.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return verName;
-    }
-
 }

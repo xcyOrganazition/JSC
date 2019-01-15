@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,10 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.bean.VersionBean;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.GlideUtils;
+import cn.com.jinshangcheng.widget.UpDateDialog;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -32,12 +35,17 @@ public class MineFragment extends BaseFragment {
     private static MineFragment mineFragment;
     @BindView(R.id.iv_headImg)
     ImageView ivHeadImg;
+    @BindView(R.id.iv_redPoint)
+    ImageView ivRedPoint;
     @BindView(R.id.tv_userName)
     TextView tvUserName;
     @BindView(R.id.tv_phone)
     TextView tvPhone;
     @BindView(R.id.tv_level)
     TextView tvLevel;
+
+    private boolean needUpdate;//是否需要更新
+    private boolean forceUpdate;//是否强制更新
 
     public MineFragment() {
         // Required empty public constructor
@@ -69,6 +77,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public void initView() {
         refreshUserData();
+        checkNewVersion();
     }
 
 
@@ -123,6 +132,68 @@ public class MineFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    private void checkNewVersion() {
+        RetrofitService.getRetrofit().checkNewVersion(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean<VersionBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<VersionBean> baseBean) {
+                        if ("0".equals(baseBean.code) && null != baseBean.data) {
+                            String newVersionString = baseBean.data.appversion;
+                            checkNeedUpdate(newVersionString.split("\\."));
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void checkNeedUpdate(String[] newVersionStrs) {
+        String appVersion = VersionUtils.getVerName(getActivity());
+        String[] curVersionStrs = appVersion.split("\\.");
+        if (Integer.parseInt(newVersionStrs[0]) > Integer.parseInt(curVersionStrs[0])) {
+            forceUpdate = true;
+            needUpdate = true;
+        } else if (Integer.parseInt(newVersionStrs[1]) > Integer.parseInt(curVersionStrs[1])) {
+            forceUpdate = true;
+            needUpdate = true;
+        } else if (Integer.parseInt(newVersionStrs[2]) > Integer.parseInt(curVersionStrs[2])) {
+            forceUpdate = false;
+            needUpdate = true;
+        } else {
+            forceUpdate = false;
+            needUpdate = false;
+        }
+
+        if (needUpdate) {
+            ivRedPoint.setVisibility(View.VISIBLE);
+        }
+        if (forceUpdate) {
+            UpDateDialog upDateDialog = new UpDateDialog();
+            Bundle bundle = new Bundle();
+            bundle.putString("updateContent", "优化了部分功能。");
+            bundle.putBoolean("forceUpdate", forceUpdate);
+            upDateDialog.setArguments(bundle);
+            upDateDialog.show(getActivity().getFragmentManager(), "updateDialog");
+        }
+
     }
 
     public void refreshUserData() {
