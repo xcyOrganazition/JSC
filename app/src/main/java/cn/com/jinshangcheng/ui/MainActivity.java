@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Vibrator;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -177,8 +178,13 @@ public class MainActivity extends BaseActivity {
             JSONObject jsonObject = new JSONObject(jsonString);
             int code = jsonObject.getInt("code");
             if (1 == code) {
+                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+                long[] patter = {300, 300, 300, 300};
+                vibrator.vibrate(patter, -1);
                 MediaUtils.playMusic(getApplication(), R.raw.car_start);
             } else if (0 == code) {
+                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+                vibrator.vibrate(1000);
                 MediaUtils.playMusic(getApplication(), R.raw.car_stop);
             }
         } catch (JSONException e) {

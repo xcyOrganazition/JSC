@@ -225,8 +225,8 @@ public interface NetApi {
      */
     @FormUrlEncoded
     @POST("/car/getBreakRule")
-    Observable<ViolationBean> getViolation(@Field("carid") String carid,
-                                           @Field("userid") String userId);
+    Observable<BaseBean<ViolationBean>> getViolation(@Field("carid") String carid,
+                                                     @Field("userid") String userId);
 
     /**
      * 获取用车报告 日报告

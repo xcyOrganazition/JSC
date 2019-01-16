@@ -74,13 +74,15 @@ public class TravelActivity extends BaseActivity {
         LatLng endPoint = MapUtils.changeMapTerm(new LatLng(travelPointList.get(travelPointList.size() - 1).latitude,
                 travelPointList.get(travelPointList.size() - 1).longitude));
         BitmapDescriptor startBitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.ic_location);//构建MarkerOption，用于在地图上添加Marker
+                .fromResource(R.mipmap.ic_start_point);//构建MarkerOption，用于在地图上添加Marker
+        BitmapDescriptor endBitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.ic_end_point);//构建MarkerOption，用于在地图上添加Marker
         OverlayOptions option1 = new MarkerOptions()
                 .position(startPoint)
                 .icon(startBitmap);
         OverlayOptions option2 = new MarkerOptions()
                 .position(endPoint)
-                .icon(startBitmap);
+                .icon(endBitmap);
         bdMapView.getMap().addOverlay(option1);//在地图上绘制起始点
         bdMapView.getMap().addOverlay(option2);//在地图上绘制结束点
         LatLngBounds.Builder builder = new LatLngBounds.Builder();

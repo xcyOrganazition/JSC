@@ -13,6 +13,7 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.ViolationAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.CarBean;
 import cn.com.jinshangcheng.bean.ViolationBean;
 import cn.com.jinshangcheng.net.RetrofitService;
@@ -81,7 +82,7 @@ public class ViolationActivity extends BaseActivity {
 
         } else {
             //有违章数据
-            tvViolationNum.setText(violationDetailList.size());
+            tvViolationNum.setText(String.valueOf(violationDetailList.size()));
             ViolationAdapter adapter = new ViolationAdapter(violationDetailList, ViolationActivity.this);
             recyclerView.setLayoutManager(new LinearLayoutManager(ViolationActivity.this));
             recyclerView.setAdapter(adapter);
@@ -95,17 +96,17 @@ public class ViolationActivity extends BaseActivity {
                 MyApplication.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ViolationBean>() {
+                .subscribe(new Observer<BaseBean<ViolationBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(ViolationBean violationBean) {
+                    public void onNext(BaseBean<ViolationBean> violationBean) {
                         dismissLoading();
                         if ("0".equals(violationBean.code)) {
-                            refreshListView(violationBean.getViolationDetailList());
+                            refreshListView(violationBean.data.getViolationDetailList());
                         } else {
                             showToast(violationBean.message);
                         }
