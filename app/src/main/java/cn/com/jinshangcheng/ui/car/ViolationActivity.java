@@ -107,8 +107,14 @@ public class ViolationActivity extends BaseActivity {
                         dismissLoading();
                         if ("0".equals(violationBean.code)) {
                             refreshListView(violationBean.data.getViolationDetailList());
-                        } else {
+                        } else if ("1".equals(violationBean.code)) {
                             showToast(violationBean.message);
+                            tvViolationNum.setText("0");
+                        } else if ("2".equals(violationBean.code)) {
+                            showToast(violationBean.message);
+                            tvViolationNum.setText("0");
+                        } else if ("3".equals(violationBean.code)) {
+                            tvViolationNum.setText(violationBean.message);
                         }
                     }
 
