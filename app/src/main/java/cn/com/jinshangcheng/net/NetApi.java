@@ -48,14 +48,25 @@ import retrofit2.http.POST;
 public interface NetApi {
 
     /**
-     * 登录
+     * 登录（老接口 已不用）
      *
      * @param phoneNumber
      * @return bean
      */
     @FormUrlEncoded
+    @Deprecated
     @POST("/user/registOrLogin")
     Observable<LoginBean> login(@Field("phoneNumber") String phoneNumber);
+
+    /**
+     * 根据手机号查询用户信息
+     *
+     * @param phoneNumber
+     * @return bean
+     */
+    @FormUrlEncoded
+    @POST("/user/queryUserInfoByPhone")
+    Observable<BaseBean<UserBean>> loginNew(@Field("phoneNumber") String phoneNumber);
 
     /**
      * 获取验证码
@@ -68,16 +79,29 @@ public interface NetApi {
     Call<JsonObject> getVerifyCode(@Field("phoneNumber") String phoneNumber);
 
     /**
-     * 设置推荐人
+     * 设置推荐人 不再使用
+     *
+     * @param userid
+     * @param parentPhoneNum
+     * @return bean
+     */
+    @Deprecated
+    @FormUrlEncoded
+    @POST("/user/updateUserParentId")
+    Call<JsonObject> upDateParentId(@Field("userid") String userid,
+                                    @Field("parentPhoneNum") String parentPhoneNum);
+
+    /**
+     * 设置推荐人 新
      *
      * @param userid
      * @param parentPhoneNum
      * @return bean
      */
     @FormUrlEncoded
-    @POST("/user/updateUserParentId")
-    Call<JsonObject> upDateParentId(@Field("userid") String userid,
-                                    @Field("parentPhoneNum") String parentPhoneNum);
+    @POST("/user/registOrLoginNew")
+    Observable<LoginBean> registOrLoginNew(@Field("phoneNumber") String userid,
+                                      @Field("parentPhoneNumber") String parentPhoneNum);
 
     /**
      * 获取用户信息

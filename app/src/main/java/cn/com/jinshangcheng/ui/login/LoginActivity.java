@@ -147,22 +147,23 @@ public class LoginActivity extends BaseActivity {
             focusView = etPhoneNum;
             return;
         }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("请输入验证码");
-            etPassword.requestFocus();
-            return;
-        }
-        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
-            etPassword.setError("验证码不正确");
-            focusView = etPassword;
-            return;
-        }
-        if (!cbAccept.isChecked()) {
-            showToast("请阅读并同意服务协议");
-            return;
-        }
+//        if (TextUtils.isEmpty(password)) {
+//            etPassword.setError("请输入验证码");
+//            etPassword.requestFocus();
+//            return;
+//        }
+//        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
+//            etPassword.setError("验证码不正确");
+//            focusView = etPassword;
+//            return;
+//        }
+//        if (!cbAccept.isChecked()) {
+//            showToast("请阅读并同意服务协议");
+//            return;
+//        }
 
-        doLogin(phoneNum);
+//        doLogin(phoneNum);
+        doLoginNew(phoneNum);
     }
 
 
@@ -203,6 +204,50 @@ public class LoginActivity extends BaseActivity {
         );
     }
 
+    public void doLoginNew(final String phone) {
+        showLoading();
+        RetrofitService.getRetrofit().loginNew(phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<BaseBean<UserBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean<UserBean> baseBean) {
+                        dismissLoading();
+                        Intent intentInviter = new Intent(LoginActivity.this, AddInviterActivity.class);
+                        Intent intentMain = new Intent(LoginActivity.this, MainActivity.class);
+                        SharedPreferenceUtils.setStringSP("phoneNum", phone);
+                        if ("0".equals(baseBean.code)) {
+                            MyApplication.setUserBean(baseBean.data);
+                            MyApplication.setUserId(baseBean.data.userid);
+                            SharedPreferenceUtils.setStringSP("userId", baseBean.data.userid);
+                            //已绑定推荐人 跳转MainActivity
+                            startActivity(intentMain);
+                        } else if ("1".equals(baseBean.code)) {
+                            //未绑定推荐人 跳转推荐人页面
+                            startActivities(new Intent[]{intentMain, intentInviter});
+                        }
+                        LoginActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    @Deprecated
     public void doLogin(final String phone) {
         showLoading();
         final NetApi retrofit = RetrofitService.getRetrofit();
