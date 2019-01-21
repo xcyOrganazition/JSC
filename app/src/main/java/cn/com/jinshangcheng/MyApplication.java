@@ -4,6 +4,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hyphenate.chat.EMClient;
@@ -79,11 +81,17 @@ public class MyApplication extends Application {
         Cston.Auth.setDebug(ConstParams.DEBUG);
     }
 
-    /**
-     * 初始化环信相关
-     *
-     * @param context
-     */
+    @Override
+    public Resources getResources() {//禁止跟随手机系统字体大小调节
+        Resources res = super.getResources();
+        Configuration configuration = res.getConfiguration();
+        if (configuration.fontScale != 1.0f) {
+            configuration.fontScale = 1.0f;
+            res.updateConfiguration(configuration, res.getDisplayMetrics());
+        }
+        return res;
+    }
+
     private void initEMClient(MyApplication context) {
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
