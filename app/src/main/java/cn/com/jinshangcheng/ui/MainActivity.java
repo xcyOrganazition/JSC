@@ -178,16 +178,18 @@ public class MainActivity extends BaseActivity {
             JSONObject jsonObject = new JSONObject(jsonString);
             int code = jsonObject.getInt("code");
             if (1 == code) {
-                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
-                long[] patter = {300, 300, 300, 300};
-                vibrator.vibrate(patter, -1);
+//                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+//                long[] patter = {300, 300, 300, 300};
+//                vibrator.vibrate(patter, -1);
                 MediaUtils.playMusic(getApplication(), R.raw.car_start);
             } else if (0 == code) {
-                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
-                vibrator.vibrate(1000);
+//                Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+//                vibrator.vibrate(1000);
                 MediaUtils.playMusic(getApplication(), R.raw.car_stop);
             }
         } catch (JSONException e) {
+            Vibrator vibrator = (Vibrator) this.getSystemService(this.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
             e.printStackTrace();
         }
     }
