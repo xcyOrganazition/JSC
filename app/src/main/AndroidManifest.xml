@@ -56,9 +56,11 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!--适配小米全面屏-->
+        <meta-data android:name="android.max_aspect" android:value="2.2" />
         <!-- 驾图SDK配置 -->
         <meta-data
             android:name="com.cston.app.APP_Id"
@@ -288,7 +290,7 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/filepath" /> -->
         <!-- </provider> -->
-        
+
     </application>
 
 </manifest>
