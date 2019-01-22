@@ -256,23 +256,24 @@ public class CarCheckActivity extends BaseActivity {
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
             double remain = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - Double.parseDouble(carMaintainBean.getTotalmileage());
             remain = remain - (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
+            remain = Math.round(remain / 100) * 100;
             if (remain < 500 && remain > 0) {
                 littleProblemNumber++;
                 tvMaintenance.setTextColor(getResources().getColor(R.color.textOrange));
-                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remain)));
+                tvMaintenance.setText(String.format("距离下次保养剩余%s公里", NumberUtils.formatDouble(remain)));
             } else if (remain < 0) {
                 littleProblemNumber++;
                 tvMaintenance.setTextColor(getResources().getColor(R.color.text_red));
                 tvMaintenance.setText("请及时保养车辆，更新保养信息");
             } else {
                 tvMaintenance.setTextColor(getResources().getColor(R.color.textGary));
-                tvMaintenance.setText(String.format("距离下次保养%s公里", NumberUtils.formatDouble(remain)));
+                tvMaintenance.setText(String.format("距离下次保养剩余%s公里", NumberUtils.formatDouble(remain)));
             }
         } else {//没有保养数据
             tvMaintenance.setText("");
         }
         //年审数据
-        long remainTime = carMaintainBean.getCarregistdate() - System.currentTimeMillis();
+        long remainTime = System.currentTimeMillis() - carMaintainBean.getCarregistdate();
         long sixYear = 6L * 365L * 24L * 60L * 60000L;
         if (carMaintainBean.getCarregistdate() == 0) {
             littleProblemNumber++;
