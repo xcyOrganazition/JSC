@@ -256,7 +256,7 @@ public class CarCheckActivity extends BaseActivity {
             CarMaintainBean.MaintainBean maintainobj = carMaintainBean.getMaintain();
             double remain = maintainobj.getLastmaintainmileage() + maintainobj.getMaintenanceinterval() - Double.parseDouble(carMaintainBean.getTotalmileage());
             remain = remain - (carMaintainBean.getBoxmile() - Double.parseDouble(maintainobj.getMileage()));
-            remain = Math.round(remain / 100) * 100;
+            remain = Math.ceil(remain / 100) * 100;
             if (remain < 500 && remain > 0) {
                 littleProblemNumber++;
                 tvMaintenance.setTextColor(getResources().getColor(R.color.textOrange));
@@ -279,10 +279,10 @@ public class CarCheckActivity extends BaseActivity {
             littleProblemNumber++;
             tvAnnual.setText("");
         } else if (remainTime < sixYear) {//小于六年 每隔2年更换年检
-            long nextTime = carMaintainBean.getAnnualtrialdeadline() + 2L * 365L * 24L * 60L * 60000L;
+            long nextTime = carMaintainBean.getCarregistdate() + 2L * 365L * 24L * 60L * 60000L;
             tvAnnual.setText("下次更换年检：" + DateUtils.getYMDTime(nextTime));
         } else {//大于六年 每隔1年年审
-            long nextTime = carMaintainBean.getAnnualtrialdeadline() + 365L * 24L * 60L * 60000L;
+            long nextTime = carMaintainBean.getCarregistdate() + 365L * 24L * 60L * 60000L;
             tvAnnual.setText("下次年审：" + DateUtils.getYMDTime(nextTime));
         }
     }
