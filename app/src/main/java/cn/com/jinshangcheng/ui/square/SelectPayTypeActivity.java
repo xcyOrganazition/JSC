@@ -2,9 +2,11 @@ package cn.com.jinshangcheng.ui.square;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -178,12 +180,21 @@ public class SelectPayTypeActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.bt_confirm)
-    public void onViewClicked() {
-        if (cbAliPay.isChecked()) {
-            getALiPayData();
-        } else if (cbWechatPay.isChecked()) {
-            getWXPayData();
+    @OnClick({R.id.bt_confirm, R.id.tv_callCustomerService})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+
+            case R.id.bt_confirm://确认支付
+                if (cbAliPay.isChecked()) {
+                    getALiPayData();
+                } else if (cbWechatPay.isChecked()) {
+                    getWXPayData();
+                }
+                break;
+            case R.id.tv_callCustomerService://联系客服
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ConstParams.CUSTOMER_SERVICE));//跳转到拨号界面，同时传递电话号码
+                startActivity(dialIntent);
+                break;
         }
     }
 
