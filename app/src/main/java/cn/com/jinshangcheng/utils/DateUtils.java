@@ -411,7 +411,7 @@ public class DateUtils {
      */
 
     public static String getMMddHMTime(long time) {
-        String result ;
+        String result;
         Date date = new Date(time);
         sdf4.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         result = sdf4.format(date);
@@ -457,7 +457,48 @@ public class DateUtils {
             result = "";
         }
         return result;
+    }
 
+
+    /**
+     * 获取当前年审时间需要加几年
+     *
+     * @param carRegistDateMillis
+     * @param lastAnnualDateMillis
+     * @return
+     */
+    public static int getHowManyYearsShouldAdd(long carRegistDateMillis, long lastAnnualDateMillis) {
+        Date carRegistDate = new Date(carRegistDateMillis);
+        df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(carRegistDate);
+        int registYear = calendar.get(Calendar.YEAR);
+        int registMonth = calendar.get(Calendar.MONTH) + 1;
+        int registDay = calendar.get(Calendar.DAY_OF_MONTH);
+        Date lastAnnualDate = new Date(lastAnnualDateMillis);
+        calendar.setTime(lastAnnualDate);
+        int lastAnnualYear = calendar.get(Calendar.YEAR);
+        int lastAnnualMonth = calendar.get(Calendar.MONTH) + 1;
+        int lastAnnualDay = calendar.get(Calendar.DAY_OF_MONTH);
+        if (lastAnnualYear < registYear) {
+            return 0;
+        }
+        int addYear = lastAnnualYear - registYear;
+        if (lastAnnualMonth < registMonth || (lastAnnualMonth == registMonth && lastAnnualDay < registDay)) {
+            addYear--;
+        }
+        return addYear;
+    }
+
+    public static String getAnnualFinalDate(long carRegistDateMillis, int shouldAddYears) {
+        Date carRegistDate = new Date(carRegistDateMillis);
+        df.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(carRegistDate);
+        int registYear = calendar.get(Calendar.YEAR);
+        calendar.set(Calendar.YEAR, registYear + shouldAddYears);
+        String finalDate = df.format(calendar.getTime());
+        return finalDate;
     }
 
     /**

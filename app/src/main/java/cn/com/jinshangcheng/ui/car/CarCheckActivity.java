@@ -274,16 +274,18 @@ public class CarCheckActivity extends BaseActivity {
         }
         //年审数据
         long remainTime = System.currentTimeMillis() - carMaintainBean.getCarregistdate();
+        int addYears = DateUtils.getHowManyYearsShouldAdd(carMaintainBean.getCarregistdate(), carMaintainBean.getAnnualtrialdeadline()) + 1;
+
         long sixYear = 6L * 365L * 24L * 60L * 60000L;
         if (carMaintainBean.getCarregistdate() == 0) {
-            littleProblemNumber++;
             tvAnnual.setText("");
         } else if (remainTime < sixYear) {//小于六年 每隔2年更换年检
             long nextTime = carMaintainBean.getCarregistdate() + 2L * 365L * 24L * 60L * 60000L;
-            tvAnnual.setText("下次更换年检：" + DateUtils.getYMDTime(nextTime));
+            int shouldAddYears = (int) (Math.ceil(addYears / 2) * 2) + 2;
+            tvAnnual.setText("下次更换年检：" + DateUtils.getAnnualFinalDate(carMaintainBean.getCarregistdate(), shouldAddYears));
         } else {//大于六年 每隔1年年审
             long nextTime = carMaintainBean.getCarregistdate() + 365L * 24L * 60L * 60000L;
-            tvAnnual.setText("下次年审：" + DateUtils.getYMDTime(nextTime));
+            tvAnnual.setText("下次年审：" + DateUtils.getAnnualFinalDate(carMaintainBean.getCarregistdate(), 1 + addYears));
         }
     }
 
