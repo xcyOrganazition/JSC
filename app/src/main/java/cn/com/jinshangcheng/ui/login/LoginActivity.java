@@ -149,20 +149,20 @@ public class LoginActivity extends BaseActivity {
             focusView = etPhoneNum;
             return;
         }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("请输入验证码");
-            etPassword.requestFocus();
-            return;
-        }
-        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
-            etPassword.setError("验证码不正确");
-            focusView = etPassword;
-            return;
-        }
-        if (!cbAccept.isChecked()) {
-            showToast("请阅读并同意服务协议");
-            return;
-        }
+//        if (TextUtils.isEmpty(password)) {
+//            etPassword.setError("请输入验证码");
+//            etPassword.requestFocus();
+//            return;
+//        }
+//        if (mVeriyCode.equals("") || !mVeriyCode.equals(password)) {
+//            etPassword.setError("验证码不正确");
+//            focusView = etPassword;
+//            return;
+//        }
+//        if (!cbAccept.isChecked()) {
+//            showToast("请阅读并同意服务协议");
+//            return;
+//        }
 
 //        doLogin(phoneNum);//老的登录接口 不再使用
         doLoginNew(phoneNum);

@@ -34,6 +34,7 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
+import cn.com.jinshangcheng.ui.communicate.CommunicateFragment;
 import cn.com.jinshangcheng.ui.login.LoginActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
@@ -58,16 +59,13 @@ public class MainActivity extends BaseActivity {
     TextView tvTittle;
 
     //tab栏文字
-//    private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "交流", "我的"};
-    private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "我的"};
-    //    private static final int MAIN_TEXT_RES[] = {
-//            R.drawable.selector_main_car, R.drawable.selector_main_square,
-//            R.drawable.selector_main_position, R.drawable.selector_main_comm,
-//            R.drawable.selector_main_mine};
-    private static final int MAIN_TEXT_RES[] = {
+    private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "交流", "我的"};
+//    private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "我的"};
+        private static final int MAIN_TEXT_RES[] = {
             R.drawable.selector_main_car, R.drawable.selector_main_square,
-            R.drawable.selector_main_position,
+            R.drawable.selector_main_position, R.drawable.selector_main_comm,
             R.drawable.selector_main_mine};
+
     private Fragment[] fragments;
 
     private long firstTime = 0; //记录首次点击返回键时间
@@ -86,8 +84,8 @@ public class MainActivity extends BaseActivity {
         fragments[0] = CarFragment.getInstance();
         fragments[1] = SquareFragment.getInstance();
         fragments[2] = PositionFragment.getInstance();
-//        fragments[3] = CommunicateFragment.getInstance();
-        fragments[3] = MineFragment.getInstance();
+        fragments[3] = CommunicateFragment.getInstance();
+        fragments[4] = MineFragment.getInstance();
 
 //        AuthorizationInfo authorInfo = AuthUser.getInstance().ResetOpenIdAndOpenCarId();
 //        MyApplication.setAuthorInfo(authorInfo);
