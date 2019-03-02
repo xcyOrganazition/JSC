@@ -3,6 +3,7 @@ package cn.com.jinshangcheng.ui.login;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -32,6 +33,7 @@ import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.LoginBean;
 import cn.com.jinshangcheng.bean.UserBean;
+import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.NetApi;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.ui.MainActivity;
@@ -162,7 +164,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-//        doLogin(phoneNum);
+//        doLogin(phoneNum);//老的登录接口 不再使用
         doLoginNew(phoneNum);
     }
 
@@ -363,7 +365,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bt_code, R.id.bt_login, R.id.tv_agreement})
+    @OnClick({R.id.bt_code, R.id.bt_login, R.id.tv_agreement, R.id.tv_callCustomerService})
     public void onViewClicked(View view) {
         CommonUtils.hideSoftKeyboard(LoginActivity.this);
 
@@ -377,6 +379,10 @@ public class LoginActivity extends BaseActivity {
             case R.id.tv_agreement://查看协议
                 Intent intent = new Intent(LoginActivity.this, AgreementActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_callCustomerService://联系客服
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ConstParams.CUSTOMER_SERVICE));
+                startActivity(dialIntent);
                 break;
         }
     }

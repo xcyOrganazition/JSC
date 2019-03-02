@@ -2,6 +2,7 @@ package cn.com.jinshangcheng.ui.mine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import cn.com.jinshangcheng.base.BaseFragment;
 import cn.com.jinshangcheng.bean.BaseBean;
 import cn.com.jinshangcheng.bean.UserBean;
 import cn.com.jinshangcheng.bean.VersionBean;
+import cn.com.jinshangcheng.config.ConstParams;
 import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.utils.GlideUtils;
 import cn.com.jinshangcheng.widget.UpDateDialog;
@@ -232,7 +234,8 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address, R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us})
+    @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address,
+            R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us, R.id.tv_callCustomerService})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -262,8 +265,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.tv_about_us:
                 intent = new Intent(getHoldingActivity(), AboutUsActivity.class);
-
-
+                break;
+            case R.id.tv_callCustomerService://联系客服
+                intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ConstParams.CUSTOMER_SERVICE));
                 break;
         }
         if (intent != null) {
