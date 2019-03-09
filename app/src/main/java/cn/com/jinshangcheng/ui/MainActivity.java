@@ -60,8 +60,7 @@ public class MainActivity extends BaseActivity {
 
     //tab栏文字
     private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "交流", "我的"};
-//    private static final String[] TAB_NAMES = new String[]{"爱车", "广场", "位置", "我的"};
-        private static final int MAIN_TEXT_RES[] = {
+    private static final int MAIN_TEXT_RES[] = {
             R.drawable.selector_main_car, R.drawable.selector_main_square,
             R.drawable.selector_main_position, R.drawable.selector_main_comm,
             R.drawable.selector_main_mine};
@@ -218,7 +217,25 @@ public class MainActivity extends BaseActivity {
                 TextView textView = (TextView) tab.getCustomView();
                 tittleBar.setTittle(TAB_NAMES[tab.getPosition()]);
                 textView.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.themeColor));
-                if (tab.getPosition() == TAB_NAMES.length - 1) {
+                tittleBar.setNoAction();
+                if (tab.getPosition() == TAB_NAMES.length - 2) {//交流TAB页菜单
+                    tittleBar.setAction(R.menu.communicate_menu, new Toolbar.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.friendList:
+
+                                    break;
+                                case R.id.add_friend:
+
+                                    break;
+                            }
+                            return true;
+
+                        }
+
+                    });
+                } else if (tab.getPosition() == TAB_NAMES.length - 1) {
                     tittleBar.setAction(R.menu.navigation, new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
@@ -238,14 +255,10 @@ public class MainActivity extends BaseActivity {
 
                             }
                             return true;
-
                         }
 
                     });
-                } else {
-                    tittleBar.setNoAction();
                 }
-
             }
 
             @Override
