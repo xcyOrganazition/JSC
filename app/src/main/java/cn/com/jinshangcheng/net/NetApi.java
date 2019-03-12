@@ -101,7 +101,7 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/user/registOrLoginNew")
     Observable<LoginBean> registOrLoginNew(@Field("phoneNumber") String userid,
-                                      @Field("parentPhoneNumber") String parentPhoneNum);
+                                           @Field("parentPhoneNumber") String parentPhoneNum);
 
     /**
      * 获取用户信息
@@ -906,6 +906,16 @@ public interface NetApi {
     @POST("/car/deleteCar")
     Observable<BaseBean> deleteCar(@Field("userid") String userId,
                                    @Field("carid") String carid);
+
+    /**
+     * 检查是否可以绑定盒子
+     *
+     * @param userId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/box/canBeBound")
+    Observable<BaseBean> checkCanBindOrNot(@Field("userid") String userId);
 
     /**
      * 绑定盒子

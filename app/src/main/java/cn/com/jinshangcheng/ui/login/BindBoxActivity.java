@@ -54,7 +54,7 @@ public class BindBoxActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.bt_bindBox:
                 if (checkInput()) {
-                    bindBox();
+                    checkCanBind();
                 }
                 break;
             case R.id.bt_notBindNow:
@@ -79,6 +79,38 @@ public class BindBoxActivity extends BaseActivity {
             return false;
         }
         return true;
+    }
+
+    private void checkCanBind() {
+        showLoading();
+        RetrofitService.getRetrofit().checkCanBindOrNot(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        if ("0".equals(baseBean.code)) {
+                            bindBox();
+                        } else {
+                            dismissLoading();
+                            showToast("暂时无法绑定盒子");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 
     public void bindBox() {
