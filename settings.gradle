@@ -1,1 +1,1 @@
-include ':app',':cstonlibray', ':onsdk_all'
+include ':app', ':cstonlibray', ':onsdk_all', ':easeui'
