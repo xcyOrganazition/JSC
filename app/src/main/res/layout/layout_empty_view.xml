@@ -6,6 +6,7 @@
     android:background="@color/backGroundLightGary">
 
     <TextView
+        android:id="@+id/tv_emptyMsg"
         style="@style/textSmall"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

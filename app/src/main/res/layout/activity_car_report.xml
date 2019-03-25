@@ -129,7 +129,7 @@
                             android:id="@+id/rg_dateType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checkedButton="@id/rb_day"
+                            android:checkedButton="@+id/rb_day"
                             android:orientation="horizontal"
                             android:padding="@dimen/common_padding"
                             app:layout_constraintRight_toRightOf="parent"

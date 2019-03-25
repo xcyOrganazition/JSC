@@ -34,7 +34,7 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
-import cn.com.jinshangcheng.ui.communicate.CommunicateFragment;
+import cn.com.jinshangcheng.ui.communicate.CommunicateHomeFragment;
 import cn.com.jinshangcheng.ui.login.LoginActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
         fragments[0] = CarFragment.getInstance();
         fragments[1] = SquareFragment.getInstance();
         fragments[2] = PositionFragment.getInstance();
-        fragments[3] = CommunicateFragment.getInstance();
+        fragments[3] = CommunicateHomeFragment.getInstance();
         fragments[4] = MineFragment.getInstance();
 
 //        AuthorizationInfo authorInfo = AuthUser.getInstance().ResetOpenIdAndOpenCarId();

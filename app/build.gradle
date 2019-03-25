@@ -44,8 +44,14 @@ android {
             dirs 'libs'
         }
     }
+    packagingOptions {
+        exclude "META-INF/MANIFEST.MF"
+        exclude "META-INF/LICENSE.txt"
+        exclude "META-INF/NOTICE.txt"
+    }
 
 }
+
 
 dependencies {
     //    implementation project(':cstonlibray')
@@ -98,4 +104,6 @@ dependencies {
     //    compile(name: 'AMap3DMap_6.6.0_AMapNavi_6.4.0_AMapLocation_4.3.0_20181221', ext: 'aar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
     implementation files('src/main/jniLibs/AMap3DMap_6.6.0_AMapNavi_6.5.0_AMapSearch_6.5.0_AMapLocation_4.4.0_20181221.jar')
+    implementation project(':easeui')
+
 }
