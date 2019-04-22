@@ -34,7 +34,9 @@ import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
+import cn.com.jinshangcheng.ui.communicate.AddContactActivity;
 import cn.com.jinshangcheng.ui.communicate.CommunicateHomeFragment;
+import cn.com.jinshangcheng.ui.communicate.ContactListActivity;
 import cn.com.jinshangcheng.ui.login.LoginActivity;
 import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
@@ -224,10 +226,12 @@ public class MainActivity extends BaseActivity {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.friendList:
-
+                                    Intent intent = new Intent(MainActivity.this, ContactListActivity.class);
+                                    startActivity(intent);
                                     break;
                                 case R.id.add_friend:
-
+                                    Intent intent2 = new Intent(MainActivity.this, AddContactActivity.class);
+                                    startActivity(intent2);
                                     break;
                             }
                             return true;

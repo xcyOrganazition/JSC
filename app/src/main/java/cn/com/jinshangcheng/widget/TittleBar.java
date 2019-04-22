@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.jinshangcheng.R;
+import cn.com.jinshangcheng.utils.CommonUtils;
 
 
 /**
@@ -58,6 +59,7 @@ public class TittleBar extends RelativeLayout {
         ta.recycle();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                CommonUtils.hideSoftKeyboard(context1);
                 context1.finish();
             }
         });
