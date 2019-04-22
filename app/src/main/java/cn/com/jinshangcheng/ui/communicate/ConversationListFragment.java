@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
@@ -22,7 +23,7 @@ import com.hyphenate.util.NetUtils;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.extra.easePackage.Constant;
-import cn.com.jinshangcheng.ui.MainActivity;
+import cn.com.jinshangcheng.extra.easePackage.db.InviteMessgeDao;
 
 public class ConversationListFragment extends EaseConversationListFragment {
 
@@ -81,43 +82,43 @@ public class ConversationListFragment extends EaseConversationListFragment {
     }
     
     
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-//        getActivity().getMenuInflater().inflate(R.menu.em_delete_message, menu);
-//    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.em_delete_message, menu);
+    }
 
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        boolean deleteMessage = false;
-//        if (item.getItemId() == R.id.delete_message) {
-//            deleteMessage = true;
-//        } else if (item.getItemId() == R.id.delete_conversation) {
-//            deleteMessage = false;
-//        }
-//    	EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
-//    	if (tobeDeleteCons == null) {
-//    	    return true;
-//    	}
-//        if(tobeDeleteCons.getType() == EMConversationType.GroupChat){
-//            EaseAtMessageHelper.get().removeAtMeGroup(tobeDeleteCons.conversationId());
-//        }
-//        try {
-//            // delete conversation
-//            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.conversationId(), deleteMessage);
-//            InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
-//            inviteMessgeDao.deleteMessage(tobeDeleteCons.conversationId());
-//            // To delete the native stored adked users in this conversation.
-//            if (deleteMessage) {
-//                EaseDingMessageHelper.get().delete(tobeDeleteCons);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        refresh();
-//
-//        // update unread count
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        boolean deleteMessage = false;
+        if (item.getItemId() == R.id.delete_message) {
+            deleteMessage = true;
+        } else if (item.getItemId() == R.id.delete_conversation) {
+            deleteMessage = false;
+        }
+    	EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
+    	if (tobeDeleteCons == null) {
+    	    return true;
+    	}
+        if(tobeDeleteCons.getType() == EMConversationType.GroupChat){
+            EaseAtMessageHelper.get().removeAtMeGroup(tobeDeleteCons.conversationId());
+        }
+        try {
+            // delete conversation
+            EMClient.getInstance().chatManager().deleteConversation(tobeDeleteCons.conversationId(), deleteMessage);
+            InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
+            inviteMessgeDao.deleteMessage(tobeDeleteCons.conversationId());
+            // To delete the native stored adked users in this conversation.
+            if (deleteMessage) {
+                EaseDingMessageHelper.get().delete(tobeDeleteCons);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        refresh();
+
+        // update unread count
 //        ((MainActivity) getActivity()).updateUnreadLabel();
-//        return true;
-//    }
+        return true;
+    }
 
 }

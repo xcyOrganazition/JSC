@@ -74,6 +74,9 @@ public class MyApplication extends Application {
         //初始化驾图相关
         SDKInitializer.initialize(this);//初始化百度地图SDK
 
+        //init demo helper
+        DemoHelper.getInstance().init(getApplicationContext());
+
         initImageLoader(this);//初始化第三方图片加载类
         initEMClient(this);//初始化环信相关
 

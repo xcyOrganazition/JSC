@@ -9,6 +9,7 @@ import com.hyphenate.util.EasyUtils;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
+import cn.com.jinshangcheng.extra.easePackage.runtimepermissions.PermissionsManager;
 import cn.com.jinshangcheng.ui.MainActivity;
 
 /**
@@ -31,14 +32,15 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        setContentView(R.layout.em_activity_chat);
         activityInstance = this;
         //get user id or group id
-//        toChatUsername = getIntent().getExtras().getString("userId");
-//        //use EaseChatFratFragment
-//        chatFragment = new ChatFragment();
-//        //pass parameters to chat fragment
-//        chatFragment.setArguments(getIntent().getExtras());
-//        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
+        toChatUsername = getIntent().getExtras().getString("userId");
+        //use EaseChatFratFragment
+        chatFragment = new ChatFragment();
+        //pass parameters to chat fragment
+        chatFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
 
     }
 
@@ -67,9 +69,9 @@ public class ChatActivity extends BaseActivity {
         return toChatUsername;
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
+    }
 }

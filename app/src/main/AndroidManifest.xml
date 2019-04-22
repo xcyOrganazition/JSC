@@ -268,6 +268,21 @@
         <!--车辆故障-->
         <activity android:name=".ui.car.TroubleDetailActivity" />
 
+        <!-- 聊天页面 -->
+        <activity
+            android:name=".ui.communicate.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 上下文菜单页面 -->
+        <activity
+            android:name=".ui.communicate.ContextMenuActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!--微信pay-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -293,6 +308,35 @@
         <!-- android:resource="@xml/filepath" /> -->
         <!-- </provider> -->
 
+
+        <!-- 开机自启动服务 -->
+        <receiver android:name=".extra.easePackage.receiver.StartServiceReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+
+
+        <!--华为 HMS Config-->
+        <!--接入HMSSDK PUSH模块需要注册，第三方相关 :接收Push消息（注册、Push消息、Push连接状态）广播，
+                此receiver类需要开发者自己创建并继承com.huawei.hms.support.api.push.PushReceiver类，
+                参考示例代码中的类：com.huawei.hmsagent.HuaweiPushRevicer-->
+        <receiver android:name=".extra.easePackage.receiver.HMSPushReceiver">
+            <intent-filter>
+                <!-- 必须,用于接收 TOKEN -->
+                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <!-- 必须，用于接收消息 -->
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+                <!-- 可选，用于点击通知栏或通知栏上的按钮后触发 onEvent 回调 -->
+                <action android:name="com.huawei.android.push.intent.CLICK" />
+                <!-- 可选，查看 PUSH 通道是否连接，不查看则不需要 -->
+                <action android:name="com.huawei.intent.action.PUSH_STATE" />
+            </intent-filter>
+        </receiver>
+        <!-- huawei push end -->
     </application>
 
 </manifest>
