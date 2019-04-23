@@ -85,7 +85,6 @@ public class CommonUtils {
      */
     public static void hideSoftKeyboard(Activity activity) {
         inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-
         //如果window上view获取焦点 && view不为空
         if (inputMethodManager.isActive() && activity.getCurrentFocus() != null) {
             //拿到view的token 不为空
