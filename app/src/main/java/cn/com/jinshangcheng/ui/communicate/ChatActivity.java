@@ -1,19 +1,16 @@
 package cn.com.jinshangcheng.ui.communicate;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.hyphenate.util.EasyUtils;
 
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.extra.easePackage.runtimepermissions.PermissionsManager;
-import cn.com.jinshangcheng.ui.MainActivity;
 
 /**
- *
+ * 聊天页面
  */
 public class ChatActivity extends BaseActivity {
     public static ChatActivity activityInstance;
@@ -22,7 +19,7 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public int setContentViewResource() {
-        return R.layout.activity_login;
+        return R.layout.em_activity_chat;
     }
 
     @Override
@@ -32,7 +29,6 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        setContentView(R.layout.em_activity_chat);
         activityInstance = this;
         //get user id or group id
         toChatUsername = getIntent().getExtras().getString("userId");

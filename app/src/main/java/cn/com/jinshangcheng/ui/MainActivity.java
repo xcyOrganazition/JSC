@@ -122,6 +122,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onError(int code, String message) {
                 Logger.e("聊天服务器失败  code = " + code + "   message  = " + message);
+                Logger.e("开始登录测试环信账号 id = 5");
+                loginHX("5", "123");//登陆环信
             }
         });
 
@@ -326,6 +328,20 @@ public class MainActivity extends BaseActivity {
         //移除环信消息监听
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
     }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                //退出环信
+//                EMClient.getInstance().logout(true);
+//                //移除环信消息监听
+//                EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+//            }
+//        }).run();
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

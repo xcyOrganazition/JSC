@@ -16,10 +16,6 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRowImage;
 
 import java.io.File;
 
-/**
- * Created by zhangsong on 17-10-12.
- */
-
 public class EaseChatImagePresenter extends EaseChatFilePresenter {
     @Override
     protected EaseChatRow onCreateChatRow(Context cxt, EMMessage message, int position, BaseAdapter adapter) {

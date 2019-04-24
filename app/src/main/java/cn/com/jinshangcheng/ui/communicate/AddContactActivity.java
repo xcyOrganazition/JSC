@@ -14,12 +14,8 @@
 package cn.com.jinshangcheng.ui.communicate;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -69,9 +65,6 @@ public class AddContactActivity extends BaseActivity {
      */
     public void searchContact(View v) {
         final String name = editText.getText().toString().toLowerCase();
-        String saveText = searchBtn.getText().toString();
-
-        if (getString(R.string.button_search).equals(saveText)) {
             toAddUsername = name;
             if (TextUtils.isEmpty(name)) {
                 new EaseAlertDialog(this, R.string.Please_enter_a_username).show();
@@ -83,8 +76,6 @@ public class AddContactActivity extends BaseActivity {
             //show the userame and add button if user exist
             searchedUserLayout.setVisibility(View.VISIBLE);
             nameText.setText(toAddUsername);
-
-        }
     }
 
     /**
