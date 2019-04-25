@@ -280,6 +280,7 @@
             android:name=".ui.communicate.ContextMenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/dialogActivity"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- 联系人列表 -->

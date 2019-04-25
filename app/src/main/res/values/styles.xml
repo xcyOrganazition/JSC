@@ -43,6 +43,15 @@
         <item name="overlapAnchor">false</item>
     </style>
 
+    <style name="dialogActivity" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:actionBarStyle">@style/Theme.AppCompat.NoActionBar</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/backGroundLightGary</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
     <!--标题栏文字-->
     <style name="tittleBar">
