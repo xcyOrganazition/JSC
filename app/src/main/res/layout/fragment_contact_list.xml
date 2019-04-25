@@ -6,12 +6,6 @@
     android:background="@color/common_bg"
     android:orientation="vertical">
 
-
-    <cn.com.jinshangcheng.widget.TittleBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:centerText="通讯录" />
-
     <include
         android:id="@+id/search_bar_view"
         layout="@layout/ease_search_bar_with_padding" />

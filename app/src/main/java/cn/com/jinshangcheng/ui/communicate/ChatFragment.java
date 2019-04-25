@@ -116,6 +116,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if(count == 1 && "@".equals(String.valueOf(s.charAt(start)))){
+                        //群聊@功能
 //                        startActivityForResult(new Intent(getActivity(), PickAtUserActivity.class).
 //                                putExtra("groupId", toChatUsername), REQUEST_CODE_SELECT_AT_USER);
                     }
@@ -134,20 +135,28 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     @Override
     protected void registerExtendMenuItem() {
-        //use the menu in base class
+        //功能菜单
         super.registerExtendMenuItem();
         //extend menu items
-        inputMenu.registerExtendMenuItem(R.string.attach_video, R.drawable.em_chat_video_selector, ITEM_VIDEO, extendMenuItemClickListener);
+//        inputMenu.registerExtendMenuItem(R.string.attach_video, R.drawable.em_chat_video_selector, ITEM_VIDEO, extendMenuItemClickListener);
         inputMenu.registerExtendMenuItem(R.string.attach_file, R.drawable.em_chat_file_selector, ITEM_FILE, extendMenuItemClickListener);
-        if(chatType == Constant.CHATTYPE_SINGLE){
-            inputMenu.registerExtendMenuItem(R.string.attach_voice_call, R.drawable.em_chat_voice_call_selector, ITEM_VOICE_CALL, extendMenuItemClickListener);
-            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.drawable.em_chat_video_call_selector, ITEM_VIDEO_CALL, extendMenuItemClickListener);
-        } else if (chatType == Constant.CHATTYPE_GROUP) { // 音视频会议
-            inputMenu.registerExtendMenuItem(R.string.voice_and_video_conference, R.drawable.em_chat_video_call_selector, ITEM_CONFERENCE_CALL, extendMenuItemClickListener);
-//coxu            inputMenu.registerExtendMenuItem(R.string.title_live, R.drawable.em_chat_video_call_selector, ITEM_LIVE, extendMenuItemClickListener);
-        }
+//        if(chatType == Constant.CHATTYPE_SINGLE){
+//            inputMenu.registerExtendMenuItem(R.string.attach_voice_call, R.drawable.em_chat_voice_call_selector, ITEM_VOICE_CALL, extendMenuItemClickListener);
+//            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.drawable.em_chat_video_call_selector, ITEM_VIDEO_CALL, extendMenuItemClickListener);
+//        } else if (chatType == Constant.CHATTYPE_GROUP) { // 音视频会议
+//            inputMenu.registerExtendMenuItem(R.string.voice_and_video_conference, R.drawable.em_chat_video_call_selector, ITEM_CONFERENCE_CALL, extendMenuItemClickListener);
+////coxu            inputMenu.registerExtendMenuItem(R.string.title_live, R.drawable.em_chat_video_call_selector, ITEM_LIVE, extendMenuItemClickListener);
+//        }
     }
 
+
+    /**
+     * 长摁选择
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,9 +174,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 break;
 
             case ContextMenuActivity.RESULT_CODE_FORWARD: // forward
-//                Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
-//                intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
+                intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
+                startActivity(intent);
                 break;
             case ContextMenuActivity.RESULT_CODE_RECALL://recall
                 new Thread(new Runnable() {
@@ -209,7 +218,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 if (data != null) {
                     int duration = data.getIntExtra("dur", 0);
                     String videoPath = data.getStringExtra("path");
-                    File file = new File(PathUtil.getInstance().getImagePath(), "thvideo" + System.currentTimeMillis());
+                    File file = new File(PathUtil.getInstance().imagePathName, "thvideo" + System.currentTimeMillis());
                     try {
                         FileOutputStream fos = new FileOutputStream(file);
                         Bitmap ThumbBitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
@@ -285,9 +294,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //handling when user click avatar
-//        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-//        intent.putExtra("username", username);
-//        startActivity(intent);
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     @Override
