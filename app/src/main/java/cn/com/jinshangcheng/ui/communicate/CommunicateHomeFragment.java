@@ -15,7 +15,6 @@ import cn.com.jinshangcheng.base.BaseFragment;
 public class CommunicateHomeFragment extends BaseFragment {
 
     private static CommunicateHomeFragment fragment;
-    private MediaPlayer mediaPlayer;
     private ConversationListFragment conversationListFragment;
 
     public CommunicateHomeFragment() {
@@ -41,8 +40,6 @@ public class CommunicateHomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
-
     }
 
     @Override
@@ -53,6 +50,12 @@ public class CommunicateHomeFragment extends BaseFragment {
                     .add(R.id.fragment_container, conversationListFragment)
                     .show(conversationListFragment)
                     .commit();
+        }
+    }
+
+    public void refreshConversationList() {
+        if (conversationListFragment != null) {
+            conversationListFragment.refresh();
         }
     }
 }

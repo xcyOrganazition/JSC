@@ -14,5 +14,10 @@
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="添加好友"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/black_list"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="黑名单"
+        app:showAsAction="never" />
 
 </menu>

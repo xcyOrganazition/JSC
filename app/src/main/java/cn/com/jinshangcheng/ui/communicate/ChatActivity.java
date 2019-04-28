@@ -8,6 +8,7 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.extra.easePackage.runtimepermissions.PermissionsManager;
+import cn.com.jinshangcheng.utils.CommonUtils;
 
 /**
  * 聊天页面
@@ -45,6 +46,12 @@ public class ChatActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         activityInstance = null;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CommonUtils.hideSoftKeyboard(this);
     }
 
     @Override

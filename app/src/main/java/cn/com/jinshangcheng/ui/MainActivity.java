@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,8 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +38,7 @@ import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.ui.car.CarFragment;
 import cn.com.jinshangcheng.ui.communicate.AddContactActivity;
+import cn.com.jinshangcheng.ui.communicate.BlacklistActivity;
 import cn.com.jinshangcheng.ui.communicate.CommunicateHomeFragment;
 import cn.com.jinshangcheng.ui.communicate.ContactListActivity;
 import cn.com.jinshangcheng.ui.login.LoginActivity;
@@ -42,6 +46,7 @@ import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
+import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.MediaUtils;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 import cn.com.jinshangcheng.widget.TittleBar;
@@ -144,6 +149,7 @@ public class MainActivity extends BaseActivity {
 
                     formatJsonAndPlaySound(jsonString);
                 }
+                refreshUIWithMessage();
             }
 
             @Override
@@ -164,6 +170,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onMessageRecalled(List<EMMessage> messages) {
                 //消息被撤回
+                refreshUIWithMessage();
             }
 
             @Override
@@ -173,6 +180,42 @@ public class MainActivity extends BaseActivity {
         };
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
+
+    private void refreshUIWithMessage() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                // refresh unread count
+                updateUnreadLabel();
+                // refresh conversation list
+                if (fragments[3] != null) {
+                    ((CommunicateHomeFragment) fragments[3]).refreshConversationList();
+                }
+            }
+        });
+    }
+
+    /**
+     * update unread message count
+     */
+    public void updateUnreadLabel() {
+        int count = getUnreadMsgCountTotal();
+        if (count > 0) {
+//            unreadLabel.setText(String.valueOf(count));
+//            unreadLabel.setVisibility(View.VISIBLE);
+        } else {
+//            unreadLabel.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * get unread message count
+     *
+     * @return
+     */
+    public int getUnreadMsgCountTotal() {
+        return EMClient.getInstance().chatManager().getUnreadMessageCount();
+    }
+
 
     private void formatJsonAndPlaySound(String jsonString) {
         try {
@@ -226,14 +269,19 @@ public class MainActivity extends BaseActivity {
                     tittleBar.setAction(R.menu.communicate_menu, new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
+                            Intent intent;
                             switch (item.getItemId()) {
                                 case R.id.friendList:
-                                    Intent intent = new Intent(MainActivity.this, ContactListActivity.class);
+                                    intent = new Intent(MainActivity.this, ContactListActivity.class);
                                     startActivity(intent);
                                     break;
                                 case R.id.add_friend:
-                                    Intent intent2 = new Intent(MainActivity.this, AddContactActivity.class);
-                                    startActivity(intent2);
+                                    intent = new Intent(MainActivity.this, AddContactActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case R.id.black_list:
+                                    intent = new Intent(MainActivity.this, BlacklistActivity.class);
+                                    startActivity(intent);
                                     break;
                             }
                             return true;

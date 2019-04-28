@@ -333,6 +333,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
+        <!-- 黑名单 -->
+        <activity
+            android:name=".ui.communicate.BlacklistActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
         <!--微信pay-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"

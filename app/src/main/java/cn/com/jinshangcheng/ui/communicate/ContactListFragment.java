@@ -33,7 +33,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
-import com.hyphenate.util.NetUtils;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -341,7 +340,6 @@ public class ContactListFragment extends EaseContactListFragment {
                 }
             });
         }
-        
     }
 	
 }
