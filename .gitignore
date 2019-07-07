@@ -8,6 +8,8 @@
 /.idea/codeStyles
 .DS_Store
 /build
+/app/release
+/easeui
 /captures
 .externalNativeBuild
 .idea
