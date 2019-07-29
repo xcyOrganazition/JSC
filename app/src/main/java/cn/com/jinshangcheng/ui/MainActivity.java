@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +27,6 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,7 +43,6 @@ import cn.com.jinshangcheng.ui.mine.CarManageActivity;
 import cn.com.jinshangcheng.ui.mine.MineFragment;
 import cn.com.jinshangcheng.ui.position.PositionFragment;
 import cn.com.jinshangcheng.ui.square.SquareFragment;
-import cn.com.jinshangcheng.utils.ArrayUtils;
 import cn.com.jinshangcheng.utils.MediaUtils;
 import cn.com.jinshangcheng.utils.SharedPreferenceUtils;
 import cn.com.jinshangcheng.widget.TittleBar;
@@ -127,6 +123,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onError(int code, String message) {
                 Logger.e("聊天服务器失败  code = " + code + "   message  = " + message);
+                // TODO: 2019-07-29 测试用 生产环境删除此代码
                 Logger.e("开始登录测试环信账号 id = 5");
                 loginHX("5", "123");//登陆环信
             }
@@ -139,8 +136,13 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
+                Logger.w("收到普通消息：  type = " + messages.get(0).getType());
+
                 //收到消息
                 for (EMMessage message : messages) {
+                    if (!message.getType().equals(EMMessage.Type.TXT)) {
+                        break;
+                    }
                     Logger.w("发送人：" + message.getFrom());
                     int startIndex = message.getBody().toString().indexOf("\"");
                     String body = message.getBody().toString().substring(startIndex);

@@ -1,7 +1,7 @@
 package cn.com.jinshangcheng.ui.communicate;
 
 
-import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -32,6 +32,22 @@ public class CommunicateHomeFragment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        super.onFragmentVisibleChange(isVisible);
+        if (isVisible) {
+            Log.e("CommunicateHomeFragment", "变为可见，refreshConversationList");
+            refreshConversationList();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isFragmentVisible) {
+            refreshConversationList();
+        }
+    }
 
     @Override
     public View createView(LayoutInflater inflater) {

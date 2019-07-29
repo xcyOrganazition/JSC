@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
-
 import com.hyphenate.chat.EMConversation.EMConversationType;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
 import com.hyphenate.easeui.model.EaseDingMessageHelper;
@@ -36,7 +35,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
         errorItemContainer.addView(errorView);
         errorText = (TextView) errorView.findViewById(R.id.tv_connect_errormsg);
     }
-    
+
     @Override
     protected void setUpView() {
         super.setUpView();
@@ -60,7 +59,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
                         }else{
                             intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_GROUP);
                         }
-                        
+
                     }
                     // it's single chat
                     intent.putExtra(Constant.EXTRA_USER_ID, username);
@@ -80,8 +79,7 @@ public class ConversationListFragment extends EaseConversationListFragment {
           errorText.setText(R.string.the_current_network);
         }
     }
-    
-    
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         getActivity().getMenuInflater().inflate(R.menu.em_delete_message, menu);
