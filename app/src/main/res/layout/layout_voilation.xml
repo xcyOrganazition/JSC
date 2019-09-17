@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/common_padding"
-        android:text="违章时间：09:00:56-11:00:00"
+        android:text="违章时间："
         android:textColor="#ff888888"
         android:textSize="13sp" />
 
@@ -72,7 +72,7 @@
         android:layout_marginBottom="@dimen/padding_top"
         android:layout_marginLeft="@dimen/common_padding"
         android:layout_marginTop="@dimen/padding_top"
-        android:text="违章地点：北京市"
+        android:text="违章地点："
         android:textColor="#ff888888"
         android:textSize="13sp" />
 

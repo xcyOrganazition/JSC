@@ -65,7 +65,7 @@
                         style="@style/textMiddle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="奔驰汽车"
+                        tools:text="奔驰汽车"
                         app:layout_constraintBottom_toTopOf="@+id/tv_carType"
                         app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
                         app:layout_constraintTop_toBottomOf="@+id/tv_carLicense" />
@@ -75,7 +75,7 @@
                         style="@style/textSmallest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="奔驰S800系列"
+                        tools:text="奔驰S800系列"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="@+id/tv_carLicense"
                         app:layout_constraintTop_toBottomOf="@+id/tv_carBrand" />
@@ -175,7 +175,7 @@
                                 android:layout_marginRight="@dimen/common_padding"
                                 android:gravity="center_horizontal"
                                 android:minWidth="120dp"
-                                android:text="2018年8月31日"
+                                tools:text="2018年8月31日"
                                 android:textColor="#ff555555"
                                 android:textSize="14sp" />
 
@@ -220,7 +220,7 @@
                             android:minWidth="35dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
-                            android:text="0"
+                            tools:text="0"
                             android:textColor="@color/textBlack"
                             android:textSize="20sp" />
 

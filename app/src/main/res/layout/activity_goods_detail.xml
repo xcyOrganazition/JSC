@@ -41,7 +41,7 @@
                 android:paddingBottom="@dimen/common_padding"
                 android:paddingLeft="@dimen/common_padding"
                 android:paddingTop="@dimen/common_padding"
-                android:text="锦尚程OBD智能车载终端"
+                tools:text="锦尚程OBD智能车载终端"
                 android:textColor="#444"
                 android:textSize="15sp" />
 
@@ -54,7 +54,7 @@
                 android:background="@color/white"
                 android:paddingBottom="@dimen/common_padding"
                 android:paddingLeft="@dimen/common_padding"
-                android:text="锦尚程OBD智能车载终端"
+                tools:text="锦尚程OBD智能车载终端"
                 android:textColor="@color/textDarkGary"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_padding"
             android:layout_marginTop="@dimen/padding_top"
-            android:text="锦尚程OBD智能车载终端"
+            tools:text="锦尚程OBD智能车载终端"
             android:textColor="#ff666666"
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_top"
-            android:text="¥1390.00元"
+            tools:text="¥1390.00元"
             android:textColor="#ff3aa9f3"
             android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@+id/iv_goodsName"
