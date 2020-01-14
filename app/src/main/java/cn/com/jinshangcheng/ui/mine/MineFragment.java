@@ -235,7 +235,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.iv_headImg, R.id.tv_people, R.id.tv_money, R.id.tv_privacy, R.id.tv_address,
-            R.id.tv_car, R.id.tv_order, R.id.tv_card, R.id.tv_about_us, R.id.tv_callCustomerService})
+            R.id.tv_car, R.id.tv_notification, R.id.tv_order, R.id.tv_card, R.id.tv_about_us, R.id.tv_callCustomerService})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -257,6 +257,9 @@ public class MineFragment extends BaseFragment {
                 intent = new Intent(getHoldingActivity(), CarManageActivity.class);
                 startActivityForResult(intent, 0x888);
                 return;
+            case R.id.tv_notification:
+                intent = new Intent(getHoldingActivity(), NotificationManageActivity.class);
+                break;
             case R.id.tv_order:
                 intent = new Intent(getHoldingActivity(), MyOrderActivity.class);
                 break;

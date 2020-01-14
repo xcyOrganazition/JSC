@@ -124,8 +124,10 @@ public class MainActivity extends BaseActivity {
             public void onError(int code, String message) {
                 Logger.e("聊天服务器失败  code = " + code + "   message  = " + message);
                 // TODO: 2019-07-29 测试用 生产环境删除此代码
-                Logger.e("开始登录测试环信账号 id = 5");
-                loginHX("5", "123");//登陆环信
+                if (200 != code) {
+                    Logger.e("开始登录测试环信账号 id = 5");
+                    loginHX("5", "123");//登陆环信
+                }
             }
         });
 
@@ -291,7 +293,7 @@ public class MainActivity extends BaseActivity {
                         }
 
                     });
-                } else if (tab.getPosition() == TAB_NAMES.length - 1) {
+                } else if (tab.getPosition() == TAB_NAMES.length - 1) { //我的Tab
                     tittleBar.setAction(R.menu.navigation, new Toolbar.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {

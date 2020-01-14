@@ -178,6 +178,8 @@
         <activity android:name=".ui.mine.PrivacyActivity" />
         <!-- 车辆管理 -->
         <activity android:name=".ui.mine.CarManageActivity" />
+        <!-- 通知管理 -->
+        <activity android:name=".ui.mine.NotificationManageActivity" />
         <!-- 选择车辆 -->
         <activity android:name=".ui.mine.SelectCarActivity" />
         <!-- 添加车辆 编辑车辆 车辆信息 -->
