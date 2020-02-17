@@ -19,9 +19,11 @@ public class RetrofitService {
     //public static final String HOST = "http://jiekou.jinshangcheng.com.cn:8080";//测试环境
     public static final String HOST = "http://weixin.jinshangcheng.com.cn:8989";//正式环境
 
+    private static final String OPEN_SERVICE_HOST = "http://39.98.59.185:8082";
+
     private static final String BASE_URL = HOST + "";
 
-    private static NetApi netApi;
+    private static NetApi netApi, openCarApi;
     private static GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
     private static OkHttpClient client = new OkHttpClient.Builder()
@@ -45,5 +47,19 @@ public class RetrofitService {
             netApi = retrofit.create(NetApi.class);
         }
         return netApi;
+    }
+
+    //only for carBrand, carType, carModel
+    public static NetApi getOpenCarAPI() {
+        if (openCarApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(OPEN_SERVICE_HOST)
+                    .addConverterFactory(gsonConverterFactory)
+                    .client(client)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            openCarApi = retrofit.create(NetApi.class);
+        }
+        return openCarApi;
     }
 }

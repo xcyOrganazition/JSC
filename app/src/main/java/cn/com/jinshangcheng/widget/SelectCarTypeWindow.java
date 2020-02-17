@@ -16,6 +16,11 @@ import java.util.List;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarTypeAdapter;
 import cn.com.jinshangcheng.bean.CarBrandsBean;
+import cn.com.jinshangcheng.net.RetrofitService;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.CarModelResult;
 import platform.cston.httplib.bean.CarTypeResult;
 import platform.cston.httplib.search.CarBrandInfoSearch;
@@ -68,7 +73,7 @@ public class SelectCarTypeWindow extends PopupWindow {
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 carTypeListener.onCarTypelSelect(carTypeList.get(groupPosition));//选择车型
                 if (carModelListGroup.isEmpty() || carModelListGroup.get(groupPosition) == null || carModelListGroup.get(groupPosition).size() == 0) {
-                    getCarModelData(groupPosition);//没有数据请求车款
+                    getCarModelDataNew(groupPosition);//没有数据请求车款
                 }
                 return false;
             }
@@ -84,17 +89,54 @@ public class SelectCarTypeWindow extends PopupWindow {
         listView.setAdapter(adapter);
     }
 
+    /**
+     * 请求车款 子列表 (新)
+     */
+    private void getCarModelDataNew(final int position) {
+        RetrofitService.getOpenCarAPI()
+                .getCarModels(carTypeList.get(position).typeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CarModelResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CarModelResult carModelResult) {
+                        List<CarModelResult.DataEntity> curModelList = carModelListGroup.get(position);
+                        if (curModelList == null) {
+                            curModelList = new ArrayList<>();
+                        }
+                        if (carModelResult.getData() != null && carModelResult.getData().size() > 0) {
+                            curModelList.addAll(carModelResult.getData());
+                        }
+                        adapter.refreshList(carTypeList, carModelListGroup);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 
     /**
-     * 请求车款 子列表
+     * 请求车款 子列表 (不再使用)
      */
+    @Deprecated
     private void getCarModelData(final int position) {
         //需要穿TypeId
         CarBrandInfoSearch.getInstance().GetCarModelResult(carTypeList.get(position).typeId, new OnResultListener.CarModelResultListener() {
             @Override
             public void onCarModelResult(CarModelResult carModelResult, boolean isError, Throwable throwable) {
                 if (!isError) {
-//                    Logger.w("车款   " + carModelResult.getData());
                     List<CarModelResult.DataEntity> curModelList = carModelListGroup.get(position);
                     if (curModelList == null) {
                         curModelList = new ArrayList<>();

@@ -15,15 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.com.jinshangcheng.MyApplication;
 import cn.com.jinshangcheng.R;
 import cn.com.jinshangcheng.adapter.CarBrandsAdapter;
 import cn.com.jinshangcheng.base.BaseActivity;
 import cn.com.jinshangcheng.bean.CarBrandsBean;
 import cn.com.jinshangcheng.listener.OnItemViewClickListener;
+import cn.com.jinshangcheng.net.RetrofitService;
 import cn.com.jinshangcheng.widget.IndexBar;
 import cn.com.jinshangcheng.widget.ListViewDecoration;
 import cn.com.jinshangcheng.widget.SelectCarTypeWindow;
 import cn.com.jinshangcheng.widget.TittleBar;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import platform.cston.httplib.bean.CarBrandResult;
 import platform.cston.httplib.bean.CarModelResult;
 import platform.cston.httplib.bean.CarTypeResult;
@@ -104,19 +110,20 @@ public class SelectCarActivity extends BaseActivity {
             public void onViewClick(int position, View view) {
                 Logger.w("item" + brandsList.get(position));
                 selectCarBrands = brandsList.get(position);
-                getCarTypeData(brandsList.get(position));//点击品牌 获取车型
+                getCarTypeDataNew(brandsList.get(position));//点击品牌 获取车型
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new ListViewDecoration());//分割线
         recyclerView.setAdapter(adapter);
-        geCarBrandsList();//请求数据
+        geNewCarBrandsList();//请求数据
 
     }
 
     /**
-     * 获取车品牌列表
+     * 获取车品牌列表 (不再使用)
      */
+    @Deprecated
     private void geCarBrandsList() {
         showLoading();
         CarBrandInfoSearch.getInstance().GetCarBrandResult(new OnResultListener.CarBrandResultListener() {
@@ -139,8 +146,111 @@ public class SelectCarActivity extends BaseActivity {
     }
 
     /**
+     * 获取车品牌列表（新）
+     */
+    private void geNewCarBrandsList() {
+        showLoading();
+        RetrofitService.getOpenCarAPI()
+                .getCarBrands(MyApplication.getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CarBrandResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CarBrandResult carBrandResult) {
+                        CarBrandsBean carBrandsBean;
+                        for (CarBrandResult.DataEntity groupBean : carBrandResult.getData()) {
+                            for (CarBrandResult.DataEntity.CarBrandsEntity itemBean :
+                                    groupBean.getCarBrands()) {
+                                carBrandsBean = new CarBrandsBean(itemBean.picturePath, itemBean.brandName, itemBean.brandId, groupBean.nameIndex);
+                                brandsList.add(carBrandsBean);
+                            }
+                        }
+                        adapter.refreshList(brandsList);
+                        SelectCarActivity.this.dismissLoading();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissLoading();
+                    }
+                });
+    }
+
+    /**
      * 请求车型 父列表
      */
+    private void getCarTypeDataNew(final CarBrandsBean carBrandsBean) {
+        showLoading();
+        carTypeList.clear();
+        RetrofitService.getOpenCarAPI()
+                .getCarTypes(carBrandsBean.brandId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CarTypeResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(CarTypeResult carTypeResult) {
+                        Logger.w("车型   " + carTypeResult.getData().get(0).getCarTypes());
+                        for (int i = 0; i < carTypeResult.getData().size(); i++) {
+                            carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
+                        }
+                        selectCarTypeWindow = new SelectCarTypeWindow(SelectCarActivity.this,
+                                carBrandsBean, carTypeList,
+                                new SelectCarTypeWindow.OnCarTypeSelectListener() {
+                                    @Override
+                                    public void onCarTypelSelect(CarTypeResult.DataEntity.CarTypesEntity carType) {
+                                        selectCarType = carType;
+                                    }
+                                },
+                                new SelectCarTypeWindow.OnCarModelSelectListener() {
+                                    @Override
+                                    public void onCarModelSelect(CarModelResult.DataEntity carModel) {
+                                        Logger.w("选择的车型 = " + carModel);
+                                        selectCarTypeWindow.dismiss();
+                                        Intent intent = new Intent();
+                                        Bundle bundle = new Bundle();
+                                        intent.putExtra("selectCarBrands", selectCarBrands);
+                                        bundle.putParcelable("selectCarType", selectCarType);
+                                        bundle.putParcelable("selectCarModel", carModel);
+                                        intent.putExtras(bundle);
+                                        setResult(RESULT_CODE, intent);
+                                        finish();
+                                    }
+                                });
+//                    selectCarTypeWindow.showAtLocation(tittleBar, Gravity.RIGHT, 0, 0);
+                        selectCarTypeWindow.showAsDropDown(tittleBar, 0, 0, Gravity.RIGHT);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissLoading();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissLoading();
+                    }
+                });
+    }
+
+    /**
+     * 请求车型 父列表 (不再使用)
+     */
+    @Deprecated
     private void getCarTypeData(final CarBrandsBean carBrandsBean) {
         showLoading();
         carTypeList.clear();
@@ -148,7 +258,6 @@ public class SelectCarActivity extends BaseActivity {
             @Override
             public void onCarTypeResult(CarTypeResult carTypeResult, boolean isError, Throwable throwable) {
                 if (!isError) {
-                    Logger.w("车型   " + carTypeResult.getData().get(0).getCarTypes());
                     dismissLoading();
                     for (int i = 0; i < carTypeResult.getData().size(); i++) {
                         carTypeList.addAll(carTypeResult.getData().get(i).getCarTypes());
@@ -164,7 +273,6 @@ public class SelectCarActivity extends BaseActivity {
                             new SelectCarTypeWindow.OnCarModelSelectListener() {
                                 @Override
                                 public void onCarModelSelect(CarModelResult.DataEntity carModel) {
-                                    Logger.w("选择的车型 = " + carModel);
                                     selectCarTypeWindow.dismiss();
                                     Intent intent = new Intent();
                                     Bundle bundle = new Bundle();

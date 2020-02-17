@@ -35,6 +35,9 @@ import cn.com.jinshangcheng.bean.WithdrawBean;
 import cn.com.jinshangcheng.bean.mycst.CheckDataBean;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import platform.cston.httplib.bean.CarBrandResult;
+import platform.cston.httplib.bean.CarModelResult;
+import platform.cston.httplib.bean.CarTypeResult;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -43,7 +46,7 @@ import retrofit2.http.POST;
 
 
 /**
- * 自定义接口 提供各种请求方法
+ * 自定义api 提供各种请求方法
  */
 public interface NetApi {
 
@@ -806,6 +809,27 @@ public interface NetApi {
     @FormUrlEncoded
     @POST("/travel/releaseAllMyTravel")
     Observable<BaseBean> stopProtect(@Field("userid") String userId);
+
+    /**
+     * 车品牌
+     */
+    @FormUrlEncoded
+    @POST("/car/getBrand")
+    Observable<CarBrandResult> getCarBrands(@Field("userid") String userId);
+
+    /**
+     * 车型
+     */
+    @FormUrlEncoded
+    @POST("/car/getType")
+    Observable<CarTypeResult> getCarTypes(@Field("brandId") String brandId);
+
+    /**
+     * 车款
+     */
+    @FormUrlEncoded
+    @POST("/car/getModel")
+    Observable<CarModelResult> getCarModels(@Field("typeId") String typeId);
 
     /**
      * 添加车辆

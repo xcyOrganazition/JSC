@@ -20,7 +20,6 @@ import cn.com.jinshangcheng.widget.AddressSelector.listener.OnWheelChangedListen
 /**
  * 选择城市popupwindow
  *
- * @author yang
  */
 public class CityWheelSelectPopupWindow extends PopupWindow implements
         OnWheelChangedListener {
